@@ -12,9 +12,6 @@ size()
 }
 
 enum Timer {
-DAYS
-HOURS
-MINUTES
 SECONDS
 }
 
