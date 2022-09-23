@@ -4,7 +4,7 @@
 abstract class Interface
 abstract Game
 
-Interface *-- Game
+Interface --* Game
 
 class Interface {
 Object[] elementData
