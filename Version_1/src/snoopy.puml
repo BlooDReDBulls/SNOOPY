@@ -3,14 +3,8 @@
 
 abstract class Interface
 abstract Game
-interface Objet
-interface Item
-interface personnage
 
-Interface <|-- Game
-Game <|-- Objet
-Objet <|-- Item
-Objet <|-- personnage
+Interface *-- Game
 
 class Interface {
 Object[] elementData
