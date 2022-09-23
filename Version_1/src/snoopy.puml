@@ -1,27 +1,27 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
+abstract class Interface
+abstract Game
+interface Objet
+interface Item
+interface personnage
 
-List <|-- AbstractList
-Collection <|-- AbstractCollection
+Interface <|-- Game
+Game <|-- Objet
+Objet <|-- Item
+Objet <|-- personnage
 
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
+class Interface {
 Object[] elementData
 size()
 }
 
-enum TimeUnit {
+enum Timer {
 DAYS
 HOURS
 MINUTES
+SECONDS
 }
 
 @enduml
