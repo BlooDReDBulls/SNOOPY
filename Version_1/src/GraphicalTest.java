@@ -1,6 +1,6 @@
 import Graphics.*;
 
-public class TestV2 {
+public class GraphicalTest {
 
 
     public static void main(String[] args) {
