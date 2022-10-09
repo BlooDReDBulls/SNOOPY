@@ -1,3 +1,6 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -39,8 +42,22 @@ public class Game {
         }
     }
 
-    public static void main(String[] args)
-    {
+    public void save() throws IOException {
+        String mapString = "";
+        for(int i = 0 ; i < 10 ; i++)
+        {
+            for(int j = 0 ; j < 20 ; j++)
+            {
+                mapString += map[i][j];
+                mapString += " ";
+            }
+            mapString += '\n';
+        }
+        Path filePath = Path.of("saveFile.txt");
+        Files.writeString(filePath, mapString);
+    }
+
+    public static void main(String[] args){
         Game game = new Game();
         game.timerController.schedule(game.timer, 60000);
         game.timerController.schedule(game.refresh, 200, 200);
