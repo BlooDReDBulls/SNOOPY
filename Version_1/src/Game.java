@@ -8,6 +8,7 @@ public class Game {
 
     int[][] map = new int[10][20];
     public Timer timerController = new Timer();
+    Player player = new Player();
 
     public Game() {
         for (int i = 0; i < 10; i++) {
@@ -20,12 +21,14 @@ public class Game {
         @Override
         public void run() {
             System.out.println("Fin");
+            while(true);
         }
     };
 
     public TimerTask refresh = new TimerTask() {
         @Override
         public void run() {
+            map[player.getX()][player.getY()] = 1;
             displayMap();
         }
     };
