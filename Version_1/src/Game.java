@@ -10,6 +10,7 @@ public class Game {
     public Timer timerController = new Timer();
     Player player = new Player();
 
+    Ball ball = new Ball();
     public Game() {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 20; j++) {
@@ -24,11 +25,13 @@ public class Game {
             while(true);
         }
     };
-
     public TimerTask refresh = new TimerTask() {
         @Override
         public void run() {
-            map[player.getX()][player.getY()] = 1;
+            map[ball.getX()][ball.getY()] = 0;
+            ball.updatePosition();
+            map[player.getX()][player.getY()] = 8;
+            map[ball.getX()][ball.getY()] = 7;
             displayMap();
         }
     };
