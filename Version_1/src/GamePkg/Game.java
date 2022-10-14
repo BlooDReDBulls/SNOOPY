@@ -1,22 +1,41 @@
+package GamePkg;
+
+import Graphics.GraphicFrame;
+import Graphics.GraphicPanel;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Game {
+
+public class Game{
 
     int[][] map = new int[10][20];
     public Timer timerController = new Timer();
     Player player = new Player();
 
     Ball ball = new Ball();
+
+
+    private GraphicFrame graphicFrame;
+    private GraphicPanel graphicPanel;
+
+
+
     public Game() {
+
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 20; j++) {
                 map[i][j] = 0;
             }
         }
+
+        graphicPanel = new GraphicPanel(this);
+        graphicFrame = new GraphicFrame(graphicPanel);
+
+
     }
     public TimerTask timer = new TimerTask() {
         @Override
@@ -32,7 +51,9 @@ public class Game {
             ball.updatePosition();
             map[player.getX()][player.getY()] = 8;
             map[ball.getX()][ball.getY()] = 7;
-            displayMap();
+           // displayMap();
+            graphicPanel.update();
+
         }
     };
 
@@ -63,9 +84,14 @@ public class Game {
         Files.writeString(filePath, mapString);
     }
 
+    public int[][] getMap() {
+        return map;
+    }
+
     public static void main(String[] args){
         Game game = new Game();
         game.timerController.schedule(game.timer, 60000);
         game.timerController.schedule(game.refresh, 2000, 2000);
     }
+
 }

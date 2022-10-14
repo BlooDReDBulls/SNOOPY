@@ -1,3 +1,5 @@
+package GamePkg;
+
 public class Ball {
     int x;
     int y;
