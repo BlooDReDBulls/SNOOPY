@@ -116,15 +116,75 @@ public class Game{
 
     public void checkIntersection()
     {
-        if(player.getX() == pushBlock.getX() || player.getY() == pushBlock.getY())
+        if(player.getX() == pushBlock.getX() && player.getY() == pushBlock.getY())
         {
             if(pushBlock.isPushable())
             {
-
+                if(player.itsDirection == Direction.ANY)
+                {
+                    pushBlock.push(player.itsLastDirection);
+                }
+                else
+                {
+                    pushBlock.push(player.itsDirection);
+                }
             }
             else
             {
-
+                if(player.itsDirection == Direction.ANY)
+                {
+                    if(player.itsLastDirection == Direction.DOWN)
+                    {
+                        player.itsDirection = Direction.UP;
+                        player.updatePosition();
+                        player.itsDirection = Direction.ANY;
+                    }
+                    else if(player.itsLastDirection == Direction.UP)
+                    {
+                        player.itsDirection = Direction.DOWN;
+                        player.updatePosition();
+                        player.itsDirection = Direction.ANY;
+                    }
+                    else if(player.itsLastDirection == Direction.RIGHT)
+                    {
+                        player.itsDirection = Direction.LEFT;
+                        player.updatePosition();
+                        player.itsDirection = Direction.ANY;
+                    }
+                    else if(player.itsLastDirection == Direction.LEFT)
+                    {
+                        player.itsDirection = Direction.RIGHT;
+                        player.updatePosition();
+                        player.itsDirection = Direction.ANY;
+                    }
+                }
+                else
+                {
+                    if(player.itsDirection == Direction.DOWN)
+                    {
+                        player.itsDirection = Direction.UP;
+                        player.updatePosition();
+                        player.itsDirection = Direction.ANY;
+                    }
+                    else if(player.itsDirection == Direction.UP)
+                    {
+                        player.itsDirection = Direction.DOWN;
+                        player.updatePosition();
+                        player.itsDirection = Direction.ANY;
+                    }
+                    else if(player.itsDirection == Direction.RIGHT)
+                    {
+                        player.itsDirection = Direction.LEFT;
+                        player.updatePosition();
+                        player.itsDirection = Direction.ANY;
+                    }
+                    else if(player.itsDirection == Direction.LEFT)
+                    {
+                        player.itsDirection = Direction.RIGHT;
+                        player.updatePosition();
+                        player.itsDirection = Direction.ANY;
+                    }
+                }
             }
         }
     }

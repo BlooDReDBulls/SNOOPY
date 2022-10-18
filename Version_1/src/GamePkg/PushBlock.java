@@ -11,27 +11,27 @@ public class PushBlock extends Block{
         pushable = true;
     }
 
-    public void push(String direction)
+    public void push(Direction direction)
     {
-        if(direction == "Left")
+        if(direction == Direction.LEFT)
         {
             pushable = false;
             this.x -= 1;
         }
-        else if(direction == "Right")
+        else if(direction == Direction.RIGHT)
         {
             pushable = false;
             this.x += 1;
         }
-        else if(direction == "Up")
+        else if(direction == Direction.UP)
         {
             pushable = false;
             this.y -= 1;
         }
-        else
+        else if(direction == Direction.DOWN)
         {
             pushable = false;
-            this.y -= 1;
+            this.y += 1;
         }
     }
 
