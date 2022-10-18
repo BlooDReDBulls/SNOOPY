@@ -3,12 +3,25 @@ package GamePkg;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+enum Direction {
+    UP,
+    DOWN,
+    RIGHT,
+    LEFT,
+    ANY
+}
+
 public class Player{
-    int x;
-    int y;
+    private int x;
+    private int y;
+
+    public Direction itsDirection;
+
+    public Direction itsLastDirection;
 
     public Player()
     {
+        itsDirection = Direction.ANY;
         x = 5;
         y = 5;
     }
@@ -23,35 +36,35 @@ public class Player{
         return y;
     }
 
-    public void left()
+    public void updatePosition()
     {
-        if((x - 1) >= 0)
+        if(itsDirection == Direction.UP)
         {
-            x -= 1;
+            if((y - 1) >= 0)
+            {
+                y -= 1;
+            }
         }
-    }
-
-    public void right()
-    {
-        if((x + 1) <= 9)
+        else if(itsDirection == Direction.DOWN)
         {
-            x += 1;
+            if((y + 1) <= 19)
+            {
+                y += 1;
+            }
         }
-    }
-
-    public void up()
-    {
-        if((y - 1) >= 0)
+        else if(itsDirection == Direction.RIGHT)
         {
-            y -= 1;
+            if((x + 1) <= 9)
+            {
+                x += 1;
+            }
         }
-    }
-
-    public void down()
-    {
-        if((y + 1) <= 19)
+        else if(itsDirection == Direction.LEFT)
         {
-            y += 1;
+            if((x - 1) >= 0)
+            {
+                x -= 1;
+            }
         }
     }
 }

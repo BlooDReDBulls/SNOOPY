@@ -29,19 +29,43 @@ public class Game{
             super.keyPressed(e);
             if(e.getKeyCode() == KeyEvent.VK_LEFT)
             {
-                player.left();
+                player.itsDirection = Direction.LEFT;
             }
             else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
             {
-                player.right();
+                player.itsDirection = Direction.RIGHT;
             }
             else if(e.getKeyCode() == KeyEvent.VK_UP)
             {
-                player.up();
+                player.itsDirection = Direction.UP;
             }
             else if(e.getKeyCode() == KeyEvent.VK_DOWN)
             {
-                player.down();
+                player.itsDirection = Direction.DOWN;
+            }
+        }
+        @Override
+        public void keyReleased(KeyEvent e) {
+            super.keyPressed(e);
+            if(e.getKeyCode() == KeyEvent.VK_LEFT)
+            {
+                player.itsLastDirection = Direction.LEFT;
+                player.itsDirection = Direction.ANY;
+            }
+            else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
+            {
+                player.itsLastDirection = Direction.RIGHT;
+                player.itsDirection = Direction.ANY;
+            }
+            else if(e.getKeyCode() == KeyEvent.VK_UP)
+            {
+                player.itsLastDirection = Direction.UP;
+                player.itsDirection = Direction.ANY;
+            }
+            else if(e.getKeyCode() == KeyEvent.VK_DOWN)
+            {
+                player.itsLastDirection = Direction.DOWN;
+                player.itsDirection = Direction.ANY;
             }
         }
     };
@@ -76,6 +100,9 @@ public class Game{
     public TimerTask refresh = new TimerTask() {
         @Override
         public void run() {
+            map[player.getX()][player.getY()] = 0;
+            player.updatePosition();
+            checkIntersection();
             map[ball.getX()][ball.getY()] = 0;
             ball.updatePosition();
             map[player.getX()][player.getY()] = 8;
@@ -86,6 +113,21 @@ public class Game{
 
         }
     };
+
+    public void checkIntersection()
+    {
+        if(player.getX() == pushBlock.getX() || player.getY() == pushBlock.getY())
+        {
+            if(pushBlock.isPushable())
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+    }
 
     public void displayMap()
     {
@@ -121,7 +163,7 @@ public class Game{
     public static void main(String[] args){
         Game game = new Game();
         game.timerController.schedule(game.timer, 60000);
-        game.timerController.schedule(game.refresh, 0, 1000);
+        game.timerController.schedule(game.refresh, 0, 50);
     }
 
 }
