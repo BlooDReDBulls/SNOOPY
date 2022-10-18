@@ -3,7 +3,7 @@ package GamePkg;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class Player implements KeyListener {
+public class Player{
     int x;
     int y;
 
@@ -25,51 +25,33 @@ public class Player implements KeyListener {
 
     public void left()
     {
-        x -= 1;
+        if((x - 1) >= 0)
+        {
+            x -= 1;
+        }
     }
 
     public void right()
     {
-        x += 1;
+        if((x + 1) <= 9)
+        {
+            x += 1;
+        }
     }
 
     public void up()
     {
-        y -= 1;
+        if((y - 1) >= 0)
+        {
+            y -= 1;
+        }
     }
 
     public void down()
     {
-        y += 1;
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            left();
-            System.out.println("left");
+        if((y + 1) <= 19)
+        {
+            y += 1;
         }
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            right();
-            System.out.println("right");
-        }
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-            up();
-            System.out.println("up");
-        }
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            down();
-            System.out.println("down");
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
     }
 }

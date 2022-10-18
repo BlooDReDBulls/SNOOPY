@@ -3,6 +3,9 @@ package GamePkg;
 import Graphics.GraphicFrame;
 import Graphics.GraphicPanel;
 
+import javax.swing.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,10 +16,35 @@ import java.util.TimerTask;
 public class Game{
 
     int[][] map = new int[10][20];
-    public Timer timerController = new Timer();
+    Timer timerController = new Timer();
     Player player = new Player();
 
     Ball ball = new Ball();
+
+    PushBlock pushBlock = new PushBlock(5, 14);
+
+    KeyAdapter keyListener = new KeyAdapter() {
+        @Override
+        public void keyPressed(KeyEvent e) {
+            super.keyPressed(e);
+            if(e.getKeyCode() == KeyEvent.VK_LEFT)
+            {
+                player.left();
+            }
+            else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
+            {
+                player.right();
+            }
+            else if(e.getKeyCode() == KeyEvent.VK_UP)
+            {
+                player.up();
+            }
+            else if(e.getKeyCode() == KeyEvent.VK_DOWN)
+            {
+                player.down();
+            }
+        }
+    };
 
 
     private GraphicFrame graphicFrame;
@@ -34,6 +62,7 @@ public class Game{
 
         graphicPanel = new GraphicPanel(this);
         graphicFrame = new GraphicFrame(graphicPanel);
+        graphicFrame.addKeyListener(keyListener);
 
 
     }
@@ -51,6 +80,7 @@ public class Game{
             ball.updatePosition();
             map[player.getX()][player.getY()] = 8;
             map[ball.getX()][ball.getY()] = 7;
+            map[pushBlock.getX()][pushBlock.getY()] = 2;
            // displayMap();
             graphicPanel.update();
 
@@ -91,7 +121,7 @@ public class Game{
     public static void main(String[] args){
         Game game = new Game();
         game.timerController.schedule(game.timer, 60000);
-        game.timerController.schedule(game.refresh, 2000, 2000);
+        game.timerController.schedule(game.refresh, 0, 1000);
     }
 
 }
