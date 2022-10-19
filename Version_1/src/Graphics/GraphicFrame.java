@@ -21,7 +21,8 @@ public class GraphicFrame extends JFrame {
 
     private void showUI(){
        this.setName("Snoopy le jeu");
-       this.setSize(320,640);
+       this.setSize(320,677);
+       //this.setUndecorated(true);
        this.setVisible(true);
        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
