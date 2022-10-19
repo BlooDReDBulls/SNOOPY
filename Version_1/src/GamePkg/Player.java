@@ -1,5 +1,8 @@
 package GamePkg;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 enum Direction {
     UP,
     RIGHT,
@@ -12,11 +15,15 @@ public class Player{
     private int x;
     private int y;
 
+    private boolean enableMove;
+
     public boolean bl;
 
     public Direction itsDirection;
 
     public Direction itsLastDirection;
+
+    Timer speed = new Timer();
 
     public Player()
     {
@@ -24,7 +31,15 @@ public class Player{
         x = 5;
         y = 5;
         bl = true;
+        enableMove = true;
     }
+
+    public TimerTask movement = new TimerTask() {
+        @Override
+        public void run() {
+            enableMove = !enableMove;
+        }
+    };
 
     public int getX()
     {
@@ -38,45 +53,54 @@ public class Player{
 
     public void updatePosition()
     {
-        if(itsDirection == Direction.UP)
+        if(enableMove)
         {
-            if((y - 1) >= 0)
+            if(itsDirection == Direction.UP)
             {
-                y -= 1;
+                if((y - 1) >= 0)
+                {
+                    y -= 1;
+                }
+                else{
+                    bl = true;
+                }
             }
-            else{
-                bl = true;
-            }
-        }
-        else if(itsDirection == Direction.DOWN)
-        {
-            if((y + 1) <= 19)
+            else if(itsDirection == Direction.DOWN)
             {
-                y += 1;
+                if((y + 1) <= 19)
+                {
+                    y += 1;
+                }
+                else{
+                    bl = true;
+                }
             }
-            else{
-                bl = true;
-            }
-        }
-        else if(itsDirection == Direction.RIGHT)
-        {
-            if((x + 1) <= 9)
+            else if(itsDirection == Direction.RIGHT)
             {
-                x += 1;
+                if((x + 1) <= 9)
+                {
+                    x += 1;
+                }
+                else{
+                    bl = true;
+                }
             }
-            else{
-                bl = true;
-            }
-        }
-        else if(itsDirection == Direction.LEFT)
-        {
-            if((x - 1) >= 0)
+            else if(itsDirection == Direction.LEFT)
             {
-                x -= 1;
+                if((x - 1) >= 0)
+                {
+                    x -= 1;
+                }
+                else{
+                    bl = true;
+                }
             }
-            else{
-                bl = true;
-            }
+            enableMove = !enableMove;
+            speed.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    enableMove = !enableMove;
+                }}, 200);
         }
     }
 }
