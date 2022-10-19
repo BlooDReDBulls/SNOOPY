@@ -104,12 +104,12 @@ public class Player{
                     bl = true;
                 }
             }
-            enableMove = !enableMove;
-            speed.schedule(new TimerTask() {
+            //enableMove = !enableMove;
+            /*speed.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     enableMove = !enableMove;
-                }}, 200);
+                }}, 100);*/
         }
     }
     public void bird(){

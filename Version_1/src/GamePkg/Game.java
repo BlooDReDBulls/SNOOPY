@@ -5,6 +5,7 @@ import Graphics.GraphicPanel;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -94,9 +95,8 @@ public class Game{
         graphicPanel = new GraphicPanel(this);
         graphicFrame = new GraphicFrame(graphicPanel);
         graphicFrame.addKeyListener(keyListener);
+
         map[bird.getX()][bird.getY()] = 9;
-
-
     }
     public TimerTask timer = new TimerTask() {
         @Override
@@ -108,16 +108,15 @@ public class Game{
     public TimerTask refresh = new TimerTask() {
         @Override
         public void run() {
+            map[boobyTrap.getX()][boobyTrap.getY()] = 3;
+            map[driveBlock.getX()][driveBlock.getY()] = 6;
+            map[pushBlock.getX()][pushBlock.getY()] = 2;
             map[player.getX()][player.getY()] = 0;
             player.updatePosition();
-            checkIntersection();
-            map[ball.getLastX()][ball.getLastY()] = 0;
             map[player.getX()][player.getY()] = 8;
+            map[ball.getLastX()][ball.getLastY()] = 0;
             map[ball.getX()][ball.getY()] = 7;
-            map[pushBlock.getX()][pushBlock.getY()] = 2;
-            map[driveBlock.getX()][driveBlock.getY()] = 6;
-           // displayMap();
-            map[boobyTrap.getX()][boobyTrap.getY()] = 3;
+            checkIntersection();
             graphicPanel.update();
         }
     };
