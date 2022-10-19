@@ -116,6 +116,11 @@ public class Player{
         numberBird += 1;
         System.out.println(numberBird);
     }
+    public void win(){
+        if(numberBird == 4){
+            System.out.println("Next Level");
+        }
+    }
     public void kill() {
         if (!invincible) {
             invincible=true;

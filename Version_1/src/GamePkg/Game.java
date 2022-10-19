@@ -214,6 +214,7 @@ public class Game{
         else if(player.getX() == bird.getX() && player.getY() == bird.getY()){
             player.bird();
             map[bird.getX()][bird.getY()] = 0;
+            player.win();
         }
     }
 
