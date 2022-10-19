@@ -23,9 +23,10 @@ public class GraphicFrame extends JFrame {
 
     private void showUI(){
        this.setName("Snoopy le jeu");
-        this.setMinimumSize(new Dimension(20,40));
+       // set minimum size of the frame
+        this.setMinimumSize(new Dimension(100,200));
         this.setResizable(false);
-        //
+        // Adjuste the frame size with the content of it
         this.pack();
         this.setVisible(true);
 

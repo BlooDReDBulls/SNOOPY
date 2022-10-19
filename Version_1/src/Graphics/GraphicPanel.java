@@ -14,7 +14,7 @@ public class GraphicPanel extends JPanel{
 
     public GraphicPanel(Game game){
         this.game = game;
-        this.setPreferredSize(new Dimension(320,640));
+        this.setPreferredSize(new Dimension(640,320));
     }
 
     public void initImageIconHashMap(){
@@ -37,14 +37,14 @@ public class GraphicPanel extends JPanel{
         super.paint(g);
 
 
-        for (int i = 0; i < 10.; i++) {
-            for (int j = 0; j < 20; j++) {
+        for (int i = 0; i < 20.; i++) {
+            for (int j = 0; j < 10; j++) {
 
 
                 if(game.getMap()[i][j] == 6 || game.getMap()[i][j] == 7 || game.getMap()[i][j] == 8 || game.getMap()[i][j] == 9){
-                    g.drawImage(imageIconHashMap.get(0).getImage(), (32 * i), (32 * j), this);
+                    g.drawImage(imageIconHashMap.get(0).getImage(), (32 * j), (32 * i), this);
                 }
-                g.drawImage(imageIconHashMap.get(game.getMap()[i][j]).getImage(), (32 * i), (32 * j), this);
+                g.drawImage(imageIconHashMap.get(game.getMap()[j][i]).getImage(), (32 * j), (32 * i), this);
             }
         }
 
