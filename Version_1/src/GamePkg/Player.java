@@ -75,7 +75,7 @@ public class Player{
             }
             else if(itsDirection == Direction.DOWN)
             {
-                if((x + 1) <= 19)
+                if((x + 1) <= 9)
                 {
                     x += 1;
                 }
@@ -85,7 +85,7 @@ public class Player{
             }
             else if(itsDirection == Direction.RIGHT)
             {
-                if((y + 1) <= 9)
+                if((y + 1) <= 19)
                 {
                     y += 1;
                 }
