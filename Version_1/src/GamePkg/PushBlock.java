@@ -5,9 +5,7 @@ public class PushBlock extends Block{
 
     public PushBlock(int x, int y)
     {
-        super();
-        this.x = x;
-        this.y = y;
+        super(x, y);
         pushable = true;
     }
 
@@ -16,22 +14,22 @@ public class PushBlock extends Block{
         if(direction == Direction.LEFT)
         {
             pushable = false;
-            this.x -= 1;
+            this.y -= 1;
         }
         else if(direction == Direction.RIGHT)
         {
             pushable = false;
-            this.x += 1;
+            this.y += 1;
         }
         else if(direction == Direction.UP)
         {
             pushable = false;
-            this.y -= 1;
+            this.x -= 1;
         }
         else if(direction == Direction.DOWN)
         {
             pushable = false;
-            this.y += 1;
+            this.x += 1;
         }
     }
 

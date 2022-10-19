@@ -19,6 +19,8 @@ public class Game{
     Player player = new Player();
     DriveBlock driveBlock = new DriveBlock(2, 8, Direction.UP);
 
+    Block boobyTrap = new Block(6, 12);
+
     Ball ball = new Ball();
 
     PushBlock pushBlock = new PushBlock(1, 2);
@@ -114,10 +116,8 @@ public class Game{
             map[pushBlock.getX()][pushBlock.getY()] = 2;
             map[driveBlock.getX()][driveBlock.getY()] = 6;
            // displayMap();
-
+            map[boobyTrap.getX()][boobyTrap.getY()] = 3;
             graphicPanel.update();
-
-
         }
     };
 
@@ -199,6 +199,14 @@ public class Game{
             player.itsDirection = driveBlock.getItsDirection();
             player.bl = false;
         }
+        else if(player.getX() == boobyTrap.getX() && player.getY() == boobyTrap.getY()){
+            player.kill();
+            if(player.getNumberLife() > 0)
+            {
+                //fonction load
+
+            }
+        }
         else if (player.getX() == ball.getX() && player.getY() == ball.getY()) {
             player.kill();
         }
@@ -212,7 +220,7 @@ public class Game{
             {
                 System.out.print(map[i][j] + " ");
             }
-            System.out.println();
+            System.out.println(" ");
         }
     }
 
@@ -235,10 +243,14 @@ public class Game{
         return map;
     }
 
+    public void loadMap(int mapInt)
+    {
+
+    }
+
     public static void main(String[] args){
         Game game = new Game();
         game.timerController.schedule(game.timer, 60000);
         game.timerController.schedule(game.refresh, 0, 50);
     }
-
 }

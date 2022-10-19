@@ -55,15 +55,19 @@ public class Player{
         return y;
     }
 
+    public int getNumberLife() {
+        return numberLife;
+    }
+
     public void updatePosition()
     {
         if(enableMove)
         {
             if(itsDirection == Direction.UP)
             {
-                if((y - 1) >= 0)
+                if((x - 1) >= 0)
                 {
-                    y -= 1;
+                    x -= 1;
                 }
                 else{
                     bl = true;
@@ -71,17 +75,7 @@ public class Player{
             }
             else if(itsDirection == Direction.DOWN)
             {
-                if((y + 1) <= 19)
-                {
-                    y += 1;
-                }
-                else{
-                    bl = true;
-                }
-            }
-            else if(itsDirection == Direction.RIGHT)
-            {
-                if((x + 1) <= 9)
+                if((x + 1) <= 19)
                 {
                     x += 1;
                 }
@@ -89,11 +83,21 @@ public class Player{
                     bl = true;
                 }
             }
+            else if(itsDirection == Direction.RIGHT)
+            {
+                if((y + 1) <= 9)
+                {
+                    y += 1;
+                }
+                else{
+                    bl = true;
+                }
+            }
             else if(itsDirection == Direction.LEFT)
             {
-                if((x - 1) >= 0)
+                if((y - 1) >= 0)
                 {
-                    x -= 1;
+                    y -= 1;
                 }
                 else{
                     bl = true;
@@ -118,7 +122,6 @@ public class Player{
                 @Override
                 public void run() {
                     invincible = false;
-                    System.out.println("mort");
                 }
             }, 1500);
         }

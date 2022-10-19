@@ -10,9 +10,7 @@ public class DriveBlock extends Block{
     }
     public DriveBlock(int x, int y, Direction direction)
     {
-        super();
-        this.x = x;
-        this.y = y;
+        super(x, y);
         pushable = true;
         itsDirection = direction;
     }

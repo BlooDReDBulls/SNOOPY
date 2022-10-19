@@ -4,7 +4,7 @@ public class Block {
     protected int x;
     protected int y;
 
-    public Block()
+    public Block(int x, int y)
     {
         this.x = x;
         this.y = y;
