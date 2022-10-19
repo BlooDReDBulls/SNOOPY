@@ -14,7 +14,7 @@ enum Direction {
 public class Player{
     private int x;
     private int y;
-
+    private int numberBird;
     private boolean enableMove;
 
     public boolean bl;
@@ -36,6 +36,7 @@ public class Player{
         bl = true;
         enableMove = true;
         numberLife = 3;
+        numberBird = 0;
     }
 
     public TimerTask movement = new TimerTask() {
@@ -110,6 +111,10 @@ public class Player{
                     enableMove = !enableMove;
                 }}, 200);
         }
+    }
+    public void bird(){
+        numberBird += 1;
+        System.out.println(numberBird);
     }
     public void kill() {
         if (!invincible) {

@@ -18,7 +18,7 @@ public class GraphicPanel extends JPanel{
     }
 
     public void initImageIconHashMap(){
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i <= 9; i++) {
             String name = "includes/" + i + ".png";
             imageIconHashMap.put(i, new ImageIcon(name));
         }
@@ -32,7 +32,7 @@ public class GraphicPanel extends JPanel{
     @Override
     public void paint(Graphics g) {
 
-        game.displayMap();
+        //game.displayMap();
 
         super.paint(g);
 
