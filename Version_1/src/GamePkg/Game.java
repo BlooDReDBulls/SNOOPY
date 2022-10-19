@@ -5,10 +5,10 @@ import Graphics.GraphicPanel;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,6 +16,8 @@ import java.util.TimerTask;
 public class Game{
 
     int[][] map = new int[10][20];
+
+    List<Entity> entities;
     Timer timerController = new Timer();
     Player player = new Player();
     DriveBlock driveBlock = new DriveBlock(2, 8, Direction.UP);
