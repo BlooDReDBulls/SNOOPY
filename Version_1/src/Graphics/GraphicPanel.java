@@ -14,6 +14,7 @@ public class GraphicPanel extends JPanel{
 
     public GraphicPanel(Game game){
         this.game = game;
+        this.setPreferredSize(new Dimension(320,640));
     }
 
     public void initImageIconHashMap(){

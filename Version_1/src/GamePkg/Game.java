@@ -114,7 +114,9 @@ public class Game{
             map[pushBlock.getX()][pushBlock.getY()] = 2;
             map[driveBlock.getX()][driveBlock.getY()] = 6;
            // displayMap();
+
             graphicPanel.update();
+
 
         }
     };
