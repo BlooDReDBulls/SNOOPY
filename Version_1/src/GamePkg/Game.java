@@ -5,6 +5,9 @@ import Graphics.GraphicPanel;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -80,7 +83,7 @@ public class Game{
 
     private GraphicFrame graphicFrame;
     private GraphicPanel graphicPanel;
-
+    private BufferedReader reader;
 
 
     public Game() {
@@ -249,9 +252,8 @@ public class Game{
         return map;
     }
 
-    public void loadMap(int mapInt)
-    {
-
+    public void loadMap(int mapInt) throws FileNotFoundException {
+        reader = new BufferedReader(new FileReader(mapInt + ".txt"));
     }
 
     public static void main(String[] args){
