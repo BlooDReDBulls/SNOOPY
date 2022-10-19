@@ -199,6 +199,9 @@ public class Game{
             player.itsDirection = driveBlock.getItsDirection();
             player.bl = false;
         }
+        else if (player.getX() == ball.getX() && player.getY() == ball.getY()) {
+            player.kill();
+        }
     }
 
     public void displayMap()

@@ -18,12 +18,15 @@ public class Player{
     private boolean enableMove;
 
     public boolean bl;
+    private int numberLife;
+    private boolean invincible;
 
     public Direction itsDirection;
 
     public Direction itsLastDirection;
 
     Timer speed = new Timer();
+    Timer dead = new Timer();
 
     public Player()
     {
@@ -32,6 +35,7 @@ public class Player{
         y = 5;
         bl = true;
         enableMove = true;
+        numberLife = 3;
     }
 
     public TimerTask movement = new TimerTask() {
@@ -101,6 +105,22 @@ public class Player{
                 public void run() {
                     enableMove = !enableMove;
                 }}, 200);
+        }
+    }
+    public void kill() {
+        if (!invincible) {
+            invincible=true;
+            numberLife -= 1;
+            if(numberLife==0){
+                while (true);
+            }
+            dead.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    invincible = false;
+                    System.out.println("mort");
+                }
+            }, 1500);
         }
     }
 }
