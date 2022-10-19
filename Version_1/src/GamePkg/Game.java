@@ -18,54 +18,60 @@ public class Game{
     int[][] map = new int[10][20];
     Timer timerController = new Timer();
     Player player = new Player();
+    DriveBlock driveBlock = new DriveBlock(2, 8, Direction.UP);
 
     Ball ball = new Ball();
 
-    PushBlock pushBlock = new PushBlock(5, 14);
+    PushBlock pushBlock = new PushBlock(1, 2);
 
     KeyAdapter keyListener = new KeyAdapter() {
         @Override
         public void keyPressed(KeyEvent e) {
             super.keyPressed(e);
-            if(e.getKeyCode() == KeyEvent.VK_LEFT)
-            {
-                player.itsDirection = Direction.LEFT;
-            }
-            else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
-            {
-                player.itsDirection = Direction.RIGHT;
-            }
-            else if(e.getKeyCode() == KeyEvent.VK_UP)
-            {
-                player.itsDirection = Direction.UP;
-            }
-            else if(e.getKeyCode() == KeyEvent.VK_DOWN)
-            {
-                player.itsDirection = Direction.DOWN;
+            if(player.bl){
+                if(e.getKeyCode() == KeyEvent.VK_LEFT)
+                {
+                    player.itsDirection = Direction.LEFT;
+                }
+                else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
+                {
+                    player.itsDirection = Direction.RIGHT;
+                }
+                else if(e.getKeyCode() == KeyEvent.VK_UP)
+                {
+                    player.itsDirection = Direction.UP;
+                }
+                else if(e.getKeyCode() == KeyEvent.VK_DOWN)
+                {
+                    player.itsDirection = Direction.DOWN;
+                }
             }
         }
         @Override
         public void keyReleased(KeyEvent e) {
             super.keyPressed(e);
-            if(e.getKeyCode() == KeyEvent.VK_LEFT)
+            if(player.bl)
             {
-                player.itsLastDirection = Direction.LEFT;
-                player.itsDirection = Direction.ANY;
-            }
-            else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
-            {
-                player.itsLastDirection = Direction.RIGHT;
-                player.itsDirection = Direction.ANY;
-            }
-            else if(e.getKeyCode() == KeyEvent.VK_UP)
-            {
-                player.itsLastDirection = Direction.UP;
-                player.itsDirection = Direction.ANY;
-            }
-            else if(e.getKeyCode() == KeyEvent.VK_DOWN)
-            {
-                player.itsLastDirection = Direction.DOWN;
-                player.itsDirection = Direction.ANY;
+                if(e.getKeyCode() == KeyEvent.VK_LEFT)
+                {
+                    player.itsLastDirection = Direction.LEFT;
+                    player.itsDirection = Direction.ANY;
+                }
+                else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
+                {
+                    player.itsLastDirection = Direction.RIGHT;
+                    player.itsDirection = Direction.ANY;
+                }
+                else if(e.getKeyCode() == KeyEvent.VK_UP)
+                {
+                    player.itsLastDirection = Direction.UP;
+                    player.itsDirection = Direction.ANY;
+                }
+                else if(e.getKeyCode() == KeyEvent.VK_DOWN)
+                {
+                    player.itsLastDirection = Direction.DOWN;
+                    player.itsDirection = Direction.ANY;
+                }
             }
         }
     };
@@ -108,6 +114,7 @@ public class Game{
             map[player.getX()][player.getY()] = 8;
             map[ball.getX()][ball.getY()] = 7;
             map[pushBlock.getX()][pushBlock.getY()] = 2;
+            map[driveBlock.getX()][driveBlock.getY()] = 6;
            // displayMap();
             graphicPanel.update();
 
@@ -118,6 +125,7 @@ public class Game{
     {
         if(player.getX() == pushBlock.getX() && player.getY() == pushBlock.getY())
         {
+            player.bl = true;
             if(pushBlock.isPushable())
             {
                 if(player.itsDirection == Direction.ANY)
@@ -186,6 +194,10 @@ public class Game{
                     }
                 }
             }
+        }
+        else if(player.getX() == driveBlock.getX() && player.getY() == driveBlock.getY()){
+            player.itsDirection = driveBlock.getItsDirection();
+            player.bl = false;
         }
     }
 

@@ -15,6 +15,8 @@ public class Player{
     private int x;
     private int y;
 
+    public boolean bl;
+
     public Direction itsDirection;
 
     public Direction itsLastDirection;
@@ -24,6 +26,7 @@ public class Player{
         itsDirection = Direction.ANY;
         x = 5;
         y = 5;
+        bl = true;
     }
 
     public int getX()
@@ -44,12 +47,18 @@ public class Player{
             {
                 y -= 1;
             }
+            else{
+                bl = true;
+            }
         }
         else if(itsDirection == Direction.DOWN)
         {
             if((y + 1) <= 19)
             {
                 y += 1;
+            }
+            else{
+                bl = true;
             }
         }
         else if(itsDirection == Direction.RIGHT)
@@ -58,12 +67,18 @@ public class Player{
             {
                 x += 1;
             }
+            else{
+                bl = true;
+            }
         }
         else if(itsDirection == Direction.LEFT)
         {
             if((x - 1) >= 0)
             {
                 x -= 1;
+            }
+            else{
+                bl = true;
             }
         }
     }
