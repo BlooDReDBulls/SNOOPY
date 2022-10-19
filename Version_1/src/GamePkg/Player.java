@@ -1,12 +1,9 @@
 package GamePkg;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 enum Direction {
     UP,
-    DOWN,
     RIGHT,
+    DOWN,
     LEFT,
     ANY
 }

@@ -3,7 +3,6 @@ package GamePkg;
 import Graphics.GraphicFrame;
 import Graphics.GraphicPanel;
 
-import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -109,8 +108,7 @@ public class Game{
             map[player.getX()][player.getY()] = 0;
             player.updatePosition();
             checkIntersection();
-            map[ball.getX()][ball.getY()] = 0;
-            ball.updatePosition();
+            map[ball.getLastX()][ball.getLastY()] = 0;
             map[player.getX()][player.getY()] = 8;
             map[ball.getX()][ball.getY()] = 7;
             map[pushBlock.getX()][pushBlock.getY()] = 2;

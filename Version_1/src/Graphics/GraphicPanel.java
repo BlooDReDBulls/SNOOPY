@@ -5,8 +5,6 @@ import java.awt.*;
 import java.util.HashMap;
 import GamePkg.*;
 
-
-
 public class GraphicPanel extends JPanel{
 
     HashMap<Integer, ImageIcon> imageIconHashMap = new HashMap<>();
