@@ -16,7 +16,6 @@ public class TexturesImages {
 
     public void initImageIconHashMap(){
 
-
         System.out.println("Chargement des images ...");
         for (int i = 0; i < 9; i++) {
             String name = "includes/" + i + ".png";
@@ -46,16 +45,21 @@ public class TexturesImages {
 
     }
 
+
     public Image getImageFromMap(int num){
 
         if(num == 9){
-            return birdSpritesImageIconHashMap.get(1).get(1).getImage();
+            imageIconHashMap.remove(num);
+            imageIconHashMap.put(num, birdSpritesImageIconHashMap.get(0).get(0));
         }
+
         return this.imageIconHashMap.get(num).getImage();
     }
 
     public Image getImageFromTAB(int num){
         return this.imageIconHashMap.get(num).getImage();
     }
+
+
 
 }

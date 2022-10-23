@@ -2,6 +2,8 @@ package GamePkg;
 
 import Graphics.GraphicFrame;
 import Graphics.GraphicPanel;
+import Graphics.Observable;
+import Graphics.Observateur;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -15,7 +17,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class Game{
+public class Game implements Observable {
 
     int[][] map = new int[10][20];
     Timer timerController = new Timer();
@@ -121,7 +123,7 @@ public class Game{
             map[driveBlock.getX()][driveBlock.getY()] = 6;
            // displayMap();
             map[boobyTrap.getX()][boobyTrap.getY()] = 3;
-            graphicPanel.update();
+            graphicPanel.actualise();
         }
     };
 
@@ -260,5 +262,20 @@ public class Game{
         Game game = new Game();
         game.timerController.schedule(game.timer, 60000);
         game.timerController.schedule(game.refresh, 0, 50);
+    }
+
+    @Override
+    public void attacheObservateur(Observateur o) {
+
+    }
+
+    @Override
+    public void detacheObservateur(Observateur o) {
+
+    }
+
+    @Override
+    public void notifieObservateurs() {
+
     }
 }
