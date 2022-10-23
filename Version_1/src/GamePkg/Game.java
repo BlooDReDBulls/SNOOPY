@@ -1,9 +1,6 @@
 package GamePkg;
 
-import Graphics.GraphicFrame;
-import Graphics.GraphicPanel;
-import Graphics.Observable;
-import Graphics.Observateur;
+import Graphics.*;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -13,6 +10,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -29,6 +28,8 @@ public class Game implements Observable {
     Ball ball = new Ball();
     Block bird = new Block(5, 1);
     PushBlock pushBlock = new PushBlock(1, 2);
+
+    List<Observateur> observateurs;
 
     KeyAdapter keyListener = new KeyAdapter() {
         @Override
@@ -82,23 +83,24 @@ public class Game implements Observable {
         }
     };
 
-
-    private GraphicFrame graphicFrame;
-    private GraphicPanel graphicPanel;
     private BufferedReader reader;
 
 
     public Game() {
+        observateurs = new ArrayList<Observateur>();
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 20; j++) {
                 map[i][j] = 0;
             }
         }
+        GameConsole gameConsole = new GameConsole(this);
+        GameUI gameUI = new GameUI(this);
 
-        graphicPanel = new GraphicPanel(this);
-        graphicFrame = new GraphicFrame(graphicPanel);
-        graphicFrame.addKeyListener(keyListener);
+
+        this.attacheObservateur(gameConsole);
+        this.attacheObservateur(gameUI);
+        //graphicFrame.addKeyListener(keyListener);
         map[bird.getX()][bird.getY()] = 9;
 
 
@@ -110,6 +112,7 @@ public class Game implements Observable {
             while(true);
         }
     };
+
     public TimerTask refresh = new TimerTask() {
         @Override
         public void run() {
@@ -123,7 +126,8 @@ public class Game implements Observable {
             map[driveBlock.getX()][driveBlock.getY()] = 6;
            // displayMap();
             map[boobyTrap.getX()][boobyTrap.getY()] = 3;
-            graphicPanel.actualise();
+            //graphicPanel.actualise();
+            notifieObservateurs();
         }
     };
 
@@ -266,16 +270,19 @@ public class Game implements Observable {
 
     @Override
     public void attacheObservateur(Observateur o) {
+        observateurs.add(o);
 
     }
 
     @Override
     public void detacheObservateur(Observateur o) {
-
+        observateurs.remove(o);
     }
 
     @Override
     public void notifieObservateurs() {
-
+        for (Observateur o: observateurs) {
+            o.actualise();
+        }
     }
 }
