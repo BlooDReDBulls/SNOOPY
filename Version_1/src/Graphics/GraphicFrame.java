@@ -10,7 +10,7 @@ public class GraphicFrame extends JFrame {
 
     public GraphicFrame(GraphicPanel graphicPanel){
         this.graphicPanel = graphicPanel;
-        graphicPanel.initImageIconHashMap();
+//        graphicPanel.initImageIconHashMap();
         initFrame();
         showUI();
     }
