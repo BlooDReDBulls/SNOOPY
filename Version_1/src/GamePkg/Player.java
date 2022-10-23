@@ -46,12 +46,12 @@ public class Player extends Entity{
             enableMove = !enableMove;
         }
     };
-
+    @Override
     public int getX()
     {
         return x;
     }
-
+    @Override
     public int getY()
     {
         return y;

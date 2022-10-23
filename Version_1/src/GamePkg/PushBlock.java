@@ -77,12 +77,12 @@ public class PushBlock extends Entity{
     boolean isCollision() {
         return collision;
     }
-
+    @Override
     public int getX()
     {
         return x;
     }
-
+    @Override
     public int getY()
     {
         return y;

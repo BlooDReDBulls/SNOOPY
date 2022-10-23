@@ -66,9 +66,12 @@ public class Ball extends Entity{
             yspeed=-yspeed;
         }
     }
+    @Override
     public int getX() {
         return x;
     }
+
+    @Override
     public int getY() {
         return y;
     }

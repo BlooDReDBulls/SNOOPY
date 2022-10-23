@@ -18,11 +18,11 @@ public class DriveBlock extends Entity{
         animation = true;
         identifier = 6;
     }
-
+    @Override
     public int getX() {
         return x;
     }
-
+    @Override
     public int getY() {
         return y;
     }

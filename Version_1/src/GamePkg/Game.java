@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,7 +18,7 @@ public class Game{
 
     int[][] map = new int[10][20];
 
-    List<Entity> entities;
+    ArrayList<Entity> entities = new ArrayList<Entity>();
     Timer timerController = new Timer();
     Player player = new Player();
     DriveBlock driveBlock = new DriveBlock(2, 8, Direction.UP);
@@ -98,7 +99,11 @@ public class Game{
         graphicFrame = new GraphicFrame(graphicPanel);
         graphicFrame.addKeyListener(keyListener);
 
-
+        entities.add(player);
+        entities.add(boobyTrap);
+        entities.add(driveBlock);
+        entities.add(pushBlock);
+        entities.add(ball);
 
         //map[bird.getX()][bird.getY()] = 9;
     }
@@ -112,14 +117,16 @@ public class Game{
     public TimerTask refresh = new TimerTask() {
         @Override
         public void run() {
-            map[boobyTrap.getX()][boobyTrap.getY()] = 3;
-            map[driveBlock.getX()][driveBlock.getY()] = 6;
-            map[pushBlock.getX()][pushBlock.getY()] = 2;
-            map[player.getX()][player.getY()] = 0;
-            player.updatePosition();
-            map[player.getX()][player.getY()] = 8;
-            map[ball.getLastX()][ball.getLastY()] = 0;
-            map[ball.getX()][ball.getY()] = 7;
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 20; j++) {
+                    map[i][j] = 0;
+                }
+            }
+            for(Entity entity : entities)
+            {
+                entity.updatePosition();
+                map[entity.getX()][entity.getY()] = entity.getIdentifier();
+            }
             checkIntersection();
             graphicPanel.update();
         }

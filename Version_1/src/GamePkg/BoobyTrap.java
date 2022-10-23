@@ -10,12 +10,12 @@ public class BoobyTrap extends Entity{
         animation = false;
         identifier = 3;
     }
-
+    @Override
     public int getX()
     {
         return x;
     }
-
+    @Override
     public int getY()
     {
         return y;

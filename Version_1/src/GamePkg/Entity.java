@@ -7,6 +7,8 @@ public abstract class Entity {
     boolean animation;
     boolean collision;
     abstract void updatePosition();
+    abstract int getX();
+    abstract  int getY();
     abstract int getIdentifier();
     abstract boolean isAnimated();
     abstract boolean isCollision();
