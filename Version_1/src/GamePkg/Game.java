@@ -22,10 +22,10 @@ public class Game{
     Player player = new Player();
     DriveBlock driveBlock = new DriveBlock(2, 8, Direction.UP);
 
-    Block boobyTrap = new Block(6, 12);
+    BoobyTrap boobyTrap = new BoobyTrap(6, 12);
 
     Ball ball = new Ball();
-    Block bird = new Block(5, 1);
+    //Block bird = new Block(5, 1);
     PushBlock pushBlock = new PushBlock(1, 2);
 
     KeyAdapter keyListener = new KeyAdapter() {
@@ -98,7 +98,9 @@ public class Game{
         graphicFrame = new GraphicFrame(graphicPanel);
         graphicFrame.addKeyListener(keyListener);
 
-        map[bird.getX()][bird.getY()] = 9;
+
+
+        //map[bird.getX()][bird.getY()] = 9;
     }
     public TimerTask timer = new TimerTask() {
         @Override
@@ -212,10 +214,10 @@ public class Game{
         else if (player.getX() == ball.getX() && player.getY() == ball.getY()) {
             player.kill();
         }
-        else if(player.getX() == bird.getX() && player.getY() == bird.getY()){
+        /*else if(player.getX() == bird.getX() && player.getY() == bird.getY()){
             player.bird();
             map[bird.getX()][bird.getY()] = 0;
-        }
+        }*/
     }
 
     public void displayMap()
