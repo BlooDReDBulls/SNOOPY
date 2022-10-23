@@ -5,6 +5,9 @@ import Graphics.GraphicPanel;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,7 +25,7 @@ public class Game{
     Block boobyTrap = new Block(6, 12);
 
     Ball ball = new Ball();
-
+    Block bird = new Block(5, 1);
     PushBlock pushBlock = new PushBlock(1, 2);
 
     KeyAdapter keyListener = new KeyAdapter() {
@@ -80,7 +83,7 @@ public class Game{
 
     private GraphicFrame graphicFrame;
     private GraphicPanel graphicPanel;
-
+    private BufferedReader reader;
 
 
     public Game() {
@@ -94,6 +97,7 @@ public class Game{
         graphicPanel = new GraphicPanel(this);
         graphicFrame = new GraphicFrame(graphicPanel);
         graphicFrame.addKeyListener(keyListener);
+        map[bird.getX()][bird.getY()] = 9;
 
 
     }
@@ -210,6 +214,11 @@ public class Game{
         else if (player.getX() == ball.getX() && player.getY() == ball.getY()) {
             player.kill();
         }
+        else if(player.getX() == bird.getX() && player.getY() == bird.getY()){
+            player.bird();
+            map[bird.getX()][bird.getY()] = 0;
+            player.win();
+        }
     }
 
     public void displayMap()
@@ -243,9 +252,8 @@ public class Game{
         return map;
     }
 
-    public void loadMap(int mapInt)
-    {
-
+    public void loadMap(int mapInt) throws FileNotFoundException {
+        reader = new BufferedReader(new FileReader(mapInt + ".txt"));
     }
 
     public static void main(String[] args){
