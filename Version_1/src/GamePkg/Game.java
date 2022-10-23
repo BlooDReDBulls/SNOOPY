@@ -98,9 +98,10 @@ public class Game implements Observable {
         GameUI gameUI = new GameUI(this);
 
 
-        this.attacheObservateur(gameConsole);
+//        this.attacheObservateur(gameConsole);
         this.attacheObservateur(gameUI);
-        //graphicFrame.addKeyListener(keyListener);
+
+        gameUI.setKeyListener(keyListener);
         map[bird.getX()][bird.getY()] = 9;
 
 
@@ -285,4 +286,6 @@ public class Game implements Observable {
             o.actualise();
         }
     }
+
+
 }
