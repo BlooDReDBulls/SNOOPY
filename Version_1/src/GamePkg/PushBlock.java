@@ -13,6 +13,7 @@ public class PushBlock extends Entity{
         collision = true;
         animation = false;
         identifier = 2;
+        move = false;
     }
 
     public void push(Direction direction)
@@ -86,5 +87,20 @@ public class PushBlock extends Entity{
     public int getY()
     {
         return y;
+    }
+
+    @Override
+    int getLastX() {
+        return 0;
+    }
+
+    @Override
+    int getLastY() {
+        return 0;
+    }
+
+    @Override
+    boolean isMove() {
+        return move;
     }
 }

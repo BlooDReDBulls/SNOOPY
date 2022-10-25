@@ -97,13 +97,17 @@ public class Game{
         graphicPanel = new GraphicPanel(this);
         graphicFrame = new GraphicFrame(graphicPanel);
         graphicFrame.addKeyListener(keyListener);
-        //map[bird.getX()][bird.getY()] = 9;
 
         entities.add(pushBlock);
         entities.add(ball);
         entities.add(boobyTrap);
         entities.add(driveBlock);
         entities.add(player);
+
+        for(Entity entity : entities)
+        {
+            map[entity.getX()][entity.getY()] = entity.getIdentifier();
+        }
 
     }
     public TimerTask timer = new TimerTask() {
@@ -116,15 +120,17 @@ public class Game{
     public TimerTask refresh = new TimerTask() {
         @Override
         public void run() {
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 20; j++) {
-                    map[i][j] = 0;
-                }
-            }
             for(Entity entity : entities)
             {
-                entity.updatePosition();
-                map[entity.getX()][entity.getY()] = entity.getIdentifier();
+                if(entity.isMove())
+                {
+                    if(entity.getIdentifier() != 7)
+                    {
+                        entity.updatePosition();
+                    }
+                    map[entity.getLastX()][entity.getLastY()] = 0;
+                    map[entity.getX()][entity.getY()] = entity.getIdentifier();
+                }
             }
             checkIntersection();
             graphicPanel.update();

@@ -4,9 +4,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Ball extends Entity{
-    int lastX;
-    int lastY;
-
     int xspeed;
     int yspeed;
 
@@ -16,6 +13,7 @@ public class Ball extends Entity{
         animation = false;
         collision = true;
         identifier = 7;
+        move = true;
         x = 0;
         y = 0;
         xspeed = 1;
@@ -37,11 +35,11 @@ public class Ball extends Entity{
     {
         return collision;
     }
-
+    @Override
     public int getLastX() {
         return lastX;
     }
-
+    @Override
     public int getLastY() {
         return lastY;
     }
@@ -74,5 +72,10 @@ public class Ball extends Entity{
     @Override
     public int getY() {
         return y;
+    }
+
+    @Override
+    boolean isMove() {
+        return move;
     }
 }

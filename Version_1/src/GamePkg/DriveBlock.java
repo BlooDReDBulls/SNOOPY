@@ -17,6 +17,7 @@ public class DriveBlock extends Entity{
         collision = true;
         animation = true;
         identifier = 6;
+        move = false;
     }
     @Override
     public int getX() {
@@ -25,6 +26,21 @@ public class DriveBlock extends Entity{
     @Override
     public int getY() {
         return y;
+    }
+
+    @Override
+    int getLastX() {
+        return 0;
+    }
+
+    @Override
+    int getLastY() {
+        return 0;
+    }
+
+    @Override
+    boolean isMove() {
+        return move;
     }
 
     @Override

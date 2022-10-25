@@ -9,6 +9,7 @@ public class BoobyTrap extends Entity{
         collision = true;
         animation = false;
         identifier = 3;
+        move = false;
     }
     @Override
     public int getX()
@@ -19,6 +20,21 @@ public class BoobyTrap extends Entity{
     public int getY()
     {
         return y;
+    }
+
+    @Override
+    int getLastX() {
+        return 0;
+    }
+
+    @Override
+    int getLastY() {
+        return 0;
+    }
+
+    @Override
+    boolean isMove() {
+        return move;
     }
 
     @Override

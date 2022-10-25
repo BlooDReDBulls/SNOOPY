@@ -2,15 +2,6 @@ package GamePkg;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
-enum Direction {
-    UP,
-    RIGHT,
-    DOWN,
-    LEFT,
-    ANY
-}
-
 public class Player extends Entity{
     private int numberBird;
     private boolean enableMove;
@@ -38,6 +29,7 @@ public class Player extends Entity{
         animation = true;
         collision = true;
         identifier = 8;
+        move = true;
     }
 
     public TimerTask movement = new TimerTask() {
@@ -57,8 +49,21 @@ public class Player extends Entity{
         return y;
     }
 
+    @Override
+    boolean isMove() {
+        return move;
+    }
+
     public int getNumberLife() {
         return numberLife;
+    }
+    @Override
+    public int getLastX() {
+        return lastX;
+    }
+    @Override
+    public int getLastY() {
+        return lastY;
     }
 
     @Override
@@ -70,6 +75,8 @@ public class Player extends Entity{
             {
                 if((x - 1) >= 0)
                 {
+                    lastX = x;
+                    lastY = y;
                     x -= 1;
                 }
                 else{
@@ -80,6 +87,8 @@ public class Player extends Entity{
             {
                 if((x + 1) <= 9)
                 {
+                    lastX = x;
+                    lastY = y;
                     x += 1;
                 }
                 else{
@@ -90,6 +99,8 @@ public class Player extends Entity{
             {
                 if((y + 1) <= 19)
                 {
+                    lastX = x;
+                    lastY = y;
                     y += 1;
                 }
                 else{
@@ -100,6 +111,8 @@ public class Player extends Entity{
             {
                 if((y - 1) >= 0)
                 {
+                    lastX = x;
+                    lastY = y;
                     y -= 1;
                 }
                 else{
