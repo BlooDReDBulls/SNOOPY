@@ -32,7 +32,7 @@ public class Game{
         @Override
         public void keyPressed(KeyEvent e) {
             super.keyPressed(e);
-            if(player.bl){
+            if(player.unBlockMovement){
                 if(e.getKeyCode() == KeyEvent.VK_LEFT)
                 {
                     player.itsDirection = Direction.LEFT;
@@ -54,7 +54,7 @@ public class Game{
         @Override
         public void keyReleased(KeyEvent e) {
             super.keyPressed(e);
-            if(player.bl)
+            if(player.unBlockMovement)
             {
                 if(e.getKeyCode() == KeyEvent.VK_LEFT)
                 {
@@ -99,9 +99,9 @@ public class Game{
         graphicFrame.addKeyListener(keyListener);
 
         entities.add(pushBlock);
-        entities.add(ball);
         entities.add(boobyTrap);
         entities.add(driveBlock);
+        entities.add(ball);
         entities.add(player);
 
         for(Entity entity : entities)
@@ -131,6 +131,13 @@ public class Game{
                     map[entity.getLastX()][entity.getLastY()] = 0;
                     map[entity.getX()][entity.getY()] = entity.getIdentifier();
                 }
+                else
+                {
+                    if(entity.getIdentifier() == 5 || entity.getIdentifier() == 6)
+                    {
+                        map[entity.getX()][entity.getY()] = entity.getIdentifier();
+                    }
+                }
             }
             checkIntersection();
             graphicPanel.update();
@@ -141,7 +148,7 @@ public class Game{
     {
         if(player.getX() == pushBlock.getX() && player.getY() == pushBlock.getY())
         {
-            player.bl = true;
+            player.unBlockMovement = true;
             if(pushBlock.isPushable())
             {
                 if(player.itsDirection == Direction.ANY)
@@ -213,7 +220,7 @@ public class Game{
         }
         else if(player.getX() == driveBlock.getX() && player.getY() == driveBlock.getY()){
             player.itsDirection = driveBlock.getItsDirection();
-            player.bl = false;
+            player.unBlockMovement = false;
         }
         else if(player.getX() == boobyTrap.getX() && player.getY() == boobyTrap.getY()){
             player.kill();
@@ -255,6 +262,7 @@ public class Game{
             }
             mapString += '\n';
         }
+        String test = "";
         Path filePath = Path.of("saveFile.txt");
         Files.writeString(filePath, mapString);
     }

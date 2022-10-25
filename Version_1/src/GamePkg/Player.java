@@ -6,7 +6,7 @@ public class Player extends Entity{
     private int numberBird;
     private boolean enableMove;
 
-    public boolean bl;
+    public boolean unBlockMovement;
     private int numberLife;
     private boolean invincible;
 
@@ -22,7 +22,7 @@ public class Player extends Entity{
         itsDirection = Direction.ANY;
         x = 5;
         y = 5;
-        bl = true;
+        unBlockMovement = true;
         enableMove = true;
         numberLife = 3;
         numberBird = 0;
@@ -80,7 +80,7 @@ public class Player extends Entity{
                     x -= 1;
                 }
                 else{
-                    bl = true;
+                    unBlockMovement = true;
                 }
             }
             else if(itsDirection == Direction.DOWN)
@@ -92,7 +92,7 @@ public class Player extends Entity{
                     x += 1;
                 }
                 else{
-                    bl = true;
+                    unBlockMovement = true;
                 }
             }
             else if(itsDirection == Direction.RIGHT)
@@ -104,7 +104,7 @@ public class Player extends Entity{
                     y += 1;
                 }
                 else{
-                    bl = true;
+                    unBlockMovement = true;
                 }
             }
             else if(itsDirection == Direction.LEFT)
@@ -116,7 +116,7 @@ public class Player extends Entity{
                     y -= 1;
                 }
                 else{
-                    bl = true;
+                    unBlockMovement = true;
                 }
             }
             //enableMove = !enableMove;
