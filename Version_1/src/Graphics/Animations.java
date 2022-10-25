@@ -1,59 +1,53 @@
 package Graphics;
 
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Animations {
 
-    private Timer timer;
-    private final int fps;
-    private long cycleStartTime;
-    private double cycleProgress;
+    private final int nDirection;
+    private final int nFrame;
 
-    private final TimerHandler timerHandler;
+    private final String path;
 
-    public Animations(int fps){
-        this.fps = fps;
-        timerHandler = new TimerHandler();
+    private HashMap<Integer, ArrayList<BufferedImage>> animHashMap;
 
+    public Animations(int nDirection, int nFrame, String path){
+        this.nDirection = nDirection;
+        this.nFrame = nFrame;
+        this.path = path;
+        this.animHashMap = new HashMap<>();
+        loadAnim();
     }
 
-    protected void clean() {
-        cycleProgress = 0;
-        cycleStartTime = 0;
-    }
+    private void loadAnim(){
 
-    public void stop() {
-        if (timer != null) {
-            timer.stop();
-        }
-        clean();
-    }
-
-    public void start() {
-        stop();
-        timer = new Timer(1000 / fps, timerHandler);
-        timer.start();
-    }
-
-    protected class TimerHandler implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (cycleStartTime == 0) {
-                cycleStartTime = System.currentTimeMillis();
+        for (int i = 0; i < nDirection; i++) {
+            ArrayList<BufferedImage> animArray = new ArrayList<>();
+            for (int j = 0; j < nFrame; j++) {
+                String name = path + i + "/" + j + ".png";
+                System.out.println("path : " + name);
+                BufferedImage bi;
+                try {
+                    bi = ImageIO.read(new File(name));
+//                    System.out.println(bi);
+                    animArray.add(bi);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
-            long diff = (System.currentTimeMillis() - cycleStartTime) % 1000;
-            cycleProgress = diff / 1000.0;
+            animHashMap.put(i,animArray);
         }
+
     }
 
-    public double getCycleProgress() {
-        return  cycleProgress;
+    public BufferedImage getAnimation(int direction, double cycleProgress){
+
+        int index = (int) (cycleProgress * nFrame);
+        return animHashMap.get(direction).get(index);
     }
-
-
-
-
 }

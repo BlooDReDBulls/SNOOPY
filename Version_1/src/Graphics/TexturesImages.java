@@ -32,13 +32,6 @@ public class TexturesImages {
             throw new RuntimeException(e);
         }
 
-        try {
-            BufferedImage bi = ImageIO.read(new File("includes/8.png"));
-            bufferedImageHashMap.put(8, bi);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
 

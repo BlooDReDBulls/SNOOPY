@@ -10,23 +10,29 @@ public class GameUI extends JPanel implements Observateur {
 
     private final Game game;
 
-    private final Animations animations;
+    private final AnimationEngine animationEngine;
     private final TexturesImages texturesImages;
-    private final TextureSprite textureSprite;
+
+    private final Animations animationsSnoopy;
+    private final Animations animationsBird;
+    private final Animations animationsSlider;
 
     private final JFrame jFrame;
 
     public GameUI(Game game){
-        animations = new Animations(60);
-        animations.start();
-
-        this.textureSprite = new TextureSprite();
+        animationEngine = new AnimationEngine(60);
+        animationEngine.start();
         this.texturesImages = new TexturesImages();
 
         jFrame = new JFrame("Snoopy le jeu");
         this.setPreferredSize(new Dimension(640,320));
         this.game = game;
         setupJFrame();
+        animationsSnoopy = new Animations(4,4,"includes/Snoopy/");
+        animationsBird = new Animations(4,3,"includes/Bird/");
+        animationsSlider = new Animations(4,4,"includes/Slider/");
+
+
     }
 
     private void setupJFrame(){
@@ -50,6 +56,8 @@ public class GameUI extends JPanel implements Observateur {
         Graphics2D g2 = (Graphics2D) g.create();
         super.paint(g);
 
+
+
         for (int i = 0; i < 10.; i++) {
             for (int j = 0; j < 20; j++) {
 
@@ -60,7 +68,7 @@ public class GameUI extends JPanel implements Observateur {
                     }
                     case 6 -> {
                         g2.drawImage(texturesImages.getImageFromTAB(0), (32 * j), (32 * i), this);
-                        g2.drawImage(textureSprite.getSprite(6, 0, animations.getCycleProgress(), 4), (32 * j), (32 * i), this);
+                        g2.drawImage(animationsSlider.getAnimation(2, animationEngine.getCycleProgress()), (32 * j), (32 * i), this);
                     }
                     case 7 -> {
                         g2.drawImage(texturesImages.getImageFromTAB(0), (32 * j), (32 * i), this);
@@ -68,12 +76,12 @@ public class GameUI extends JPanel implements Observateur {
                     }
                     case 8 -> {
                         g2.drawImage(texturesImages.getImageFromTAB(0), (32 * j), (32 * i), this);
-                        g2.drawImage(textureSprite.getSprite(8, 3, animations.getCycleProgress(), 4), (32 * j), (32 * i), this);
+                        g2.drawImage(animationsSnoopy.getAnimation(1, animationEngine.getCycleProgress()), (32 * j), (32 * i), this);
                     }
                     case 9 -> {
                         //Faire les directions avec Lucas
                         g2.drawImage(texturesImages.getImageFromTAB(0), (32 * j), (32 * i), this);
-                        g2.drawImage(textureSprite.getSprite(9, 1, animations.getCycleProgress(), 3), (32 * j), (32 * i), this);
+                        g2.drawImage(animationsBird.getAnimation(1, animationEngine.getCycleProgress()), (32 * j), (32 * i), this);
                     }
                     default ->
                             g2.drawImage(texturesImages.getImageFromMap(game.getMap()[i][j]), (32 * j), (32 * i), this);
