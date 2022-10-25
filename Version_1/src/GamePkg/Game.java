@@ -5,10 +5,14 @@ import Graphics.GraphicPanel;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,6 +20,7 @@ import java.util.TimerTask;
 public class Game{
 
     int[][] map = new int[10][20];
+    int currentMap = 1;
     Timer timerController = new Timer();
     Player player = new Player();
     DriveBlock driveBlock = new DriveBlock(2, 8, Direction.UP);
@@ -23,7 +28,7 @@ public class Game{
     BoobyTrap boobyTrap = new BoobyTrap(6, 12);
 
     Ball ball = new Ball();
-    //Block bird = new Block(5, 1);
+    Bird bird = new Bird(5, 1);
     PushBlock pushBlock = new PushBlock(1, 2);
 
     ArrayList<Entity> entities = new ArrayList<Entity>();
@@ -103,6 +108,7 @@ public class Game{
         entities.add(driveBlock);
         entities.add(ball);
         entities.add(player);
+        entities.add(bird);
 
         for(Entity entity : entities)
         {
@@ -139,13 +145,16 @@ public class Game{
                     }
                 }
             }
-            checkIntersection();
+            try {
+                checkIntersection();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             graphicPanel.update();
         }
     };
 
-    public void checkIntersection()
-    {
+    public void checkIntersection() throws IOException {
         if(player.getX() == pushBlock.getX() && player.getY() == pushBlock.getY())
         {
             player.unBlockMovement = true;
@@ -233,10 +242,14 @@ public class Game{
         else if (player.getX() == ball.getX() && player.getY() == ball.getY()) {
             player.kill();
         }
-        /*else if(player.getX() == bird.getX() && player.getY() == bird.getY()){
+        else if(player.getX() == bird.getX() && player.getY() == bird.getY()){
             player.bird();
             map[bird.getX()][bird.getY()] = 0;
-        }*/
+            if(player.win()){
+                currentMap += 1;
+                loadMap(currentMap);
+            }
+        }
     }
 
     public void displayMap()
@@ -271,9 +284,18 @@ public class Game{
         return map;
     }
 
-    public void loadMap(int mapInt)
-    {
+    public void loadMap(int mapInt) throws IOException {
+        for(int i=1; i<=3; i++){
+            String name = "map/"+i+".txt";
+            File f = new File(name);
+            Scanner scanner = new Scanner(f);
+            while(scanner.hasNext()){
+                String[] str = scanner.nextLine().split(" ");
+                String last = str[str.length-1];
+                System.out.println(last);
+            }
 
+    }
     }
 
     public static void main(String[] args){
