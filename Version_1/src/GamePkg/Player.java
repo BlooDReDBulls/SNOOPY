@@ -2,18 +2,7 @@ package GamePkg;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
-enum Direction {
-    UP,
-    RIGHT,
-    DOWN,
-    LEFT,
-    ANY
-}
-
-public class Player{
-    private int x;
-    private int y;
+public class Player extends Entity{
     private int numberBird;
     private boolean enableMove;
 
@@ -37,6 +26,10 @@ public class Player{
         enableMove = true;
         numberLife = 3;
         numberBird = 0;
+        animation = true;
+        collision = true;
+        identifier = 8;
+        move = true;
     }
 
     public TimerTask movement = new TimerTask() {
@@ -45,21 +38,35 @@ public class Player{
             enableMove = !enableMove;
         }
     };
-
+    @Override
     public int getX()
     {
         return x;
     }
-
+    @Override
     public int getY()
     {
         return y;
     }
 
+    @Override
+    boolean isMove() {
+        return move;
+    }
+
     public int getNumberLife() {
         return numberLife;
     }
+    @Override
+    public int getLastX() {
+        return lastX;
+    }
+    @Override
+    public int getLastY() {
+        return lastY;
+    }
 
+    @Override
     public void updatePosition()
     {
         if(enableMove)
@@ -68,6 +75,8 @@ public class Player{
             {
                 if((x - 1) >= 0)
                 {
+                    lastX = x;
+                    lastY = y;
                     x -= 1;
                 }
                 else{
@@ -78,6 +87,8 @@ public class Player{
             {
                 if((x + 1) <= 9)
                 {
+                    lastX = x;
+                    lastY = y;
                     x += 1;
                 }
                 else{
@@ -88,6 +99,8 @@ public class Player{
             {
                 if((y + 1) <= 19)
                 {
+                    lastX = x;
+                    lastY = y;
                     y += 1;
                 }
                 else{
@@ -98,20 +111,38 @@ public class Player{
             {
                 if((y - 1) >= 0)
                 {
+                    lastX = x;
+                    lastY = y;
                     y -= 1;
                 }
                 else{
                     bl = true;
                 }
             }
-            enableMove = !enableMove;
-            speed.schedule(new TimerTask() {
+            //enableMove = !enableMove;
+            /*speed.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     enableMove = !enableMove;
-                }}, 200);
+                }}, 100);*/
         }
     }
+
+    @Override
+    int getIdentifier() {
+        return identifier;
+    }
+
+    @Override
+    boolean isAnimated() {
+        return animation;
+    }
+
+    @Override
+    boolean isCollision() {
+        return collision;
+    }
+
     public void bird(){
         numberBird += 1;
         System.out.println(numberBird);

@@ -1,30 +1,24 @@
 package GamePkg;
 
-public class DriveBlock extends Entity{
+public class BoobyTrap extends Entity{
 
-    boolean pushable;
-    private Direction itsDirection;
-
-    public Direction getItsDirection() {
-        return itsDirection;
-    }
-    public DriveBlock(int x, int y, Direction direction)
+    public BoobyTrap(int x, int y)
     {
         this.x = x;
         this.y = y;
-        pushable = true;
-        itsDirection = direction;
         collision = true;
-        animation = true;
-        identifier = 6;
+        animation = false;
+        identifier = 3;
         move = false;
     }
     @Override
-    public int getX() {
+    public int getX()
+    {
         return x;
     }
     @Override
-    public int getY() {
+    public int getY()
+    {
         return y;
     }
 
@@ -62,4 +56,6 @@ public class DriveBlock extends Entity{
     boolean isCollision() {
         return collision;
     }
+
+
 }
