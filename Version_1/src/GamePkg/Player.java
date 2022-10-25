@@ -11,9 +11,7 @@ enum Direction {
     ANY
 }
 
-public class Player{
-    private int x;
-    private int y;
+public class Player extends Entity{
     private int numberBird;
     private boolean enableMove;
 
@@ -37,6 +35,9 @@ public class Player{
         enableMove = true;
         numberLife = 3;
         numberBird = 0;
+        animation = true;
+        collision = true;
+        identifier = 8;
     }
 
     public TimerTask movement = new TimerTask() {
@@ -45,12 +46,12 @@ public class Player{
             enableMove = !enableMove;
         }
     };
-
+    @Override
     public int getX()
     {
         return x;
     }
-
+    @Override
     public int getY()
     {
         return y;
@@ -60,6 +61,7 @@ public class Player{
         return numberLife;
     }
 
+    @Override
     public void updatePosition()
     {
         if(enableMove)
@@ -104,14 +106,30 @@ public class Player{
                     bl = true;
                 }
             }
-            enableMove = !enableMove;
-            speed.schedule(new TimerTask() {
+            //enableMove = !enableMove;
+            /*speed.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     enableMove = !enableMove;
-                }}, 200);
+                }}, 100);*/
         }
     }
+
+    @Override
+    int getIdentifier() {
+        return identifier;
+    }
+
+    @Override
+    boolean isAnimated() {
+        return animation;
+    }
+
+    @Override
+    boolean isCollision() {
+        return collision;
+    }
+
     public void bird(){
         numberBird += 1;
         System.out.println(numberBird);

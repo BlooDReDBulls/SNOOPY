@@ -3,12 +3,8 @@ package GamePkg;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Ball {
-    int x;
-    int y;
-
+public class Ball extends Entity{
     int lastX;
-
     int lastY;
 
     int xspeed;
@@ -17,11 +13,29 @@ public class Ball {
     Timer speed = new Timer();
 
     public Ball(){
+        animation = false;
+        collision = true;
+        identifier = 7;
         x = 0;
         y = 0;
         xspeed = 1;
         yspeed = 1;
         speed.schedule(movement, 0, 300);
+    }
+    @Override
+    public int getIdentifier()
+    {
+        return identifier;
+    }
+    @Override
+    public boolean isAnimated()
+    {
+        return animation;
+    }
+    @Override
+    public boolean isCollision()
+    {
+        return collision;
     }
 
     public int getLastX() {
@@ -41,6 +55,7 @@ public class Ball {
         }
     };
 
+    @Override
     public void updatePosition(){
         x+=xspeed;
         y+=yspeed;
@@ -51,9 +66,12 @@ public class Ball {
             yspeed=-yspeed;
         }
     }
+    @Override
     public int getX() {
         return x;
     }
+
+    @Override
     public int getY() {
         return y;
     }
