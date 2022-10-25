@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,11 +20,13 @@ public class Game{
     Player player = new Player();
     DriveBlock driveBlock = new DriveBlock(2, 8, Direction.UP);
 
-    Block boobyTrap = new Block(6, 12);
+    BoobyTrap boobyTrap = new BoobyTrap(6, 12);
 
     Ball ball = new Ball();
-    Block bird = new Block(5, 1);
+    //Block bird = new Block(5, 1);
     PushBlock pushBlock = new PushBlock(1, 2);
+
+    ArrayList<Entity> entities = new ArrayList<Entity>();
 
     KeyAdapter keyListener = new KeyAdapter() {
         @Override
@@ -94,8 +97,13 @@ public class Game{
         graphicPanel = new GraphicPanel(this);
         graphicFrame = new GraphicFrame(graphicPanel);
         graphicFrame.addKeyListener(keyListener);
-        map[bird.getX()][bird.getY()] = 9;
+        //map[bird.getX()][bird.getY()] = 9;
 
+        entities.add(pushBlock);
+        entities.add(ball);
+        entities.add(boobyTrap);
+        entities.add(driveBlock);
+        entities.add(player);
 
     }
     public TimerTask timer = new TimerTask() {
@@ -108,16 +116,17 @@ public class Game{
     public TimerTask refresh = new TimerTask() {
         @Override
         public void run() {
-            map[player.getX()][player.getY()] = 0;
-            player.updatePosition();
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 20; j++) {
+                    map[i][j] = 0;
+                }
+            }
+            for(Entity entity : entities)
+            {
+                entity.updatePosition();
+                map[entity.getX()][entity.getY()] = entity.getIdentifier();
+            }
             checkIntersection();
-            map[ball.getLastX()][ball.getLastY()] = 0;
-            map[player.getX()][player.getY()] = 8;
-            map[ball.getX()][ball.getY()] = 7;
-            map[pushBlock.getX()][pushBlock.getY()] = 2;
-            map[driveBlock.getX()][driveBlock.getY()] = 6;
-           // displayMap();
-            map[boobyTrap.getX()][boobyTrap.getY()] = 3;
             graphicPanel.update();
         }
     };
@@ -211,10 +220,10 @@ public class Game{
         else if (player.getX() == ball.getX() && player.getY() == ball.getY()) {
             player.kill();
         }
-        else if(player.getX() == bird.getX() && player.getY() == bird.getY()){
+        /*else if(player.getX() == bird.getX() && player.getY() == bird.getY()){
             player.bird();
             map[bird.getX()][bird.getY()] = 0;
-        }
+        }*/
     }
 
     public void displayMap()
