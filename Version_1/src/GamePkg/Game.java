@@ -262,7 +262,6 @@ public class Game{
             }
             mapString += '\n';
         }
-        String test = "";
         Path filePath = Path.of("saveFile.txt");
         Files.writeString(filePath, mapString);
     }
