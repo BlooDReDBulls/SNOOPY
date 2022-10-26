@@ -6,7 +6,6 @@ import Graphics.Observable;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -134,7 +133,7 @@ public class Game implements Observable{
                 {
                     if(entity.getIdentifier() != 7)
                     {
-                        entity.updatePosition();
+                        entity.updatePosition(map, pushBlock);
                     }
                     map[entity.getLastX()][entity.getLastY()] = 0;
                     map[entity.getX()][entity.getY()] = entity.getIdentifier();
@@ -208,25 +207,25 @@ public class Game implements Observable{
                                 if(player.itsLastDirection == Direction.DOWN)
                                 {
                                     player.itsDirection = Direction.UP;
-                                    player.updatePosition();
+                                    player.updatePosition(map, pushBlock);
                                     player.itsDirection = Direction.ANY;
                                 }
                                 else if(player.itsLastDirection == Direction.UP)
                                 {
                                     player.itsDirection = Direction.DOWN;
-                                    player.updatePosition();
+                                    player.updatePosition(map, pushBlock);
                                     player.itsDirection = Direction.ANY;
                                 }
                                 else if(player.itsLastDirection == Direction.RIGHT)
                                 {
                                     player.itsDirection = Direction.LEFT;
-                                    player.updatePosition();
+                                    player.updatePosition(map, pushBlock);
                                     player.itsDirection = Direction.ANY;
                                 }
                                 else if(player.itsLastDirection == Direction.LEFT)
                                 {
                                     player.itsDirection = Direction.RIGHT;
-                                    player.updatePosition();
+                                    player.updatePosition(map, pushBlock);
                                     player.itsDirection = Direction.ANY;
                                 }
                             }
@@ -235,25 +234,25 @@ public class Game implements Observable{
                                 if(player.itsDirection == Direction.DOWN)
                                 {
                                     player.itsDirection = Direction.UP;
-                                    player.updatePosition();
+                                    player.updatePosition(map, pushBlock);
                                     player.itsDirection = Direction.ANY;
                                 }
                                 else if(player.itsDirection == Direction.UP)
                                 {
                                     player.itsDirection = Direction.DOWN;
-                                    player.updatePosition();
+                                    player.updatePosition(map, pushBlock);
                                     player.itsDirection = Direction.ANY;
                                 }
                                 else if(player.itsDirection == Direction.RIGHT)
                                 {
                                     player.itsDirection = Direction.LEFT;
-                                    player.updatePosition();
+                                    player.updatePosition(map, pushBlock);
                                     player.itsDirection = Direction.ANY;
                                 }
                                 else if(player.itsDirection == Direction.LEFT)
                                 {
                                     player.itsDirection = Direction.RIGHT;
-                                    player.updatePosition();
+                                    player.updatePosition(map, pushBlock);
                                     player.itsDirection = Direction.ANY;
                                 }
                             }

@@ -49,12 +49,14 @@ public class Ball extends Entity{
         public void run() {
             lastX = x;
             lastY = y;
-            updatePosition();
+            int[][] map = new int[10][20];
+            PushBlock pushBlock = new PushBlock(0, 0);
+            updatePosition(map, pushBlock);
         }
     };
 
     @Override
-    public void updatePosition(){
+    void updatePosition(int[][] map, PushBlock pushBlock) {
         x+=xspeed;
         y+=yspeed;
         if (x == 9 | x==0){
@@ -64,6 +66,7 @@ public class Ball extends Entity{
             yspeed=-yspeed;
         }
     }
+
     @Override
     public int getX() {
         return x;

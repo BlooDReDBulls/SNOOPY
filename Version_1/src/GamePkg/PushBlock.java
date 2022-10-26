@@ -45,7 +45,7 @@ public class PushBlock extends Entity{
     }
 
     @Override
-    void updatePosition() {
+    void updatePosition(int[][] map, PushBlock pushBlock) {
         if(direction == Direction.LEFT)
         {
             y -= 1;

@@ -9,7 +9,7 @@ public abstract class Entity {
     int identifier;
     boolean animation;
     boolean collision;
-    abstract void updatePosition();
+    abstract void updatePosition(int[][] map, PushBlock pushBlock);
     abstract int getX();
     abstract  int getY();
     abstract int getLastX();

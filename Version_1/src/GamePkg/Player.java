@@ -67,56 +67,116 @@ public class Player extends Entity{
     }
 
     @Override
-    public void updatePosition()
+    public void updatePosition(int[][] map, PushBlock pushBlock)
     {
         if(enableMove)
         {
             if(itsDirection == Direction.UP)
             {
-                if((x - 1) >= 0)
+                if(pushBlock.isPushable())
                 {
-                    lastX = x;
-                    lastY = y;
-                    x -= 1;
+                    if((x - 1) >= 0 && map[x - 1][y] != 1 && map[x - 1][y] != 4)
+                    {
+                        lastX = x;
+                        lastY = y;
+                        x -= 1;
+                    }
+                    else{
+                        unBlockMovement = true;
+                    }
                 }
-                else{
-                    unBlockMovement = true;
+                else
+                {
+                    if((x - 1) >= 0 && map[x - 1][y] != 1 && map[x - 1][y] != 4 && map[x - 1][y] != 2)
+                    {
+                        lastX = x;
+                        lastY = y;
+                        x -= 1;
+                    }
+                    else{
+                        unBlockMovement = true;
+                    }
                 }
             }
             else if(itsDirection == Direction.DOWN)
             {
-                if((x + 1) <= 9)
+                if(pushBlock.isPushable())
                 {
-                    lastX = x;
-                    lastY = y;
-                    x += 1;
+                    if((x + 1) <= 9 && map[x + 1][y] != 1 && map[x + 1][y] != 4)
+                    {
+                        lastX = x;
+                        lastY = y;
+                        x += 1;
+                    }
+                    else{
+                        unBlockMovement = true;
+                    }
                 }
-                else{
-                    unBlockMovement = true;
+                else
+                {
+                    if((x + 1) <= 9 && map[x + 1][y] != 1 && map[x + 1][y] != 4 && map[x + 1][y] != 2)
+                    {
+                        lastX = x;
+                        lastY = y;
+                        x += 1;
+                    }
+                    else{
+                        unBlockMovement = true;
+                    }
                 }
             }
             else if(itsDirection == Direction.RIGHT)
             {
-                if((y + 1) <= 19)
+                if(pushBlock.isPushable())
                 {
-                    lastX = x;
-                    lastY = y;
-                    y += 1;
+                    if((y + 1) <= 19 && map[x][y + 1] != 1 && map[x][y + 1] != 4)
+                    {
+                        lastX = x;
+                        lastY = y;
+                        y += 1;
+                    }
+                    else{
+                        unBlockMovement = true;
+                    }
                 }
-                else{
-                    unBlockMovement = true;
+                else
+                {
+                    if((y + 1) <= 19 && map[x][y + 1] != 2 && map[x][y + 1] != 1 && map[x][y + 1] != 4)
+                    {
+                        lastX = x;
+                        lastY = y;
+                        y += 1;
+                    }
+                    else{
+                        unBlockMovement = true;
+                    }
                 }
             }
             else if(itsDirection == Direction.LEFT)
             {
-                if((y - 1) >= 0)
+                if(pushBlock.isPushable())
                 {
-                    lastX = x;
-                    lastY = y;
-                    y -= 1;
+                    if((y - 1) >= 0 && map[x][y - 1] != 1 && map[x][y - 1] != 4)
+                    {
+                        lastX = x;
+                        lastY = y;
+                        y -= 1;
+                    }
+                    else{
+                        unBlockMovement = true;
+                    }
                 }
-                else{
-                    unBlockMovement = true;
+                else
+                {
+                    if((y - 1) >= 0 && map[x][y - 1] != 2 && map[x][y - 1] != 1 && map[x][y - 1] != 4)
+                    {
+                        lastX = x;
+                        lastY = y;
+                        y -= 1;
+                    }
+                    else{
+                        unBlockMovement = true;
+                    }
                 }
             }
             //enableMove = !enableMove;

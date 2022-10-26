@@ -10,7 +10,7 @@ public class Bird extends Entity {
     }
 
     @Override
-    void updatePosition() {
+    void updatePosition(int[][] map, PushBlock pushBlock) {
 
     }
 

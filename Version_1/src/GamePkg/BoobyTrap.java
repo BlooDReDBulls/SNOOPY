@@ -38,7 +38,7 @@ public class BoobyTrap extends Entity{
     }
 
     @Override
-    void updatePosition() {
+    void updatePosition(int[][] map, PushBlock pushBlock) {
 
     }
 
