@@ -11,7 +11,7 @@ public class Ball extends Entity{
 
     public Ball(){
         animation = false;
-        collision = true;
+        collision = false;
         identifier = 7;
         move = true;
         x = 0;

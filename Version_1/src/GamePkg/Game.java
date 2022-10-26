@@ -158,99 +158,108 @@ public class Game implements Observable{
     };
 
     public void checkIntersection() throws IOException {
-        if(player.getX() == pushBlock.getX() && player.getY() == pushBlock.getY())
+        for(Entity entity : entities)
         {
-            player.unBlockMovement = true;
-            if(pushBlock.isPushable())
+            if(entity.getIdentifier() != 8)
             {
-                if(player.itsDirection == Direction.ANY)
+                if(player.getX() == entity.getX() && player.getY() == entity.getY())
                 {
-                    pushBlock.push(player.itsLastDirection);
+                    if(!entity.isCollision())
+                    {
+                        if(entity.getIdentifier() == 3 || entity.getIdentifier() == 7)
+                        {
+                            player.kill();
+                        }
+                        else if(entity.getIdentifier() == 9)
+                        {
+                            player.bird();
+                            map[bird.getX()][bird.getY()] = 0;
+                            if(player.win()){
+                                currentMap += 1;
+                                loadMap(currentMap);
+                            }
+                        }
+                        else if(entity.getIdentifier() == 6)
+                        {
+                            player.itsDirection = driveBlock.getItsDirection();
+                            player.unBlockMovement = false;
+                        }
+                    }
+                    else
+                    {
+                        player.unBlockMovement = true;
+                        if(pushBlock.isPushable())
+                        {
+                            if(player.itsDirection == Direction.ANY)
+                            {
+                                pushBlock.push(player.itsLastDirection);
+                                map[pushBlock.getX()][pushBlock.getY()] = pushBlock.getIdentifier();
+                            }
+                            else
+                            {
+                                pushBlock.push(player.itsDirection);
+                                map[pushBlock.getX()][pushBlock.getY()] = pushBlock.getIdentifier();
+                            }
+                        }
+                        else
+                        {
+                            if(player.itsDirection == Direction.ANY)
+                            {
+                                if(player.itsLastDirection == Direction.DOWN)
+                                {
+                                    player.itsDirection = Direction.UP;
+                                    player.updatePosition();
+                                    player.itsDirection = Direction.ANY;
+                                }
+                                else if(player.itsLastDirection == Direction.UP)
+                                {
+                                    player.itsDirection = Direction.DOWN;
+                                    player.updatePosition();
+                                    player.itsDirection = Direction.ANY;
+                                }
+                                else if(player.itsLastDirection == Direction.RIGHT)
+                                {
+                                    player.itsDirection = Direction.LEFT;
+                                    player.updatePosition();
+                                    player.itsDirection = Direction.ANY;
+                                }
+                                else if(player.itsLastDirection == Direction.LEFT)
+                                {
+                                    player.itsDirection = Direction.RIGHT;
+                                    player.updatePosition();
+                                    player.itsDirection = Direction.ANY;
+                                }
+                            }
+                            else
+                            {
+                                if(player.itsDirection == Direction.DOWN)
+                                {
+                                    player.itsDirection = Direction.UP;
+                                    player.updatePosition();
+                                    player.itsDirection = Direction.ANY;
+                                }
+                                else if(player.itsDirection == Direction.UP)
+                                {
+                                    player.itsDirection = Direction.DOWN;
+                                    player.updatePosition();
+                                    player.itsDirection = Direction.ANY;
+                                }
+                                else if(player.itsDirection == Direction.RIGHT)
+                                {
+                                    player.itsDirection = Direction.LEFT;
+                                    player.updatePosition();
+                                    player.itsDirection = Direction.ANY;
+                                }
+                                else if(player.itsDirection == Direction.LEFT)
+                                {
+                                    player.itsDirection = Direction.RIGHT;
+                                    player.updatePosition();
+                                    player.itsDirection = Direction.ANY;
+                                }
+                            }
+                        }
+                    }
                 }
-                else
-                {
-                    pushBlock.push(player.itsDirection);
-                }
-            }
-            else
-            {
-                if(player.itsDirection == Direction.ANY)
-                {
-                    if(player.itsLastDirection == Direction.DOWN)
-                    {
-                        player.itsDirection = Direction.UP;
-                        player.updatePosition();
-                        player.itsDirection = Direction.ANY;
-                    }
-                    else if(player.itsLastDirection == Direction.UP)
-                    {
-                        player.itsDirection = Direction.DOWN;
-                        player.updatePosition();
-                        player.itsDirection = Direction.ANY;
-                    }
-                    else if(player.itsLastDirection == Direction.RIGHT)
-                    {
-                        player.itsDirection = Direction.LEFT;
-                        player.updatePosition();
-                        player.itsDirection = Direction.ANY;
-                    }
-                    else if(player.itsLastDirection == Direction.LEFT)
-                    {
-                        player.itsDirection = Direction.RIGHT;
-                        player.updatePosition();
-                        player.itsDirection = Direction.ANY;
-                    }
-                }
-                else
-                {
-                    if(player.itsDirection == Direction.DOWN)
-                    {
-                        player.itsDirection = Direction.UP;
-                        player.updatePosition();
-                        player.itsDirection = Direction.ANY;
-                    }
-                    else if(player.itsDirection == Direction.UP)
-                    {
-                        player.itsDirection = Direction.DOWN;
-                        player.updatePosition();
-                        player.itsDirection = Direction.ANY;
-                    }
-                    else if(player.itsDirection == Direction.RIGHT)
-                    {
-                        player.itsDirection = Direction.LEFT;
-                        player.updatePosition();
-                        player.itsDirection = Direction.ANY;
-                    }
-                    else if(player.itsDirection == Direction.LEFT)
-                    {
-                        player.itsDirection = Direction.RIGHT;
-                        player.updatePosition();
-                        player.itsDirection = Direction.ANY;
-                    }
-                }
-            }
-        }
-        else if(player.getX() == driveBlock.getX() && player.getY() == driveBlock.getY()){
-            player.itsDirection = driveBlock.getItsDirection();
-            player.unBlockMovement = false;
-        }
-        else if(player.getX() == boobyTrap.getX() && player.getY() == boobyTrap.getY()){
-            player.kill();
-            if(player.getNumberLife() > 0)
-            {
-                //fonction load
-
-            }
-        }
-        else if (player.getX() == ball.getX() && player.getY() == ball.getY()) {
-            player.kill();
-        }
-        else if(player.getX() == bird.getX() && player.getY() == bird.getY()){
-            player.bird();
-            map[bird.getX()][bird.getY()] = 0;
-            if(player.win()){
-                currentMap += 1;
-                loadMap(currentMap);
             }
         }
     }

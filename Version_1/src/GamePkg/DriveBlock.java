@@ -14,7 +14,7 @@ public class DriveBlock extends Entity{
         this.y = y;
         pushable = true;
         itsDirection = direction;
-        collision = true;
+        collision = false;
         animation = true;
         identifier = 6;
         move = false;

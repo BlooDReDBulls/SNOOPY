@@ -6,7 +6,7 @@ public class BoobyTrap extends Entity{
     {
         this.x = x;
         this.y = y;
-        collision = true;
+        collision = false;
         animation = false;
         identifier = 3;
         move = false;
