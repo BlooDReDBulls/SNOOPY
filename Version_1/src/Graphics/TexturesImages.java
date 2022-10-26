@@ -1,61 +1,49 @@
 package Graphics;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class TexturesImages {
 
-    HashMap<Integer, ImageIcon> imageIconHashMap = new HashMap<>();
+    HashMap<Integer, BufferedImage> bufferedImageHashMap = new HashMap<>();
 
-    HashMap<Integer, ArrayList<ImageIcon>> birdSpritesImageIconHashMap = new HashMap<>();
-
-    ArrayList<ImageIcon> arrayListTemp = new ArrayList<>();
-
-
-    public void initImageIconHashMap(){
-
+    public TexturesImages() {
 
         System.out.println("Chargement des images ...");
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 6; i++) {
+
             String name = "includes/" + i + ".png";
             //System.out.println(name);
-            imageIconHashMap.put(i, new ImageIcon(name));
-        }
-
-//        Chargement des sprites de bird left
-        System.out.println("Chargement des sprites ...");
-        for (int i = 0; i < 2; i++){
-
-            for (int j = 0; j < 3; j++) {
-                String nameSprite = "includes/9." + i + "." + j + ".png";
-                //System.out.println(nameSprite);
-                arrayListTemp.add(new ImageIcon(nameSprite));
-                System.out.println(arrayListTemp.get(j).getImage());
+            try {
+                BufferedImage bi = ImageIO.read(new File(name));
+                bufferedImageHashMap.put(i, bi);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-            birdSpritesImageIconHashMap.put(i,arrayListTemp);
         }
 
-//        System.out.println("Affichage des sprites...");
-//        for (int i = 0; i < 2; i++) {
-//            for (int j = 0; j < 3; j++) {
-//                System.out.println(birdSpritesImageIconHashMap.get(i).get(j).getImage());
-//            }
-//        }
+        try {
+            BufferedImage bi = ImageIO.read(new File("includes/7.png"));
+            bufferedImageHashMap.put(7, bi);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
-    public Image getImageFromMap(int num){
 
-        if(num == 9){
-            return birdSpritesImageIconHashMap.get(1).get(1).getImage();
-        }
-        return this.imageIconHashMap.get(num).getImage();
+
+    public BufferedImage getImageFromMap(int num){
+
+        return this.bufferedImageHashMap.get(num);
     }
 
-    public Image getImageFromTAB(int num){
-        return this.imageIconHashMap.get(num).getImage();
+    public BufferedImage getImageFromTAB(int num){
+
+        return this.bufferedImageHashMap.get(num);
     }
 
 }

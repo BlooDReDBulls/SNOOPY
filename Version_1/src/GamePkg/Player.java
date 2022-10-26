@@ -147,10 +147,13 @@ public class Player extends Entity{
         numberBird += 1;
         System.out.println(numberBird);
     }
-    public void win(){
+    public boolean win(){
         if(numberBird == 4){
             System.out.println("Next Level");
+            numberBird = 0;
+            return true;
         }
+        return false;
     }
     public void kill() {
         if (!invincible) {
