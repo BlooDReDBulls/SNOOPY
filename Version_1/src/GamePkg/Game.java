@@ -1,23 +1,20 @@
 package GamePkg;
 
-import Graphics.GraphicFrame;
-import Graphics.GraphicPanel;
+import Graphics.*;
+import Graphics.Observable;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 
-public class Game{
+public class Game implements Observable{
 
     int[][] map = new int[10][20];
     int currentMap = 1;
@@ -32,6 +29,7 @@ public class Game{
     PushBlock pushBlock = new PushBlock(1, 2);
 
     ArrayList<Entity> entities = new ArrayList<Entity>();
+    List<Observateur> observateurs;
 
     KeyAdapter keyListener = new KeyAdapter() {
         @Override
@@ -86,22 +84,18 @@ public class Game{
     };
 
 
-    private GraphicFrame graphicFrame;
-    private GraphicPanel graphicPanel;
+    private BufferedReader reader;
 
 
 
     public Game() {
+        observateurs = new ArrayList<Observateur>();
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 20; j++) {
                 map[i][j] = 0;
             }
         }
-
-        graphicPanel = new GraphicPanel(this);
-        graphicFrame = new GraphicFrame(graphicPanel);
-        graphicFrame.addKeyListener(keyListener);
 
         entities.add(pushBlock);
         entities.add(boobyTrap);
@@ -115,6 +109,14 @@ public class Game{
             map[entity.getX()][entity.getY()] = entity.getIdentifier();
         }
 
+        GameConsole gameConsole = new GameConsole(this);
+        GameUI gameUI = new GameUI(this);
+
+
+        //this.attacheObservateur(gameConsole);
+        this.attacheObservateur(gameUI);
+
+        gameUI.setKeyListener(keyListener);
     }
     public TimerTask timer = new TimerTask() {
         @Override
@@ -150,7 +152,8 @@ public class Game{
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            graphicPanel.update();
+            //graphicPanel.actualise();
+            notifieObservateurs();
         }
     };
 
@@ -284,22 +287,29 @@ public class Game{
     }
 
     public void loadMap(int mapInt) throws IOException {
-        for(int i=1; i<=3; i++){
-            String name = "map/"+i+".txt";
-            File f = new File(name);
-            Scanner scanner = new Scanner(f);
-            while(scanner.hasNext()){
-                String[] str = scanner.nextLine().split(" ");
-                String last = str[str.length-1];
-                System.out.println(last);
-            }
-
-    }
+        reader = new BufferedReader(new FileReader(mapInt + ".txt"));
     }
 
     public static void main(String[] args){
         Game game = new Game();
         game.timerController.schedule(game.timer, 60000);
         game.timerController.schedule(game.refresh, 0, 50);
+    }
+
+    @Override
+    public void attacheObservateur(Observateur o) {
+        observateurs.add(o);
+    }
+
+    @Override
+    public void detacheObservateur(Observateur o) {
+        observateurs.remove(o);
+    }
+
+    @Override
+    public void notifieObservateurs() {
+        for (Observateur o: observateurs) {
+            o.actualise();
+        }
     }
 }
