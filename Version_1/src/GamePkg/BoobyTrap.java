@@ -57,5 +57,15 @@ public class BoobyTrap extends Entity{
         return collision;
     }
 
+    @Override
+    boolean isVisible() {
+        return false;
+    }
+
+    @Override
+    void setVisible(boolean visible) {
+
+    }
+
 
 }

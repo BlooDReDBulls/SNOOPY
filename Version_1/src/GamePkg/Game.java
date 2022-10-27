@@ -27,6 +27,8 @@ public class Game implements Observable{
     Bird bird = new Bird(5, 1);
     PushBlock pushBlock = new PushBlock(1, 2);
 
+    Timer playerMovementTimer = new Timer();
+
     ArrayList<Entity> entities = new ArrayList<Entity>();
     List<Observateur> observateurs;
 
@@ -124,6 +126,14 @@ public class Game implements Observable{
             while(true);
         }
     };
+
+    public TimerTask playerMovement = new TimerTask() {
+        @Override
+        public void run() {
+            player.updatePosition(map, pushBlock);
+        }
+    };
+
     public TimerTask refresh = new TimerTask() {
         @Override
         public void run() {
@@ -131,18 +141,17 @@ public class Game implements Observable{
             {
                 if(entity.isMove())
                 {
-                    if(entity.getIdentifier() != 7)
-                    {
-                        entity.updatePosition(map, pushBlock);
-                    }
                     map[entity.getLastX()][entity.getLastY()] = 0;
                     map[entity.getX()][entity.getY()] = entity.getIdentifier();
                 }
                 else
                 {
-                    if(entity.getIdentifier() == 5 || entity.getIdentifier() == 6)
+                    if(entity.getIdentifier() == 5 || entity.getIdentifier() == 6 || entity.getIdentifier() == 9)
                     {
-                        map[entity.getX()][entity.getY()] = entity.getIdentifier();
+                        if(entity.isVisible())
+                        {
+                            map[entity.getX()][entity.getY()] = entity.getIdentifier();
+                        }
                     }
                 }
             }
@@ -172,7 +181,7 @@ public class Game implements Observable{
                         else if(entity.getIdentifier() == 9)
                         {
                             player.bird();
-                            map[bird.getX()][bird.getY()] = 0;
+                            map[entity.getX()][entity.getY()] = 0;
                             if(player.win()){
                                 currentMap += 1;
                                 loadMap(currentMap);
@@ -192,70 +201,12 @@ public class Game implements Observable{
                             if(player.itsDirection == Direction.ANY)
                             {
                                 pushBlock.push(player.itsLastDirection);
-                                map[pushBlock.getX()][pushBlock.getY()] = pushBlock.getIdentifier();
                             }
                             else
                             {
                                 pushBlock.push(player.itsDirection);
-                                map[pushBlock.getX()][pushBlock.getY()] = pushBlock.getIdentifier();
                             }
-                        }
-                        else
-                        {
-                            if(player.itsDirection == Direction.ANY)
-                            {
-                                if(player.itsLastDirection == Direction.DOWN)
-                                {
-                                    player.itsDirection = Direction.UP;
-                                    player.updatePosition(map, pushBlock);
-                                    player.itsDirection = Direction.ANY;
-                                }
-                                else if(player.itsLastDirection == Direction.UP)
-                                {
-                                    player.itsDirection = Direction.DOWN;
-                                    player.updatePosition(map, pushBlock);
-                                    player.itsDirection = Direction.ANY;
-                                }
-                                else if(player.itsLastDirection == Direction.RIGHT)
-                                {
-                                    player.itsDirection = Direction.LEFT;
-                                    player.updatePosition(map, pushBlock);
-                                    player.itsDirection = Direction.ANY;
-                                }
-                                else if(player.itsLastDirection == Direction.LEFT)
-                                {
-                                    player.itsDirection = Direction.RIGHT;
-                                    player.updatePosition(map, pushBlock);
-                                    player.itsDirection = Direction.ANY;
-                                }
-                            }
-                            else
-                            {
-                                if(player.itsDirection == Direction.DOWN)
-                                {
-                                    player.itsDirection = Direction.UP;
-                                    player.updatePosition(map, pushBlock);
-                                    player.itsDirection = Direction.ANY;
-                                }
-                                else if(player.itsDirection == Direction.UP)
-                                {
-                                    player.itsDirection = Direction.DOWN;
-                                    player.updatePosition(map, pushBlock);
-                                    player.itsDirection = Direction.ANY;
-                                }
-                                else if(player.itsDirection == Direction.RIGHT)
-                                {
-                                    player.itsDirection = Direction.LEFT;
-                                    player.updatePosition(map, pushBlock);
-                                    player.itsDirection = Direction.ANY;
-                                }
-                                else if(player.itsDirection == Direction.LEFT)
-                                {
-                                    player.itsDirection = Direction.RIGHT;
-                                    player.updatePosition(map, pushBlock);
-                                    player.itsDirection = Direction.ANY;
-                                }
-                            }
+                            map[pushBlock.getX()][pushBlock.getY()] = pushBlock.getIdentifier();
                         }
                     }
                 }
@@ -302,6 +253,7 @@ public class Game implements Observable{
         Game game = new Game();
         game.timerController.schedule(game.timer, 60000);
         game.timerController.schedule(game.refresh, 0, 50);
+        game.playerMovementTimer.schedule(game.playerMovement, 0, 100);
     }
 
     @Override

@@ -203,6 +203,16 @@ public class Player extends Entity{
         return collision;
     }
 
+    @Override
+    boolean isVisible() {
+        return false;
+    }
+
+    @Override
+    void setVisible(boolean visible) {
+
+    }
+
     public void bird(){
         numberBird += 1;
         System.out.println(numberBird);

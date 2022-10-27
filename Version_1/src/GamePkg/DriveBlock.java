@@ -18,6 +18,7 @@ public class DriveBlock extends Entity{
         animation = true;
         identifier = 6;
         move = false;
+        visible = true;
     }
     @Override
     public int getX() {
@@ -61,5 +62,15 @@ public class DriveBlock extends Entity{
     @Override
     boolean isCollision() {
         return collision;
+    }
+
+    @Override
+    boolean isVisible() {
+        return visible;
+    }
+
+    @Override
+    void setVisible(boolean visible) {
+
     }
 }

@@ -9,6 +9,7 @@ public abstract class Entity {
     int identifier;
     boolean animation;
     boolean collision;
+    boolean visible;
     abstract void updatePosition(int[][] map, PushBlock pushBlock);
     abstract int getX();
     abstract  int getY();
@@ -18,4 +19,6 @@ public abstract class Entity {
     abstract int getIdentifier();
     abstract boolean isAnimated();
     abstract boolean isCollision();
+    abstract boolean isVisible();
+    abstract void setVisible(boolean visible);
 }

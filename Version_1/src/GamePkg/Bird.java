@@ -7,6 +7,7 @@ public class Bird extends Entity {
         animation = true;
         collision = false;
         identifier = 9;
+        visible = true;
     }
 
     @Override
@@ -52,5 +53,15 @@ public class Bird extends Entity {
     @Override
     boolean isCollision() {
         return collision;
+    }
+
+    @Override
+    boolean isVisible() {
+        return visible;
+    }
+
+    @Override
+    void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }

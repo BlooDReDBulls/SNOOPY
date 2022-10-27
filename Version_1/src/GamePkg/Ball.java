@@ -35,6 +35,17 @@ public class Ball extends Entity{
     {
         return collision;
     }
+
+    @Override
+    boolean isVisible() {
+        return false;
+    }
+
+    @Override
+    void setVisible(boolean visible) {
+
+    }
+
     @Override
     public int getLastX() {
         return lastX;
@@ -59,10 +70,10 @@ public class Ball extends Entity{
     void updatePosition(int[][] map, PushBlock pushBlock) {
         x+=xspeed;
         y+=yspeed;
-        if (x == 9 | x==0){
+        if (x == 9 || x==0){
             xspeed=-xspeed;
         }
-        if(y == 19 | y ==0){
+        if(y == 19 || y ==0){
             yspeed=-yspeed;
         }
     }

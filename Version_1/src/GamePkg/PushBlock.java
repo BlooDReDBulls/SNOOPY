@@ -6,7 +6,6 @@ public class PushBlock extends Entity{
 
     public PushBlock(int x, int y)
     {
-        direction = Direction.ANY;
         this.x = x;
         this.y = y;
         pushable = true;
@@ -78,6 +77,17 @@ public class PushBlock extends Entity{
     boolean isCollision() {
         return collision;
     }
+
+    @Override
+    boolean isVisible() {
+        return false;
+    }
+
+    @Override
+    void setVisible(boolean visible) {
+
+    }
+
     @Override
     public int getX()
     {
