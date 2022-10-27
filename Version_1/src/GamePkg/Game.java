@@ -14,21 +14,15 @@ import java.util.*;
 
 
 public class Game implements Observable{
-
-    int[][] map = new int[10][20];
-    int currentMap = 1;
+    Map map = new Map();
+    PushBlock pushBlock = new PushBlock(2, 3);
     Timer timerController = new Timer();
-    Player player = new Player();
-    DriveBlock driveBlock = new DriveBlock(2, 8, Direction.UP);
-
+    /*DriveBlock driveBlock = new DriveBlock(2, 8, Direction.UP);
     BoobyTrap boobyTrap = new BoobyTrap(6, 12);
-
     Ball ball = new Ball();
     Bird bird = new Bird(5, 1);
-    PushBlock pushBlock = new PushBlock(1, 2);
-
+    PushBlock pushBlock = new PushBlock(1, 2);*/
     Timer playerMovementTimer = new Timer();
-
     ArrayList<Entity> entities = new ArrayList<Entity>();
     List<Observateur> observateurs;
 
@@ -36,49 +30,49 @@ public class Game implements Observable{
         @Override
         public void keyPressed(KeyEvent e) {
             super.keyPressed(e);
-            if(player.unBlockMovement){
+            if(map.getPlayer().unBlockMovement){
                 if(e.getKeyCode() == KeyEvent.VK_LEFT)
                 {
-                    player.itsDirection = Direction.LEFT;
+                    map.getPlayer().itsDirection = Direction.LEFT;
                 }
                 else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
                 {
-                    player.itsDirection = Direction.RIGHT;
+                    map.getPlayer().itsDirection = Direction.RIGHT;
                 }
                 else if(e.getKeyCode() == KeyEvent.VK_UP)
                 {
-                    player.itsDirection = Direction.UP;
+                    map.getPlayer().itsDirection = Direction.UP;
                 }
                 else if(e.getKeyCode() == KeyEvent.VK_DOWN)
                 {
-                    player.itsDirection = Direction.DOWN;
+                    map.getPlayer().itsDirection = Direction.DOWN;
                 }
             }
         }
         @Override
         public void keyReleased(KeyEvent e) {
             super.keyPressed(e);
-            if(player.unBlockMovement)
+            if(map.getPlayer().unBlockMovement)
             {
                 if(e.getKeyCode() == KeyEvent.VK_LEFT)
                 {
-                    player.itsLastDirection = Direction.LEFT;
-                    player.itsDirection = Direction.ANY;
+                    map.getPlayer().itsLastDirection = Direction.LEFT;
+                    map.getPlayer().itsDirection = Direction.ANY;
                 }
                 else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
                 {
-                    player.itsLastDirection = Direction.RIGHT;
-                    player.itsDirection = Direction.ANY;
+                    map.getPlayer().itsLastDirection = Direction.RIGHT;
+                    map.getPlayer().itsDirection = Direction.ANY;
                 }
                 else if(e.getKeyCode() == KeyEvent.VK_UP)
                 {
-                    player.itsLastDirection = Direction.UP;
-                    player.itsDirection = Direction.ANY;
+                    map.getPlayer().itsLastDirection = Direction.UP;
+                    map.getPlayer().itsDirection = Direction.ANY;
                 }
                 else if(e.getKeyCode() == KeyEvent.VK_DOWN)
                 {
-                    player.itsLastDirection = Direction.DOWN;
-                    player.itsDirection = Direction.ANY;
+                    map.getPlayer().itsLastDirection = Direction.DOWN;
+                    map.getPlayer().itsDirection = Direction.ANY;
                 }
             }
         }
@@ -87,27 +81,18 @@ public class Game implements Observable{
 
     private BufferedReader reader;
 
-
-
     public Game() {
         observateurs = new ArrayList<Observateur>();
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 20; j++) {
-                map[i][j] = 0;
+                map.getMap()[i][j] = 0;
             }
         }
 
-        entities.add(pushBlock);
-        entities.add(boobyTrap);
-        entities.add(driveBlock);
-        entities.add(ball);
-        entities.add(player);
-        entities.add(bird);
-
-        for(Entity entity : entities)
+        for(Entity entity : map.getEntities())
         {
-            map[entity.getX()][entity.getY()] = entity.getIdentifier();
+            map.getMap()[entity.getX()][entity.getY()] = entity.getIdentifier();
         }
 
         GameConsole gameConsole = new GameConsole(this);
@@ -130,7 +115,7 @@ public class Game implements Observable{
     public TimerTask playerMovement = new TimerTask() {
         @Override
         public void run() {
-            player.updatePosition(map, pushBlock);
+            map.getPlayer().updatePosition(map.getMap(), pushBlock);
         }
     };
 
@@ -141,8 +126,8 @@ public class Game implements Observable{
             {
                 if(entity.isMove())
                 {
-                    map[entity.getLastX()][entity.getLastY()] = 0;
-                    map[entity.getX()][entity.getY()] = entity.getIdentifier();
+                    map.getMap()[entity.getLastX()][entity.getLastY()] = 0;
+                    map.getMap()[entity.getX()][entity.getY()] = entity.getIdentifier();
                 }
                 else
                 {
@@ -150,7 +135,7 @@ public class Game implements Observable{
                     {
                         if(entity.isVisible())
                         {
-                            map[entity.getX()][entity.getY()] = entity.getIdentifier();
+                            map.getMap()[entity.getX()][entity.getY()] = entity.getIdentifier();
                         }
                     }
                 }
@@ -166,47 +151,47 @@ public class Game implements Observable{
     };
 
     public void checkIntersection() throws IOException {
-        for(Entity entity : entities)
+        for(Entity entity : map.getEntities())
         {
             if(entity.getIdentifier() != 8)
             {
-                if(player.getX() == entity.getX() && player.getY() == entity.getY())
+                if(map.getPlayer().getX() == entity.getX() && map.getPlayer().getY() == entity.getY())
                 {
                     if(!entity.isCollision())
                     {
                         if(entity.getIdentifier() == 3 || entity.getIdentifier() == 7)
                         {
-                            player.kill();
+                            map.getPlayer().kill();
                         }
                         else if(entity.getIdentifier() == 9)
                         {
-                            player.bird();
-                            map[entity.getX()][entity.getY()] = 0;
-                            if(player.win()){
-                                currentMap += 1;
-                                loadMap(currentMap);
+                            map.getPlayer().bird();
+                            map.getMap()[entity.getX()][entity.getY()] = 0;
+                            if(map.getPlayer().win()){
+                                map.setCurrentMap(1);
+                                map.loadMap(map.getCurrentMap());
                             }
                         }
                         else if(entity.getIdentifier() == 6)
                         {
-                            player.itsDirection = driveBlock.getItsDirection();
-                            player.unBlockMovement = false;
+                            //map.getPlayer().itsDirection = entity.getItsDirection();
+                            map.getPlayer().unBlockMovement = false;
                         }
                     }
                     else
                     {
-                        player.unBlockMovement = true;
+                        map.getPlayer().unBlockMovement = true;
                         if(entity.isPushable())
                         {
-                            if(player.itsDirection == Direction.ANY)
+                            if(map.getPlayer().itsDirection == Direction.ANY)
                             {
-                                entity.push(player.itsLastDirection);
+                                entity.push(map.getPlayer().itsLastDirection);
                             }
                             else
                             {
-                                entity.push(player.itsDirection);
+                                entity.push(map.getPlayer().itsDirection);
                             }
-                            map[entity.getX()][entity.getY()] = entity.getIdentifier();
+                            map.getMap()[entity.getX()][entity.getY()] = entity.getIdentifier();
                         }
                     }
                 }
@@ -220,7 +205,7 @@ public class Game implements Observable{
         {
             for(int j = 0 ; j < 20 ; j++)
             {
-                System.out.print(map[i][j] + " ");
+                System.out.print(map.getMap()[i][j] + " ");
             }
             System.out.println(" ");
         }
@@ -232,7 +217,7 @@ public class Game implements Observable{
         {
             for(int j = 0 ; j < 20 ; j++)
             {
-                mapString += map[i][j];
+                mapString += map.getMap()[i][j];
                 mapString += " ";
             }
             mapString += '\n';
@@ -242,11 +227,7 @@ public class Game implements Observable{
     }
 
     public int[][] getMap() {
-        return map;
-    }
-
-    public void loadMap(int mapInt) throws IOException {
-        reader = new BufferedReader(new FileReader(mapInt + ".txt"));
+        return map.getMap();
     }
 
     public static void main(String[] args){
