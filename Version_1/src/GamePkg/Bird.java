@@ -64,4 +64,14 @@ public class Bird extends Entity {
     void setVisible(boolean visible) {
         this.visible = visible;
     }
+
+    @Override
+    void push(Direction direction) {
+
+    }
+
+    @Override
+    boolean isPushable() {
+        return false;
+    }
 }

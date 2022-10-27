@@ -67,5 +67,15 @@ public class BoobyTrap extends Entity{
 
     }
 
+    @Override
+    void push(Direction direction) {
+
+    }
+
+    @Override
+    boolean isPushable() {
+        return false;
+    }
+
 
 }

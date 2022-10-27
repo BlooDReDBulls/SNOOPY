@@ -213,6 +213,16 @@ public class Player extends Entity{
 
     }
 
+    @Override
+    void push(Direction direction) {
+
+    }
+
+    @Override
+    boolean isPushable() {
+        return false;
+    }
+
     public void bird(){
         numberBird += 1;
         System.out.println(numberBird);

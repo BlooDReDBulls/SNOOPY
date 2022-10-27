@@ -47,6 +47,16 @@ public class Ball extends Entity{
     }
 
     @Override
+    void push(Direction direction) {
+
+    }
+
+    @Override
+    boolean isPushable() {
+        return false;
+    }
+
+    @Override
     public int getLastX() {
         return lastX;
     }

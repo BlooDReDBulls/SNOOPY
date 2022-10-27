@@ -73,4 +73,14 @@ public class DriveBlock extends Entity{
     void setVisible(boolean visible) {
 
     }
+
+    @Override
+    void push(Direction direction) {
+
+    }
+
+    @Override
+    boolean isPushable() {
+        return false;
+    }
 }

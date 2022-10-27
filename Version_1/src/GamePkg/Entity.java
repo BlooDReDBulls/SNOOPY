@@ -21,4 +21,6 @@ public abstract class Entity {
     abstract boolean isCollision();
     abstract boolean isVisible();
     abstract void setVisible(boolean visible);
+    abstract void push(Direction direction);
+    abstract boolean isPushable();
 }

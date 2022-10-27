@@ -196,17 +196,17 @@ public class Game implements Observable{
                     else
                     {
                         player.unBlockMovement = true;
-                        if(pushBlock.isPushable())
+                        if(entity.isPushable())
                         {
                             if(player.itsDirection == Direction.ANY)
                             {
-                                pushBlock.push(player.itsLastDirection);
+                                entity.push(player.itsLastDirection);
                             }
                             else
                             {
-                                pushBlock.push(player.itsDirection);
+                                entity.push(player.itsDirection);
                             }
-                            map[pushBlock.getX()][pushBlock.getY()] = pushBlock.getIdentifier();
+                            map[entity.getX()][entity.getY()] = entity.getIdentifier();
                         }
                     }
                 }

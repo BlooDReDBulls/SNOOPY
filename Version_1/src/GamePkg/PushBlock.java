@@ -14,7 +14,7 @@ public class PushBlock extends Entity{
         identifier = 2;
         move = false;
     }
-
+    @Override
     public void push(Direction direction)
     {
         if(direction == Direction.LEFT)
@@ -38,7 +38,7 @@ public class PushBlock extends Entity{
             this.x += 1;
         }
     }
-
+    @Override
     public boolean isPushable() {
         return pushable;
     }
