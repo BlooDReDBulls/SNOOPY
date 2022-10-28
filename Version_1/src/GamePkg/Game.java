@@ -109,7 +109,6 @@ public class Game implements Observable{
     public TimerTask playerMovement = new TimerTask() {
         @Override
         public void run() {
-            System.out.println("test");
             map.getPlayer().updatePosition(map.getMap(), map.getEntities());
         }
     };

@@ -86,7 +86,7 @@ public class Ball extends Entity{
         {
             xspeed=-xspeed;
         }*/
-        if(y + yspeed > 19 || y < 0){
+        if(y + yspeed > 19 || y + yspeed < 0){
             yspeed=-yspeed;
         }
         /*if(y != 0 && y != 19 && (map[x][y - 1] == 1 || map[x][y + 1] == 1 || map[x][y - 1] == 2 || map[x][y + 1] == 2 || map[x][y - 1] == 3 || map[x][y + 1] == 3 || map[x][y - 1] == 4 || map[x][y + 1] == 4))
