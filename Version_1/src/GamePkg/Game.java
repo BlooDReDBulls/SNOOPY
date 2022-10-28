@@ -14,58 +14,69 @@ import java.util.*;
 
 
 public class Game implements Observable{
-    Map map = new Map();
+
+    int[][] map = new int[10][20];
+    int currentMap = 1;
     Timer timerController = new Timer();
-    Timer playerMovementTimer = new Timer();
+    Player player = new Player();
+    DriveBlock driveBlock = new DriveBlock(2, 8, Direction.UP);
+
+    BoobyTrap boobyTrap = new BoobyTrap(6, 12);
+
+    Ball ball = new Ball();
+    Bird bird = new Bird(5, 1);
+    PushBlock pushBlock = new PushBlock(1, 2);
+
+    ArrayList<Entity> entities = new ArrayList<Entity>();
     List<Observateur> observateurs;
 
     KeyAdapter keyListener = new KeyAdapter() {
         @Override
         public void keyPressed(KeyEvent e) {
             super.keyPressed(e);
-            if(map.getPlayer().unBlockMovement){
+            if(player.unBlockMovement){
                 if(e.getKeyCode() == KeyEvent.VK_LEFT)
                 {
-                    map.getPlayer().itsDirection = Direction.LEFT;
+                    player.itsDirection = Direction.LEFT;
                 }
                 else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
                 {
-                    map.getPlayer().itsDirection = Direction.RIGHT;
+                    player.itsDirection = Direction.RIGHT;
                 }
                 else if(e.getKeyCode() == KeyEvent.VK_UP)
                 {
-                    map.getPlayer().itsDirection = Direction.UP;
+                    player.itsDirection = Direction.UP;
                 }
                 else if(e.getKeyCode() == KeyEvent.VK_DOWN)
                 {
-                    map.getPlayer().itsDirection = Direction.DOWN;
+                    player.itsDirection = Direction.DOWN;
                 }
             }
         }
         @Override
         public void keyReleased(KeyEvent e) {
             super.keyPressed(e);
-            if(map.getPlayer().unBlockMovement)
+            if(player.unBlockMovement)
             {
                 if(e.getKeyCode() == KeyEvent.VK_LEFT)
                 {
-                    map.getPlayer().itsLastDirection = Direction.LEFT;
-                    map.getPlayer().itsDirection = Direction.ANY;
+                    player.itsLastDirection = Direction.LEFT;
+                    player.itsDirection = Direction.ANY;
                 }
                 else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
                 {
-                    map.getPlayer().itsLastDirection = Direction.RIGHT;
-                    map.getPlayer().itsDirection = Direction.ANY;
+                    player.itsLastDirection = Direction.RIGHT;
+                    player.itsDirection = Direction.ANY;
                 }
                 else if(e.getKeyCode() == KeyEvent.VK_UP)
                 {
-                    map.getPlayer().itsLastDirection = Direction.UP;
-                    map.getPlayer().itsDirection = Direction.ANY;
+                    player.itsLastDirection = Direction.UP;
+                    player.itsDirection = Direction.ANY;
                 }
                 else if(e.getKeyCode() == KeyEvent.VK_DOWN)
                 {
-                    map.getPlayer().itsLastDirection = Direction.DOWN;
-                    map.getPlayer().itsDirection = Direction.ANY;
+                    player.itsLastDirection = Direction.DOWN;
+                    player.itsDirection = Direction.ANY;
                 }
             }
         }
@@ -74,29 +85,36 @@ public class Game implements Observable{
 
     private BufferedReader reader;
 
-    public Game() throws IOException {
-        map.loadMap(1);
+
+
+    public Game() {
         observateurs = new ArrayList<Observateur>();
+        GameConsole gameConsole = new GameConsole(this);
+        GameUI gameUI = new GameUI(this);
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 20; j++) {
-                map.getMap()[i][j] = 0;
+                map[i][j] = 0;
             }
         }
 
-        for(Entity entity : map.getEntities())
-        {
-            map.getMap()[entity.getX()][entity.getY()] = entity.getIdentifier();
-        }
+        entities.add(pushBlock);
+        entities.add(boobyTrap);
+        entities.add(driveBlock);
+        entities.add(ball);
+        entities.add(player);
+        entities.add(bird);
 
-        GameConsole gameConsole = new GameConsole(this);
-        GameUI gameUI = new GameUI(this);
+        for(Entity entity : entities)
+        {
+            map[entity.getX()][entity.getY()] = entity.getIdentifier();
+        }
 
 
         //this.attacheObservateur(gameConsole);
         this.attacheObservateur(gameUI);
 
-        gameUI.setKeyListener(keyListener);
+        gameUI.addKeyListener(keyListener);
     }
     public TimerTask timer = new TimerTask() {
         @Override
@@ -105,32 +123,25 @@ public class Game implements Observable{
             while(true);
         }
     };
-
-    public TimerTask playerMovement = new TimerTask() {
-        @Override
-        public void run() {
-            map.getPlayer().updatePosition(map.getMap(), map.getEntities());
-        }
-    };
-
     public TimerTask refresh = new TimerTask() {
         @Override
         public void run() {
-            for(Entity entity : map.getEntities())
+            for(Entity entity : entities)
             {
                 if(entity.isMove())
                 {
-                    map.getMap()[entity.getLastX()][entity.getLastY()] = 0;
-                    map.getMap()[entity.getX()][entity.getY()] = entity.getIdentifier();
+                    if(entity.getIdentifier() != 7)
+                    {
+                        entity.updatePosition(map, pushBlock);
+                    }
+                    map[entity.getLastX()][entity.getLastY()] = 0;
+                    map[entity.getX()][entity.getY()] = entity.getIdentifier();
                 }
                 else
                 {
-                    if(entity.getIdentifier() == 5 || entity.getIdentifier() == 6 || entity.getIdentifier() == 9)
+                    if(entity.getIdentifier() == 5 || entity.getIdentifier() == 6)
                     {
-                        if(entity.isVisible())
-                        {
-                            map.getMap()[entity.getX()][entity.getY()] = entity.getIdentifier();
-                        }
+                        map[entity.getX()][entity.getY()] = entity.getIdentifier();
                     }
                 }
             }
@@ -145,47 +156,105 @@ public class Game implements Observable{
     };
 
     public void checkIntersection() throws IOException {
-        for(Entity entity : map.getEntities())
+        for(Entity entity : entities)
         {
             if(entity.getIdentifier() != 8)
             {
-                if(map.getPlayer().getX() == entity.getX() && map.getPlayer().getY() == entity.getY())
+                if(player.getX() == entity.getX() && player.getY() == entity.getY())
                 {
                     if(!entity.isCollision())
                     {
                         if(entity.getIdentifier() == 3 || entity.getIdentifier() == 7)
                         {
-                            map.getPlayer().kill();
+                            player.kill();
                         }
                         else if(entity.getIdentifier() == 9)
                         {
-                            map.getPlayer().bird();
-                            map.getMap()[entity.getX()][entity.getY()] = 0;
-                            if(map.getPlayer().win()){
-                                map.setCurrentMap(1);
-                                map.loadMap(map.getCurrentMap());
+                            player.bird();
+                            map[bird.getX()][bird.getY()] = 0;
+                            if(player.win()){
+                                currentMap += 1;
+                                loadMap(currentMap);
                             }
                         }
                         else if(entity.getIdentifier() == 6)
                         {
-                            map.getPlayer().itsDirection = entity.itsDirection;
-                            map.getPlayer().unBlockMovement = false;
+                            player.itsDirection = driveBlock.getItsDirection();
+                            player.unBlockMovement = false;
                         }
                     }
                     else
                     {
-                        map.getPlayer().unBlockMovement = true;
-                        if(entity.isPushable())
+                        player.unBlockMovement = true;
+                        if(pushBlock.isPushable())
                         {
-                            if(map.getPlayer().itsDirection == Direction.ANY)
+                            if(player.itsDirection == Direction.ANY)
                             {
-                                entity.push(map.getPlayer().itsLastDirection);
+                                pushBlock.push(player.itsLastDirection);
+                                map[pushBlock.getX()][pushBlock.getY()] = pushBlock.getIdentifier();
                             }
                             else
                             {
-                                entity.push(map.getPlayer().itsDirection);
+                                pushBlock.push(player.itsDirection);
+                                map[pushBlock.getX()][pushBlock.getY()] = pushBlock.getIdentifier();
                             }
-                            map.getMap()[entity.getX()][entity.getY()] = entity.getIdentifier();
+                        }
+                        else
+                        {
+                            if(player.itsDirection == Direction.ANY)
+                            {
+                                if(player.itsLastDirection == Direction.DOWN)
+                                {
+                                    player.itsDirection = Direction.UP;
+                                    player.updatePosition(map, pushBlock);
+                                    player.itsDirection = Direction.ANY;
+                                }
+                                else if(player.itsLastDirection == Direction.UP)
+                                {
+                                    player.itsDirection = Direction.DOWN;
+                                    player.updatePosition(map, pushBlock);
+                                    player.itsDirection = Direction.ANY;
+                                }
+                                else if(player.itsLastDirection == Direction.RIGHT)
+                                {
+                                    player.itsDirection = Direction.LEFT;
+                                    player.updatePosition(map, pushBlock);
+                                    player.itsDirection = Direction.ANY;
+                                }
+                                else if(player.itsLastDirection == Direction.LEFT)
+                                {
+                                    player.itsDirection = Direction.RIGHT;
+                                    player.updatePosition(map, pushBlock);
+                                    player.itsDirection = Direction.ANY;
+                                }
+                            }
+                            else
+                            {
+                                if(player.itsDirection == Direction.DOWN)
+                                {
+                                    player.itsDirection = Direction.UP;
+                                    player.updatePosition(map, pushBlock);
+                                    player.itsDirection = Direction.ANY;
+                                }
+                                else if(player.itsDirection == Direction.UP)
+                                {
+                                    player.itsDirection = Direction.DOWN;
+                                    player.updatePosition(map, pushBlock);
+                                    player.itsDirection = Direction.ANY;
+                                }
+                                else if(player.itsDirection == Direction.RIGHT)
+                                {
+                                    player.itsDirection = Direction.LEFT;
+                                    player.updatePosition(map, pushBlock);
+                                    player.itsDirection = Direction.ANY;
+                                }
+                                else if(player.itsDirection == Direction.LEFT)
+                                {
+                                    player.itsDirection = Direction.RIGHT;
+                                    player.updatePosition(map, pushBlock);
+                                    player.itsDirection = Direction.ANY;
+                                }
+                            }
                         }
                     }
                 }
@@ -193,17 +262,6 @@ public class Game implements Observable{
         }
     }
 
-    public void displayMap()
-    {
-        for(int i = 0 ; i < 10 ; i++)
-        {
-            for(int j = 0 ; j < 20 ; j++)
-            {
-                System.out.print(map.getMap()[i][j] + " ");
-            }
-            System.out.println(" ");
-        }
-    }
 
     public void save() throws IOException {
         String mapString = "";
@@ -211,7 +269,7 @@ public class Game implements Observable{
         {
             for(int j = 0 ; j < 20 ; j++)
             {
-                mapString += map.getMap()[i][j];
+                mapString += map[i][j];
                 mapString += " ";
             }
             mapString += '\n';
@@ -221,14 +279,17 @@ public class Game implements Observable{
     }
 
     public int[][] getMap() {
-        return map.getMap();
+        return map;
     }
 
-    public static void main(String[] args) throws IOException {
+    public void loadMap(int mapInt) throws IOException {
+        reader = new BufferedReader(new FileReader(mapInt + ".txt"));
+    }
+
+    public static void main(String[] args){
         Game game = new Game();
         game.timerController.schedule(game.timer, 60000);
         game.timerController.schedule(game.refresh, 0, 50);
-        game.playerMovementTimer.schedule(game.playerMovement, 0, 100);
     }
 
     @Override
