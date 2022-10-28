@@ -1,5 +1,7 @@
 package GamePkg;
 
+import java.util.ArrayList;
+
 public class PushBlock extends Entity{
     boolean pushable;
     Direction direction;
@@ -44,7 +46,7 @@ public class PushBlock extends Entity{
     }
 
     @Override
-    void updatePosition(int[][] map, PushBlock pushBlock) {
+    void updatePosition(int[][] map, ArrayList<Entity> entities) {
         if(direction == Direction.LEFT)
         {
             y -= 1;

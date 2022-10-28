@@ -1,5 +1,7 @@
 package GamePkg;
 
+import java.util.ArrayList;
+
 public class BoobyTrap extends Entity{
 
     public BoobyTrap(int x, int y)
@@ -38,7 +40,7 @@ public class BoobyTrap extends Entity{
     }
 
     @Override
-    void updatePosition(int[][] map, PushBlock pushBlock) {
+    void updatePosition(int[][] map, ArrayList<Entity> entities) {
 
     }
 

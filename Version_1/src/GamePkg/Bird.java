@@ -1,5 +1,7 @@
 package GamePkg;
 
+import java.util.ArrayList;
+
 public class Bird extends Entity {
     public Bird(int x, int y) {
         this.x = x;
@@ -11,7 +13,7 @@ public class Bird extends Entity {
     }
 
     @Override
-    void updatePosition(int[][] map, PushBlock pushBlock) {
+    void updatePosition(int[][] map, ArrayList<Entity> entities) {
 
     }
 

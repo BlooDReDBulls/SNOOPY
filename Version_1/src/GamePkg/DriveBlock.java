@@ -1,5 +1,7 @@
 package GamePkg;
 
+import java.util.ArrayList;
+
 public class DriveBlock extends Entity{
 
     boolean pushable;
@@ -45,7 +47,7 @@ public class DriveBlock extends Entity{
     }
 
     @Override
-    void updatePosition(int[][] map, PushBlock pushBlock) {
+    void updatePosition(int[][] map, ArrayList<Entity> entities) {
 
     }
 

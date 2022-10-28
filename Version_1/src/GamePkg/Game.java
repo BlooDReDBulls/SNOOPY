@@ -15,7 +15,7 @@ import java.util.*;
 
 public class Game implements Observable{
     Map map = new Map();
-    PushBlock pushBlock = new PushBlock(2, 3);
+    //PushBlock pushBlock = new PushBlock(2, 3);
     Timer timerController = new Timer();
     /*DriveBlock driveBlock = new DriveBlock(2, 8, Direction.UP);
     BoobyTrap boobyTrap = new BoobyTrap(6, 12);
@@ -115,7 +115,7 @@ public class Game implements Observable{
     public TimerTask playerMovement = new TimerTask() {
         @Override
         public void run() {
-            map.getPlayer().updatePosition(map.getMap(), pushBlock);
+            map.getPlayer().updatePosition(map.getMap(), entities);
         }
     };
 

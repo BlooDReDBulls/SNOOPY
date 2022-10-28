@@ -1,5 +1,6 @@
 package GamePkg;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -71,21 +72,34 @@ public class Ball extends Entity{
             lastX = x;
             lastY = y;
             int[][] map = new int[10][20];
-            PushBlock pushBlock = new PushBlock(0, 0);
-            updatePosition(map, pushBlock);
+            ArrayList<Entity> entities = new ArrayList<Entity>();
+            updatePosition(map, entities);
         }
     };
 
     @Override
-    void updatePosition(int[][] map, PushBlock pushBlock) {
-        x+=xspeed;
-        y+=yspeed;
-        if (x == 9 || x==0){
+    void updatePosition(int[][] map, ArrayList<Entity> entities) {
+        if (x + xspeed > 9 || x + xspeed < 0){
             xspeed=-xspeed;
         }
-        if(y == 19 || y ==0){
+        /*else if(x != 0 && x != 9 && (map[x - 1][y] == 1 || map[x + 1][y] == 1 || map[x - 1][y] == 2 || map[x + 1][y] == 2 || map[x - 1][y] == 3 || map[x + 1][y] == 3 || map[x - 1][y] == 4 || map[x + 1][y] == 4))
+        {
+            xspeed=-xspeed;
+        }*/
+        if(y + yspeed > 19 || y < 0){
             yspeed=-yspeed;
         }
+        /*if(y != 0 && y != 19 && (map[x][y - 1] == 1 || map[x][y + 1] == 1 || map[x][y - 1] == 2 || map[x][y + 1] == 2 || map[x][y - 1] == 3 || map[x][y + 1] == 3 || map[x][y - 1] == 4 || map[x][y + 1] == 4))
+        {
+            yspeed=-yspeed;
+        }*/
+        if(x != 0 && x != 9 && y != 0 && y != 19 && (map[x - 1][y - 1] == 1 || map[x + 1][y + 1] == 1 || map[x - 1][y + 1] == 1 || map[x - 1][y + 1] == 1 || map[x - 1][y - 1] == 2 || map[x + 1][y + 1] == 2 || map[x + 1][y - 1] == 2 || map[x - 1][y + 1] == 2 || map[x - 1][y - 1] == 3 || map[x + 1][y + 1] == 3 || map[x + 1][y - 1] == 3 || map[x - 1][y + 1] == 3 || map[x - 1][y - 1] == 4 || map[x + 1][y + 1] == 4 || map[x + 1][y - 1] == 4 || map[x - 1][y + 1] == 4))
+        {
+            xspeed=-xspeed;
+            yspeed=-yspeed;
+        }
+        x+=xspeed;
+        y+=yspeed;
     }
 
     @Override
