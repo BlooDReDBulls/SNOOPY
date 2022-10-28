@@ -12,8 +12,8 @@ public abstract class Entity {
     boolean animation;
     boolean collision;
     boolean visible;
-    abstract void updatePosition(int[][] map, ArrayList<Entity> entities
-    );
+    public Direction itsDirection;
+    abstract void updatePosition(int[][] map, ArrayList<Entity> entities);
     abstract int getX();
     abstract  int getY();
     abstract int getLastX();

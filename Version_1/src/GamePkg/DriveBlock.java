@@ -5,11 +5,6 @@ import java.util.ArrayList;
 public class DriveBlock extends Entity{
 
     boolean pushable;
-    private Direction itsDirection;
-
-    public Direction getItsDirection() {
-        return itsDirection;
-    }
     public DriveBlock(int x, int y, Direction direction)
     {
         this.x = x;

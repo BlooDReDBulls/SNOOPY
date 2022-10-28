@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Map {
-    private Player player = new Player();
+    private Player player = new Player(0, 0);
     private int currentMap = 1;
     private BufferedReader reader;
     private int[][] map;
@@ -81,8 +81,8 @@ public class Map {
                     entities.add(driveBlock);
                 }
                 else if(map[i][j] == 8){
-                    /*player.setX();
-                    player.setY();*/
+                    Player copyPlayer = new Player(i, j);
+                    player = copyPlayer;
                 }
                 else if(map[i][j] == 9){
                     Bird bird = new Bird(i, j);

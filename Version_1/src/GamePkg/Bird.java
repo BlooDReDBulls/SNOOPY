@@ -12,6 +12,7 @@ public class Bird extends Entity {
         visible = true;
     }
 
+
     @Override
     void updatePosition(int[][] map, ArrayList<Entity> entities) {
 

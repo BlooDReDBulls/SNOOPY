@@ -15,13 +15,7 @@ import java.util.*;
 
 public class Game implements Observable{
     Map map = new Map();
-    //PushBlock pushBlock = new PushBlock(2, 3);
     Timer timerController = new Timer();
-    /*DriveBlock driveBlock = new DriveBlock(2, 8, Direction.UP);
-    BoobyTrap boobyTrap = new BoobyTrap(6, 12);
-    Ball ball = new Ball();
-    Bird bird = new Bird(5, 1);
-    PushBlock pushBlock = new PushBlock(1, 2);*/
     Timer playerMovementTimer = new Timer();
     ArrayList<Entity> entities = new ArrayList<Entity>();
     List<Observateur> observateurs;
@@ -174,7 +168,7 @@ public class Game implements Observable{
                         }
                         else if(entity.getIdentifier() == 6)
                         {
-                            //map.getPlayer().itsDirection = entity.getItsDirection();
+                            map.getPlayer().itsDirection = entity.itsDirection;
                             map.getPlayer().unBlockMovement = false;
                         }
                     }

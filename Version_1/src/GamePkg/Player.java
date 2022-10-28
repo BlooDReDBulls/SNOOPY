@@ -10,19 +10,16 @@ public class Player extends Entity{
     public boolean unBlockMovement;
     private int numberLife;
     private boolean invincible;
-
-    public Direction itsDirection;
-
     public Direction itsLastDirection;
 
     Timer playerMovement = new Timer();
     Timer dead = new Timer();
 
-    public Player()
+    public Player(int x, int y)
     {
         itsDirection = Direction.ANY;
-        x = 5;
-        y = 5;
+        this.x = x;
+        this.y = y;
         unBlockMovement = true;
         enableMove = true;
         numberLife = 3;
@@ -60,6 +57,7 @@ public class Player extends Entity{
     public int getLastY() {
         return lastY;
     }
+
 
     @Override
     public void updatePosition(int[][] map, ArrayList<Entity> entities)
