@@ -17,7 +17,6 @@ public class Game implements Observable{
     Map map = new Map();
     Timer timerController = new Timer();
     Timer playerMovementTimer = new Timer();
-    ArrayList<Entity> entities = new ArrayList<Entity>();
     List<Observateur> observateurs;
 
     KeyAdapter keyListener = new KeyAdapter() {
@@ -75,7 +74,8 @@ public class Game implements Observable{
 
     private BufferedReader reader;
 
-    public Game() {
+    public Game() throws IOException {
+        map.loadMap(1);
         observateurs = new ArrayList<Observateur>();
 
         for (int i = 0; i < 10; i++) {
@@ -109,14 +109,15 @@ public class Game implements Observable{
     public TimerTask playerMovement = new TimerTask() {
         @Override
         public void run() {
-            map.getPlayer().updatePosition(map.getMap(), entities);
+            System.out.println("test");
+            map.getPlayer().updatePosition(map.getMap(), map.getEntities());
         }
     };
 
     public TimerTask refresh = new TimerTask() {
         @Override
         public void run() {
-            for(Entity entity : entities)
+            for(Entity entity : map.getEntities())
             {
                 if(entity.isMove())
                 {
@@ -224,7 +225,7 @@ public class Game implements Observable{
         return map.getMap();
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
         Game game = new Game();
         game.timerController.schedule(game.timer, 60000);
         game.timerController.schedule(game.refresh, 0, 50);

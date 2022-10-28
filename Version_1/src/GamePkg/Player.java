@@ -5,14 +5,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 public class Player extends Entity{
     private int numberBird;
-    private boolean enableMove;
-
     public boolean unBlockMovement;
     private int numberLife;
     private boolean invincible;
     public Direction itsLastDirection;
-
-    Timer playerMovement = new Timer();
     Timer dead = new Timer();
 
     public Player(int x, int y)
@@ -21,7 +17,6 @@ public class Player extends Entity{
         this.x = x;
         this.y = y;
         unBlockMovement = true;
-        enableMove = true;
         numberLife = 3;
         numberBird = 0;
         animation = true;
@@ -62,122 +57,65 @@ public class Player extends Entity{
     @Override
     public void updatePosition(int[][] map, ArrayList<Entity> entities)
     {
-        if(enableMove)
+        /*if((x + 1) <= 9 && map[x + 1][y] != 1 && map[x + 1][y] != 4 && map[x + 1][y] != 2)
         {
-
-            for(Entity entity : entities)
+            lastX = x;
+            lastY = y;
+            x += 1;
+        }
+        for(Entity entity : entities)
+        {
+            if(entity.getIdentifier() == 2)
             {
-                if(entity.getIdentifier() == 2)
-                {
-                    if(itsDirection == Direction.UP)
-                    {
-                        if(entity.isPushable())
-                        {
-                            if((x - 1) >= 0 && map[x - 1][y] != 1 && map[x - 1][y] != 4)
-                            {
-                                lastX = x;
-                                lastY = y;
-                                x -= 1;
-                            }
-                            else{
-                                unBlockMovement = true;
-                            }
-                        }
-                        else
-                        {
-                            if((x - 1) >= 0 && map[x - 1][y] != 1 && map[x - 1][y] != 4 && map[x - 1][y] != 2)
-                            {
-                                lastX = x;
-                                lastY = y;
-                                x -= 1;
-                            }
-                            else{
-                                unBlockMovement = true;
-                            }
-                        }
-                    }
-                    else if(itsDirection == Direction.DOWN)
-                    {
-                        if(entity.isPushable())
-                        {
-                            if((x + 1) <= 9 && map[x + 1][y] != 1 && map[x + 1][y] != 4)
-                            {
-                                lastX = x;
-                                lastY = y;
-                                x += 1;
-                            }
-                            else{
-                                unBlockMovement = true;
-                            }
-                        }
-                        else
-                        {
-                            if((x + 1) <= 9 && map[x + 1][y] != 1 && map[x + 1][y] != 4 && map[x + 1][y] != 2)
-                            {
-                                lastX = x;
-                                lastY = y;
-                                x += 1;
-                            }
-                            else{
-                                unBlockMovement = true;
-                            }
-                        }
-                    }
-                    else if(itsDirection == Direction.RIGHT)
-                    {
-                        if(entity.isPushable())
-                        {
-                            if((y + 1) <= 19 && map[x][y + 1] != 1 && map[x][y + 1] != 4)
-                            {
-                                lastX = x;
-                                lastY = y;
-                                y += 1;
-                            }
-                            else{
-                                unBlockMovement = true;
-                            }
-                        }
-                        else
-                        {
-                            if((y + 1) <= 19 && map[x][y + 1] != 2 && map[x][y + 1] != 1 && map[x][y + 1] != 4)
-                            {
-                                lastX = x;
-                                lastY = y;
-                                y += 1;
-                            }
-                            else{
-                                unBlockMovement = true;
-                            }
-                        }
-                    }
-                    else if(itsDirection == Direction.LEFT)
-                    {
-                        if(entity.isPushable())
-                        {
-                            if((y - 1) >= 0 && map[x][y - 1] != 1 && map[x][y - 1] != 4)
-                            {
-                                lastX = x;
-                                lastY = y;
-                                y -= 1;
-                            }
-                            else{
-                                unBlockMovement = true;
-                            }
-                        }
-                        else
-                        {
-                            if((y - 1) >= 0 && map[x][y - 1] != 2 && map[x][y - 1] != 1 && map[x][y - 1] != 4)
-                            {
-                                lastX = x;
-                                lastY = y;
-                                y -= 1;
-                            }
-                            else{
-                                unBlockMovement = true;
-                            }
-                        }
-                    }
-                }
+
+            }
+        }*/
+        if(itsDirection == Direction.UP)
+        {
+            if((x - 1) >= 0 && map[x - 1][y] != 1 && map[x - 1][y] != 4)
+            {
+                lastX = x;
+                lastY = y;
+                x -= 1;
+            }
+            else{
+                unBlockMovement = true;
+            }
+        }
+        else if(itsDirection == Direction.DOWN)
+        {
+            if((x + 1) <= 9 && map[x + 1][y] != 1 && map[x + 1][y] != 4)
+            {
+                lastX = x;
+                lastY = y;
+                x += 1;
+            }
+            else{
+                unBlockMovement = true;
+            }
+        }
+        else if(itsDirection == Direction.RIGHT)
+        {
+            if((y + 1) <= 19 && map[x][y + 1] != 1 && map[x][y + 1] != 4)
+            {
+                lastX = x;
+                lastY = y;
+                y += 1;
+            }
+            else{
+                unBlockMovement = true;
+            }
+        }
+        else if(itsDirection == Direction.LEFT)
+        {
+            if((y - 1) >= 0 && map[x][y - 1] != 1 && map[x][y - 1] != 4)
+            {
+                lastX = x;
+                lastY = y;
+                y -= 1;
+            }
+            else{
+                unBlockMovement = true;
             }
         }
     }

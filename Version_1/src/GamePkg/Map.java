@@ -35,7 +35,7 @@ public class Map {
     public void loadMap(int mapInt) throws IOException {
         try
         {
-            File file = new File("map/2");
+            File file = new File("map/" + mapInt);
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
             String line;
@@ -50,6 +50,7 @@ public class Map {
                 x++;
             }
             fr.close();
+            initEntities();
         }
         catch(IOException e)
         {
@@ -66,9 +67,11 @@ public class Map {
                 }
                 else if(map[i][j] == 2){
                     PushBlock pushBlock = new PushBlock(i, j);
+                    entities.add(pushBlock);
                 }
                 else if(map[i][j] == 3){
                     BoobyTrap boobyTrap = new BoobyTrap(i, j);
+                    entities.add(boobyTrap);
                 }
                 else if(map[i][j] == 4){
                     //bloc invincible
@@ -83,12 +86,14 @@ public class Map {
                 else if(map[i][j] == 8){
                     Player copyPlayer = new Player(i, j);
                     player = copyPlayer;
+                    entities.add((player));
                 }
                 else if(map[i][j] == 9){
                     Bird bird = new Bird(i, j);
+                    entities.add(bird);
                 }
                 Ball ball = new Ball();
-
+                entities.add(ball);
             }
         }
     }

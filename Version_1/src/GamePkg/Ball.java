@@ -93,11 +93,11 @@ public class Ball extends Entity{
         {
             yspeed=-yspeed;
         }*/
-        if(x != 0 && x != 9 && y != 0 && y != 19 && (map[x - 1][y - 1] == 1 || map[x + 1][y + 1] == 1 || map[x - 1][y + 1] == 1 || map[x - 1][y + 1] == 1 || map[x - 1][y - 1] == 2 || map[x + 1][y + 1] == 2 || map[x + 1][y - 1] == 2 || map[x - 1][y + 1] == 2 || map[x - 1][y - 1] == 3 || map[x + 1][y + 1] == 3 || map[x + 1][y - 1] == 3 || map[x - 1][y + 1] == 3 || map[x - 1][y - 1] == 4 || map[x + 1][y + 1] == 4 || map[x + 1][y - 1] == 4 || map[x - 1][y + 1] == 4))
+        /*if(x != 0 && x != 9 && y != 0 && y != 19 && (map[x - 1][y - 1] == 1 || map[x + 1][y + 1] == 1 || map[x - 1][y + 1] == 1 || map[x - 1][y + 1] == 1 || map[x - 1][y - 1] == 2 || map[x + 1][y + 1] == 2 || map[x + 1][y - 1] == 2 || map[x - 1][y + 1] == 2 || map[x - 1][y - 1] == 3 || map[x + 1][y + 1] == 3 || map[x + 1][y - 1] == 3 || map[x - 1][y + 1] == 3 || map[x - 1][y - 1] == 4 || map[x + 1][y + 1] == 4 || map[x + 1][y - 1] == 4 || map[x - 1][y + 1] == 4))
         {
             xspeed=-xspeed;
             yspeed=-yspeed;
-        }
+        }*/
         x+=xspeed;
         y+=yspeed;
     }
