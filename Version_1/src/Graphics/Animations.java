@@ -29,7 +29,7 @@ public class Animations {
         for (int i = 0; i < nDirection; i++) {
             ArrayList<BufferedImage> animArray = new ArrayList<>();
             for (int j = 0; j < nFrame; j++) {
-                String name = path + i + "/" + j + ".png";
+                String name = path + i + File.separator + j + ".png";
                 System.out.println("path : " + name);
                 BufferedImage bi;
                 try {
@@ -42,11 +42,9 @@ public class Animations {
             }
             animHashMap.put(i,animArray);
         }
-
     }
 
     public BufferedImage getAnimation(int direction, double cycleProgress){
-
         int index = (int) (cycleProgress * nFrame);
         return animHashMap.get(direction).get(index);
     }

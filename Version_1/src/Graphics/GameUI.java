@@ -1,105 +1,101 @@
 package Graphics;
-
 import GamePkg.Game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyListener;
 
-public class GameUI extends JPanel implements Observateur {
 
-    private final Game game;
+public class GameUI extends JLayeredPane implements Observateur {
 
-    private final AnimationEngine animationEngine;
-    private final TexturesImages texturesImages;
 
-    private final Animations animationsSnoopy;
-    private final Animations animationsBird;
-    private final Animations animationsSlider;
 
     private final JFrame jFrame;
+    private JPanel menuPanel;
+
+    private GamePanel gamePanel;
 
     public GameUI(Game game){
-        animationEngine = new AnimationEngine(60);
-        animationEngine.start();
-        this.texturesImages = new TexturesImages();
+        this.jFrame = new JFrame("Snoopy le jeu");
+        this.gamePanel = new GamePanel(game);
+        this.gamePanel.setVisible(true);
 
-        jFrame = new JFrame("Snoopy le jeu");
-        this.setPreferredSize(new Dimension(640,320));
-        this.game = game;
+        this.gamePanel.actualise();
         setupJFrame();
-        animationsSnoopy = new Animations(4,4,"includes/Snoopy/");
-        animationsBird = new Animations(4,3,"includes/Bird/");
-        animationsSlider = new Animations(4,4,"includes/Slider/");
-
-
+        setupMenuPanel();
+        this.add(gamePanel, 1);
     }
 
     private void setupJFrame(){
-        jFrame.setMinimumSize(new Dimension(100,200));
-        jFrame.setResizable(false);
-        jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        jFrame.setLocationRelativeTo(null);
-        jFrame.setContentPane(this);
-        jFrame.pack();
-        jFrame.setVisible(true);
+        this.jFrame.setMinimumSize(new Dimension(100,200));
+        this.jFrame.setResizable(true);
+        this.jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.jFrame.setLocationRelativeTo(null);
+
+        this.jFrame.setContentPane(gamePanel);
+        this.jFrame.pack();
+        this.jFrame.setVisible(true);
     }
+
+    private GridBagConstraints setGridBagConstriant(GridBagConstraints gbc, int gX, int gY, int gWidth, int gHeight, int weightX, int weightY){
+        gbc.gridx = gX;
+        gbc.gridy = gY;
+        gbc.gridwidth = gWidth;
+        gbc.gridheight = gHeight;
+        gbc.weightx = weightX;
+        gbc.weighty = weightY;
+        return gbc;
+    }
+    private void setupMenuPanel(){
+        GridBagLayout gbl = new GridBagLayout();
+
+        this.menuPanel = new JPanel(gbl);
+        menuPanel.setSize(640,320);
+        menuPanel.setPreferredSize(new Dimension(640,320));
+
+        menuPanel.setBounds(0,0,640,320);
+        menuPanel.setVisible(true);
+        menuPanel.setBackground(new Color(0,0,0,5));
+
+
+        JButton startBtn = new JButton("Jeu de base");
+        JButton iaBtn = new JButton("Jeu IA");
+        JButton loadBtn = new JButton("Charger une partie");
+        JButton passBtn = new JButton("Mot de passe");
+        JButton scoreBTN = new JButton("Scores");
+        JButton leaveBtn = new JButton("Quitter");
+
+        GridBagConstraints c = new GridBagConstraints();
+
+        c.fill = GridBagConstraints.BOTH;
+        c.ipady = 25;
+        c.ipadx = 200;
+
+
+        c = setGridBagConstriant(c,0,0,1,1,0,0);
+        menuPanel.add(startBtn, c);
+
+        c = setGridBagConstriant(c,0,1,1,1,0,0);
+        menuPanel.add(iaBtn, c);
+
+        c = setGridBagConstriant(c,0,2,1,1,0,0);
+        menuPanel.add(loadBtn, c);
+
+
+        c = setGridBagConstriant(c,0,3,1,1,0,0);
+        menuPanel.add(passBtn, c);
+
+        c = setGridBagConstriant(c,0,4,1,1,0,0);
+        menuPanel.add(scoreBTN, c);
+
+        c = setGridBagConstriant(c,0,5,1,1,0,0);
+        menuPanel.add(leaveBtn, c);
+        this.add(menuPanel, 1);
+    }
+
 
     @Override
     public void actualise() {
-        repaint();
+        gamePanel.repaint();
     }
-
-    @Override
-    public void paint(Graphics g) {
-
-        Graphics2D g2 = (Graphics2D) g.create();
-        super.paint(g);
-
-
-
-        for (int i = 0; i < 10.; i++) {
-            for (int j = 0; j < 20; j++) {
-
-                switch (game.getMap()[i][j]) {
-                    case 3 -> {
-                        g2.drawImage(texturesImages.getImageFromTAB(0), (32 * j), (32 * i), this);
-                        g2.drawImage(texturesImages.getImageFromMap(game.getMap()[i][j]), (32 * j), (32 * i), this);
-                    }
-                    case 6 -> {
-                        g2.drawImage(texturesImages.getImageFromTAB(0), (32 * j), (32 * i), this);
-                        g2.drawImage(animationsSlider.getAnimation(2, animationEngine.getCycleProgress()), (32 * j), (32 * i), this);
-                    }
-                    case 7 -> {
-                        g2.drawImage(texturesImages.getImageFromTAB(0), (32 * j), (32 * i), this);
-                        g2.drawImage(texturesImages.getImageFromMap(game.getMap()[i][j]), (32 * j), (32 * i), this);
-                    }
-                    case 8 -> {
-                        g2.drawImage(texturesImages.getImageFromTAB(0), (32 * j), (32 * i), this);
-                        g2.drawImage(animationsSnoopy.getAnimation(1, animationEngine.getCycleProgress()), (32 * j), (32 * i), this);
-                    }
-                    case 9 -> {
-                        //Faire les directions avec Lucas
-                        g2.drawImage(texturesImages.getImageFromTAB(0), (32 * j), (32 * i), this);
-                        g2.drawImage(animationsBird.getAnimation(1, animationEngine.getCycleProgress()), (32 * j), (32 * i), this);
-                    }
-                    default ->
-                            g2.drawImage(texturesImages.getImageFromMap(game.getMap()[i][j]), (32 * j), (32 * i), this);
-                }
-
-//                if(game.getMap()[i][j] == 3 || game.getMap()[i][j] == 6 || game.getMap()[i][j] == 7 || game.getMap()[i][j] == 8 || game.getMap()[i][j] == 9){
-//                    g2.drawImage(texturesImages.getImageFromTAB(0), (32 * j), (32 * i), this);
-//
-//                    g2.drawImage(textureSprite.getSprite(0,animations.getCycleProgress()), (32 * j), (32 * i), this);
-//                }
-//                g2.drawImage(texturesImages.getImageFromMap(game.getMap()[i][j]), (32 * j), (32 * i), this);
-            }
-        }
-    }
-
-    public void setKeyListener(KeyListener kl){
-        jFrame.addKeyListener(kl);
-    }
-
 
 }
