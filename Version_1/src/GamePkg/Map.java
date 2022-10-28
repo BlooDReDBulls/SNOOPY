@@ -35,6 +35,7 @@ public class Map {
     public void loadMap(int mapInt) throws IOException {
         try
         {
+            entities.clear();
             File file = new File("map/" + mapInt);
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);

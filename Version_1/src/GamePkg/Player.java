@@ -9,6 +9,8 @@ public class Player extends Entity{
     private int numberLife;
     private boolean invincible;
     public Direction itsLastDirection;
+
+    boolean unableMovement;
     Timer dead = new Timer();
 
     public Player(int x, int y)
@@ -23,6 +25,7 @@ public class Player extends Entity{
         collision = true;
         identifier = 8;
         move = true;
+        unableMovement = true;
     }
 
     @Override
@@ -30,6 +33,11 @@ public class Player extends Entity{
     {
         return x;
     }
+
+    public void setUnableMovement(boolean unableMovement) {
+        this.unableMovement = unableMovement;
+    }
+
     @Override
     public int getY()
     {
@@ -57,65 +65,138 @@ public class Player extends Entity{
     @Override
     public void updatePosition(int[][] map, ArrayList<Entity> entities)
     {
-        /*if((x + 1) <= 9 && map[x + 1][y] != 1 && map[x + 1][y] != 4 && map[x + 1][y] != 2)
+        if(unableMovement)
         {
-            lastX = x;
-            lastY = y;
-            x += 1;
-        }
-        for(Entity entity : entities)
-        {
-            if(entity.getIdentifier() == 2)
+            for(Entity entity : entities)
             {
-
-            }
-        }*/
-        if(itsDirection == Direction.UP)
-        {
-            if((x - 1) >= 0 && map[x - 1][y] != 1 && map[x - 1][y] != 4)
-            {
-                lastX = x;
-                lastY = y;
-                x -= 1;
-            }
-            else{
-                unBlockMovement = true;
-            }
-        }
-        else if(itsDirection == Direction.DOWN)
-        {
-            if((x + 1) <= 9 && map[x + 1][y] != 1 && map[x + 1][y] != 4)
-            {
-                lastX = x;
-                lastY = y;
-                x += 1;
-            }
-            else{
-                unBlockMovement = true;
-            }
-        }
-        else if(itsDirection == Direction.RIGHT)
-        {
-            if((y + 1) <= 19 && map[x][y + 1] != 1 && map[x][y + 1] != 4)
-            {
-                lastX = x;
-                lastY = y;
-                y += 1;
-            }
-            else{
-                unBlockMovement = true;
-            }
-        }
-        else if(itsDirection == Direction.LEFT)
-        {
-            if((y - 1) >= 0 && map[x][y - 1] != 1 && map[x][y - 1] != 4)
-            {
-                lastX = x;
-                lastY = y;
-                y -= 1;
-            }
-            else{
-                unBlockMovement = true;
+                if(itsDirection == Direction.UP)
+                {
+                    if(entity.getIdentifier() == 1 || entity.getIdentifier() == 3 || entity.getIdentifier() == 4)
+                    {
+                        if((x - 1) >= 0 && map[x - 1][y] != entity.getIdentifier())
+                        {
+                            lastX = x;
+                            lastY = y;
+                            x -= 1;
+                        }
+                        else
+                        {
+                            unBlockMovement = true;
+                        }
+                    }
+                    else if(entity.getIdentifier() == 2)
+                    {
+                        if(!entity.isPushable())
+                        {
+                            if((x - 1) >= 0 && map[x - 1][y] != entity.getIdentifier())
+                            {
+                                lastX = x;
+                                lastY = y;
+                                x -= 1;
+                            }
+                            else
+                            {
+                                unBlockMovement = true;
+                            }
+                        }
+                    }
+                }
+                else if(itsDirection == Direction.DOWN)
+                {
+                    if(entity.getIdentifier() == 1 || entity.getIdentifier() == 3 || entity.getIdentifier() == 4)
+                    {
+                        if((x + 1) <= 9 && map[x + 1][y] != entity.getIdentifier())
+                        {
+                            lastX = x;
+                            lastY = y;
+                            x += 1;
+                        }
+                        else
+                        {
+                            unBlockMovement = true;
+                        }
+                    }
+                    else if(entity.getIdentifier() == 2)
+                    {
+                        if(!entity.isPushable())
+                        {
+                            if((x + 1) <= 9 && map[x + 1][y] != entity.getIdentifier())
+                            {
+                                lastX = x;
+                                lastY = y;
+                                x += 1;
+                            }
+                            else
+                            {
+                                unBlockMovement = true;
+                            }
+                        }
+                    }
+                }
+                else if(itsDirection == Direction.RIGHT)
+                {
+                    if(entity.getIdentifier() == 1 || entity.getIdentifier() == 3 || entity.getIdentifier() == 4)
+                    {
+                        if((y + 1) <= 19 && map[x][y + 1] != entity.getIdentifier())
+                        {
+                            lastX = x;
+                            lastY = y;
+                            y += 1;
+                        }
+                        else
+                        {
+                            unBlockMovement = true;
+                        }
+                    }
+                    else if(entity.getIdentifier() == 2)
+                    {
+                        if(!entity.isPushable())
+                        {
+                            if((y + 1) >= 0 && map[x][y + 1] != entity.getIdentifier())
+                            {
+                                lastX = x;
+                                lastY = y;
+                                y += 1;
+                            }
+                            else
+                            {
+                                unBlockMovement = true;
+                            }
+                        }
+                    }
+                }
+                else if(itsDirection == Direction.LEFT)
+                {
+                    if(entity.getIdentifier() == 1 || entity.getIdentifier() == 3 || entity.getIdentifier() == 4)
+                    {
+                        if((y - 1) >= 0 && map[x][y - 1] != entity.getIdentifier())
+                        {
+                            lastX = x;
+                            lastY = y;
+                            y -= 1;
+                        }
+                        else
+                        {
+                            unBlockMovement = true;
+                        }
+                    }
+                    else if(entity.getIdentifier() == 2)
+                    {
+                        if(!entity.isPushable())
+                        {
+                            if((y - 1) >= 0 && map[x][y - 1] != entity.getIdentifier())
+                            {
+                                lastX = x;
+                                lastY = y;
+                                y -= 1;
+                            }
+                            else
+                            {
+                                unBlockMovement = true;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
