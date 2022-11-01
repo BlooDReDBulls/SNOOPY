@@ -108,10 +108,7 @@ public class Game implements Observable{
             {
                 if(entity.isMove())
                 {
-                    if(entity.getIdentifier() != 7)
-                    {
-                        entity.updatePosition(map.getMap(), map.getEntities());
-                    }
+                    entity.updatePosition(map.getMap(), map.getEntities());
                     map.getMap()[entity.getLastX()][entity.getLastY()] = 0;
                     map.getMap()[entity.getX()][entity.getY()] = entity.getIdentifier();
                 }

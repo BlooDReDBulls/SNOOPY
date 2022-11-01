@@ -8,6 +8,8 @@ public class Ball extends Entity{
     int xspeed;
     int yspeed;
 
+    boolean unableMovement;
+
     Timer speed = new Timer();
 
     public Ball(){
@@ -19,7 +21,7 @@ public class Ball extends Entity{
         y = 0;
         xspeed = 1;
         yspeed = 1;
-        speed.schedule(movement, 0, 300);
+        unableMovement = true;
     }
     @Override
     public int getIdentifier()
@@ -66,40 +68,41 @@ public class Ball extends Entity{
         return lastY;
     }
 
-    public TimerTask movement = new TimerTask() {
-        @Override
-        public void run() {
-            lastX = x;
-            lastY = y;
-            int[][] map = new int[10][20];
-            ArrayList<Entity> entities = new ArrayList<Entity>();
-            updatePosition(map, entities);
-        }
-    };
-
     @Override
     void updatePosition(int[][] map, ArrayList<Entity> entities) {
-        if (x + xspeed > 9 || x + xspeed < 0){
-            xspeed=-xspeed;
+        if(unableMovement)
+        {
+            lastX = x;
+            lastY = y;
+            x+=xspeed;
+            y+=yspeed;
+            if (x + xspeed > 9 || x + xspeed < 0){
+                xspeed=-xspeed;
+            }
+            if(y + yspeed > 19 || y + yspeed < 0){
+                yspeed=-yspeed;
+            }
+            if(map[x + xspeed][y] == 1 || map[x + xspeed][y] == 2 || map[x + xspeed][y] == 3 || map[x + xspeed][y] == 4)
+            {
+                xspeed=-xspeed;
+            }
+            if(map[x][y + yspeed] == 1 || map[x][y + yspeed] == 2 || map[x][y + yspeed] == 3 || map[x][y + yspeed] == 4)
+            {
+                yspeed=-yspeed;
+            }
+            if(map[x + xspeed][y + yspeed] == 1 || map[x + xspeed][y + yspeed] == 2 || map[x + xspeed][y + yspeed] == 3 || map[x + xspeed][y + yspeed] == 4)
+            {
+                xspeed=-xspeed;
+                yspeed=-yspeed;
+            }
+            unableMovement = false;
+            speed.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    unableMovement = true;
+                }
+            }, 300);
         }
-        /*else if(x != 0 && x != 9 && (map[x - 1][y] == 1 || map[x + 1][y] == 1 || map[x - 1][y] == 2 || map[x + 1][y] == 2 || map[x - 1][y] == 3 || map[x + 1][y] == 3 || map[x - 1][y] == 4 || map[x + 1][y] == 4))
-        {
-            xspeed=-xspeed;
-        }*/
-        if(y + yspeed > 19 || y + yspeed < 0){
-            yspeed=-yspeed;
-        }
-        /*if(y != 0 && y != 19 && (map[x][y - 1] == 1 || map[x][y + 1] == 1 || map[x][y - 1] == 2 || map[x][y + 1] == 2 || map[x][y - 1] == 3 || map[x][y + 1] == 3 || map[x][y - 1] == 4 || map[x][y + 1] == 4))
-        {
-            yspeed=-yspeed;
-        }*/
-        /*if(x != 0 && x != 9 && y != 0 && y != 19 && (map[x - 1][y - 1] == 1 || map[x + 1][y + 1] == 1 || map[x - 1][y + 1] == 1 || map[x - 1][y + 1] == 1 || map[x - 1][y - 1] == 2 || map[x + 1][y + 1] == 2 || map[x + 1][y - 1] == 2 || map[x - 1][y + 1] == 2 || map[x - 1][y - 1] == 3 || map[x + 1][y + 1] == 3 || map[x + 1][y - 1] == 3 || map[x - 1][y + 1] == 3 || map[x - 1][y - 1] == 4 || map[x + 1][y + 1] == 4 || map[x + 1][y - 1] == 4 || map[x - 1][y + 1] == 4))
-        {
-            xspeed=-xspeed;
-            yspeed=-yspeed;
-        }*/
-        x+=xspeed;
-        y+=yspeed;
     }
 
     @Override
