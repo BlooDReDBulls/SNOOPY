@@ -4,6 +4,7 @@ import GamePkg.Game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -18,11 +19,14 @@ public class GamePanel extends JPanel implements Observateur{
 
     private final ArrayList<Animations> animationsArrayList = new ArrayList();
 
+    private JFrame jFrame;
 
 
     public GamePanel(Game game){
         this.game = game;
         this.setPreferredSize(new Dimension(640,320));
+
+        this.jFrame = new JFrame("Temporary Frame SNOOPY ");
 
         this.animationEngine = new AnimationEngine(60);
         this.animationEngine.start();
@@ -32,11 +36,24 @@ public class GamePanel extends JPanel implements Observateur{
         this.animationsBird = new Animations(4,3,"includes" + File.separator + "Bird" + File.separator);
         this.animationsSlider = new Animations(4,4,"includes" + File.separator + "Slider" + File.separator);
 
-        this.setVisible(true);
+        setupJFrame();
+
+    }
+
+    private void setupJFrame(){
+        this.jFrame.setMinimumSize(new Dimension(100,200));
+        this.jFrame.setResizable(false);
+        this.jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.jFrame.setLocationRelativeTo(null);
+
+        this.jFrame.setContentPane(this);
+        this.jFrame.pack();
+        this.jFrame.setVisible(true);
     }
 
     @Override
     public void actualise() {
+
         repaint();
     }
 
@@ -84,6 +101,10 @@ public class GamePanel extends JPanel implements Observateur{
                 }
             }
         }
+    }
+
+    public void setKeyListener(KeyListener kl){
+        this.jFrame.addKeyListener(kl);
     }
 
 }

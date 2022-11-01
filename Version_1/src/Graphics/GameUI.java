@@ -17,23 +17,22 @@ public class GameUI extends JLayeredPane implements Observateur {
     public GameUI(Game game){
         this.jFrame = new JFrame("Snoopy le jeu");
         this.gamePanel = new GamePanel(game);
-        this.gamePanel.setVisible(true);
+//        this.gamePanel.setVisible(true);
 
-        this.gamePanel.actualise();
         setupJFrame();
         setupMenuPanel();
-        this.add(gamePanel, 1);
+        this.add(gamePanel, JLayeredPane.DEFAULT_LAYER);
     }
 
     private void setupJFrame(){
-        this.jFrame.setMinimumSize(new Dimension(100,200));
+        this.jFrame.setMinimumSize(new Dimension(100,100));
         this.jFrame.setResizable(true);
         this.jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.jFrame.setLocationRelativeTo(null);
-
         this.jFrame.setContentPane(gamePanel);
         this.jFrame.pack();
         this.jFrame.setVisible(true);
+        this.gamePanel.actualise();
     }
 
     private GridBagConstraints setGridBagConstriant(GridBagConstraints gbc, int gX, int gY, int gWidth, int gHeight, int weightX, int weightY){
@@ -95,7 +94,7 @@ public class GameUI extends JLayeredPane implements Observateur {
 
     @Override
     public void actualise() {
-        gamePanel.repaint();
+        this.gamePanel.repaint();
     }
 
 }

@@ -5,8 +5,6 @@ import Graphics.Observable;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,6 +16,9 @@ public class Game implements Observable{
     Map map = new Map();
     Timer timerController = new Timer();
     List<Observateur> observateurs;
+
+    GamePanel gamePanel;
+    GameUI gameUI;
 
     KeyAdapter keyListener = new KeyAdapter() {
         @Override
@@ -77,18 +78,21 @@ public class Game implements Observable{
         map.loadMap(1);
         observateurs = new ArrayList<Observateur>();
         GameConsole gameConsole = new GameConsole(this);
-        GameUI gameUI = new GameUI(this);
+//        this.gameUI = new GameUI(this);
+        this.gamePanel = new GamePanel(this);
 
         for(Entity entity : map.getEntities())
         {
             map.getMap()[entity.getX()][entity.getY()] = entity.getIdentifier();
         }
 
+        this.attacheObservateur(gamePanel);
+//        this.attacheObservateur(gameConsole);
+//       this.attacheObservateur(gameUI);
 
-        //this.attacheObservateur(gameConsole);
-        this.attacheObservateur(gameUI);
 
-        gameUI.addKeyListener(keyListener);
+
+        this.gamePanel.setKeyListener(keyListener);
     }
     public TimerTask timer = new TimerTask() {
         @Override
@@ -124,8 +128,6 @@ public class Game implements Observable{
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            //graphicPanel.actualise();
-
             notifieObservateurs();
         }
     };
