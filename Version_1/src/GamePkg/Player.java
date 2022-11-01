@@ -9,7 +9,7 @@ public class Player extends Entity{
     private int numberLife;
     private boolean invincible;
     public Direction itsLastDirection;
-
+    Timer playerMovementTimer = new Timer();
     boolean unableMovement;
     Timer dead = new Timer();
 
@@ -67,6 +67,134 @@ public class Player extends Entity{
     {
         if(unableMovement)
         {
+            if(itsDirection == Direction.UP)
+            {
+                if((x - 1) >= 0 && map[x - 1][y] != 1 && map[x - 1][y] != 3 && map[x - 1][y] != 4)
+                {
+                    if(map[x - 1][y] == 2)
+                    {
+                        for(Entity entity : entities)
+                        {
+                            if(entity.getIdentifier() == 2 && entity.getX() == x - 1 && entity.getY() == y && entity.isPushable())
+                            {
+                                lastX = x;
+                                lastY = y;
+                                x -= 1;
+                            }
+                            else if(entity.getIdentifier() == 2 && entity.getX() == x - 1 && entity.getY() == y && !entity.isPushable())
+                            {
+                                unBlockMovement = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        lastX = x;
+                        lastY = y;
+                        x -= 1;
+                    }
+                }
+                else
+                {
+                    unBlockMovement = true;
+                }
+            }
+            else if(itsDirection == Direction.DOWN)
+            {
+                if((x + 1) <= 9 && map[x + 1][y] != 1 && map[x + 1][y] != 3 && map[x + 1][y] != 4)
+                {
+                    if(map[x + 1][y] == 2)
+                    {
+                        for(Entity entity : entities)
+                        {
+                            if(entity.getIdentifier() == 2 && entity.getX() == x + 1 && entity.getY() == y && entity.isPushable())
+                            {
+                                lastX = x;
+                                lastY = y;
+                                x += 1;
+                            }
+                            else if(entity.getIdentifier() == 2 && entity.getX() == x + 1 && entity.getY() == y && !entity.isPushable())
+                            {
+                                unBlockMovement = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        lastX = x;
+                        lastY = y;
+                        x += 1;
+                    }
+                }
+                else
+                {
+                    unBlockMovement = true;
+                }
+            }
+            else if(itsDirection == Direction.RIGHT)
+            {
+                if((y + 1) <= 19 && map[x][y + 1] != 1 && map[x][y + 1] != 3 && map[x][y + 1] != 4)
+                {
+                    if(map[x][y + 1] == 2)
+                    {
+                        for(Entity entity : entities)
+                        {
+                            if(entity.getIdentifier() == 2 && entity.getX() == x && entity.getY() == y + 1 && entity.isPushable())
+                            {
+                                lastX = x;
+                                lastY = y;
+                                y += 1;
+                            }
+                            else if(entity.getIdentifier() == 2 && entity.getX() == x && entity.getY() == y + 1 && !entity.isPushable())
+                            {
+                                unBlockMovement = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        lastX = x;
+                        lastY = y;
+                        y += 1;
+                    }
+                }
+                else
+                {
+                    unBlockMovement = true;
+                }
+            }
+            else if(itsDirection == Direction.LEFT)
+            {
+                if((y - 1) >= 0 && map[x][y - 1] != 1 && map[x][y - 1] != 3 && map[x][y - 1] != 4)
+                {
+                    if(map[x][y - 1] == 2)
+                    {
+                        for(Entity entity : entities)
+                        {
+                            if(entity.getIdentifier() == 2 && entity.getX() == x && entity.getY() == y - 1 && entity.isPushable())
+                            {
+                                lastX = x;
+                                lastY = y;
+                                y -= 1;
+                            }
+                            else if(entity.getIdentifier() == 2 && entity.getX() == x && entity.getY() == y - 1 && !entity.isPushable())
+                            {
+                                unBlockMovement = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        lastX = x;
+                        lastY = y;
+                        y -= 1;
+                    }
+                }
+                else
+                {
+                    unBlockMovement = true;
+                }
+            }/*
             for(Entity entity : entities)
             {
                 if(itsDirection == Direction.UP)
@@ -78,26 +206,25 @@ public class Player extends Entity{
                             lastX = x;
                             lastY = y;
                             x -= 1;
+                            break;
                         }
                         else
                         {
                             unBlockMovement = true;
                         }
                     }
-                    else if(entity.getIdentifier() == 2)
+                    else if(entity.getIdentifier() == 2 && !entity.isPushable())
                     {
-                        if(!entity.isPushable())
+                        if((x - 1) >= 0 && map[x - 1][y] != entity.getIdentifier())
                         {
-                            if((x - 1) >= 0 && map[x - 1][y] != entity.getIdentifier())
-                            {
-                                lastX = x;
-                                lastY = y;
-                                x -= 1;
-                            }
-                            else
-                            {
-                                unBlockMovement = true;
-                            }
+                            lastX = x;
+                            lastY = y;
+                            x -= 1;
+                            break;
+                        }
+                        else
+                        {
+                            unBlockMovement = true;
                         }
                     }
                 }
@@ -110,26 +237,25 @@ public class Player extends Entity{
                             lastX = x;
                             lastY = y;
                             x += 1;
+                            break;
                         }
                         else
                         {
                             unBlockMovement = true;
                         }
                     }
-                    else if(entity.getIdentifier() == 2)
+                    else if(entity.getIdentifier() == 2 && !entity.isPushable())
                     {
-                        if(!entity.isPushable())
+                        if((x + 1) <= 9 && map[x + 1][y] != entity.getIdentifier())
                         {
-                            if((x + 1) <= 9 && map[x + 1][y] != entity.getIdentifier())
-                            {
-                                lastX = x;
-                                lastY = y;
-                                x += 1;
-                            }
-                            else
-                            {
-                                unBlockMovement = true;
-                            }
+                            lastX = x;
+                            lastY = y;
+                            x += 1;
+                            break;
+                        }
+                        else
+                        {
+                            unBlockMovement = true;
                         }
                     }
                 }
@@ -142,26 +268,25 @@ public class Player extends Entity{
                             lastX = x;
                             lastY = y;
                             y += 1;
+                            break;
                         }
                         else
                         {
                             unBlockMovement = true;
                         }
                     }
-                    else if(entity.getIdentifier() == 2)
+                    else if(entity.getIdentifier() == 2 && !entity.isPushable())
                     {
-                        if(!entity.isPushable())
+                        if((y + 1) >= 0 && map[x][y + 1] != entity.getIdentifier())
                         {
-                            if((y + 1) >= 0 && map[x][y + 1] != entity.getIdentifier())
-                            {
-                                lastX = x;
-                                lastY = y;
-                                y += 1;
-                            }
-                            else
-                            {
-                                unBlockMovement = true;
-                            }
+                            lastX = x;
+                            lastY = y;
+                            y += 1;
+                            break;
+                        }
+                        else
+                        {
+                            unBlockMovement = true;
                         }
                     }
                 }
@@ -174,30 +299,36 @@ public class Player extends Entity{
                             lastX = x;
                             lastY = y;
                             y -= 1;
+                            break;
                         }
                         else
                         {
                             unBlockMovement = true;
                         }
                     }
-                    else if(entity.getIdentifier() == 2)
+                    else if(entity.getIdentifier() == 2 && !entity.isPushable())
                     {
-                        if(!entity.isPushable())
+                        if((y - 1) >= 0 && map[x][y - 1] != entity.getIdentifier())
                         {
-                            if((y - 1) >= 0 && map[x][y - 1] != entity.getIdentifier())
-                            {
-                                lastX = x;
-                                lastY = y;
-                                y -= 1;
-                            }
-                            else
-                            {
-                                unBlockMovement = true;
-                            }
+                            lastX = x;
+                            lastY = y;
+                            y -= 1;
+                            break;
+                        }
+                        else
+                        {
+                            unBlockMovement = true;
                         }
                     }
                 }
-            }
+            }*/
+            unableMovement = false;
+            playerMovementTimer.schedule(new TimerTask(){
+                @Override
+                public void run() {
+                    unableMovement = true;
+                }
+            }, 300);
         }
     }
 
@@ -248,6 +379,7 @@ public class Player extends Entity{
         }
         return false;
     }
+
     public void kill() {
         if (!invincible) {
             invincible=true;
