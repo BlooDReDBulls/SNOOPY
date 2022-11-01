@@ -11,7 +11,6 @@ import java.util.List;
 public class Map {
     private Player player = new Player(0, 0);
     private int currentMap = 1;
-    private BufferedReader reader;
     private int[][] map;
     private final int ligne = 10;
     private final int colonne = 20;
@@ -27,12 +26,7 @@ public class Map {
         currentMap += num;
     }
 
-    public BufferedReader getReader() {
-        return reader;
-    }
-
-
-    public void loadMap(int mapInt) throws IOException {
+    public void loadMap(int mapInt) {
         try
         {
             entities.clear();
@@ -75,7 +69,8 @@ public class Map {
                     entities.add(boobyTrap);
                 }
                 else if(map[i][j] == 4){
-                    //bloc invincible
+                    Block block = new Block(i, j);
+                    entities.add(block);
                 }
                 else if(map[i][j] == 5){
                     //bloc tp
@@ -85,8 +80,7 @@ public class Map {
                     entities.add(driveBlock);
                 }
                 else if(map[i][j] == 8){
-                    Player copyPlayer = new Player(i, j);
-                    player = copyPlayer;
+                    player = new Player(i, j);
                     entities.add((player));
                 }
                 else if(map[i][j] == 9){
