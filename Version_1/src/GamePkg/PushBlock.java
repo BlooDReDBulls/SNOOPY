@@ -46,6 +46,11 @@ public class PushBlock extends Entity{
     }
 
     @Override
+    int getTeleportationIdentifier() {
+        return 0;
+    }
+
+    @Override
     void updatePosition(int[][] map, ArrayList<Entity> entities) {
         if(direction == Direction.LEFT)
         {

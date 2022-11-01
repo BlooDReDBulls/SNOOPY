@@ -74,6 +74,8 @@ public class Map {
                 }
                 else if(map[i][j] == 5){
                     //bloc tp
+                    TeleportationBlock teleportationBlock = new TeleportationBlock(i, j, 1);
+                    entities.add(teleportationBlock);
                 }
                 else if(map[i][j] == 6){
                     DriveBlock driveBlock = new DriveBlock(i, j, Direction.ANY);

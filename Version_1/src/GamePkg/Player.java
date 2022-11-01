@@ -34,6 +34,26 @@ public class Player extends Entity{
         return x;
     }
 
+    public void setX(int x)
+    {
+        this.x = x;
+    }
+
+    public void setY(int y)
+    {
+        this.y = y;
+    }
+
+    public void setLastX(int x)
+    {
+        this.lastX = x;
+    }
+
+    public void setLastY(int y)
+    {
+        this.lastY = y;
+    }
+
     @Override
     public int getY()
     {
@@ -234,6 +254,11 @@ public class Player extends Entity{
     @Override
     boolean isPushable() {
         return false;
+    }
+
+    @Override
+    int getTeleportationIdentifier() {
+        return 0;
     }
 
     public void bird(){

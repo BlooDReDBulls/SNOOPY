@@ -77,4 +77,10 @@ public class Bird extends Entity {
     boolean isPushable() {
         return false;
     }
+
+    @Override
+    int getTeleportationIdentifier() {
+        return 0;
+    }
+
 }
