@@ -60,6 +60,11 @@ public class Ball extends Entity{
     }
 
     @Override
+    int getTeleportationIdentifier() {
+        return 0;
+    }
+
+    @Override
     public int getLastX() {
         return lastX;
     }

@@ -13,6 +13,7 @@ public abstract class Entity {
     boolean collision;
     boolean visible;
     public Direction itsDirection;
+    public boolean activated;
     abstract void updatePosition(int[][] map, ArrayList<Entity> entities);
     abstract int getX();
     abstract  int getY();
@@ -26,4 +27,5 @@ public abstract class Entity {
     abstract void setVisible(boolean visible);
     abstract void push(Direction direction);
     abstract boolean isPushable();
+    abstract int getTeleportationIdentifier();
 }

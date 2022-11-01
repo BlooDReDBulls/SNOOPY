@@ -114,7 +114,7 @@ public class Game implements Observable{
                 }
                 else
                 {
-                    if(entity.getIdentifier() == 5 || entity.getIdentifier() == 6)
+                    if(entity.isVisible())
                     {
                         map.getMap()[entity.getX()][entity.getY()] = entity.getIdentifier();
                     }
@@ -145,6 +145,7 @@ public class Game implements Observable{
                         else if(entity.getIdentifier() == 9)
                         {
                             map.getPlayer().bird();
+                            entity.setVisible(false);
                             map.getMap()[entity.getX()][entity.getY()] = 0;
                             if(map.getPlayer().win()){
                                 map.setCurrentMap(1);
@@ -155,6 +156,25 @@ public class Game implements Observable{
                         {
                             map.getPlayer().itsDirection = entity.itsDirection;
                             map.getPlayer().unBlockMovement = false;
+                        }
+                        else if(entity.getIdentifier() == 5)
+                        {
+                            if(entity.activated)
+                            {
+                                entity.activated = false;
+                                for(Entity endPoint : map.getEntities())
+                                {
+                                    if(endPoint.getIdentifier() == 5 && endPoint.getTeleportationIdentifier() == entity.getTeleportationIdentifier() && endPoint.activated)
+                                    {
+                                        endPoint.activated = false;
+                                        map.getPlayer().setLastX(map.getPlayer().getX());
+                                        map.getPlayer().setX(endPoint.getX());
+                                        map.getPlayer().setLastY(map.getPlayer().getY());
+                                        map.getPlayer().setY(endPoint.getY());
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
                     else
@@ -173,6 +193,13 @@ public class Game implements Observable{
                                 map.getMap()[entity.getX()][entity.getY()] = entity.getIdentifier();
                             }
                         }
+                    }
+                }
+                else
+                {
+                    if(entity.getIdentifier() == 5)
+                    {
+                        entity.activated = true;
                     }
                 }
             }

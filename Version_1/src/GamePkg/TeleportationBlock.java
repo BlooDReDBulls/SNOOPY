@@ -2,47 +2,50 @@ package GamePkg;
 
 import java.util.ArrayList;
 
-public class BoobyTrap extends Entity{
+public class TeleportationBlock extends Entity{
 
-    public BoobyTrap(int x, int y)
+    int teleportationIdentifier;
+
+    public TeleportationBlock(int x, int y, int teleportationIdentifier)
     {
         this.x = x;
         this.y = y;
+        this.teleportationIdentifier = teleportationIdentifier;
+        identifier = 5;
+        animation = true;
         collision = false;
-        animation = false;
-        identifier = 3;
         move = false;
+        visible = true;
+        activated = true;
     }
     @Override
-    public int getX()
-    {
+    void updatePosition(int[][] map, ArrayList<Entity> entities) {
+
+    }
+
+    @Override
+    int getX() {
         return x;
     }
+
     @Override
-    public int getY()
-    {
+    int getY() {
         return y;
     }
 
     @Override
     int getLastX() {
-        return 0;
+        return lastX;
     }
 
     @Override
     int getLastY() {
-        return 0;
+        return lastY;
     }
 
     @Override
     boolean isMove() {
         return move;
-    }
-
-
-    @Override
-    void updatePosition(int[][] map, ArrayList<Entity> entities) {
-
     }
 
     @Override
@@ -62,12 +65,12 @@ public class BoobyTrap extends Entity{
 
     @Override
     boolean isVisible() {
-        return false;
+        return visible;
     }
 
     @Override
     void setVisible(boolean visible) {
-
+        this.visible = visible;
     }
 
     @Override
@@ -82,6 +85,6 @@ public class BoobyTrap extends Entity{
 
     @Override
     int getTeleportationIdentifier() {
-        return 0;
+        return teleportationIdentifier;
     }
 }
