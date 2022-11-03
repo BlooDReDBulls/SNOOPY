@@ -20,6 +20,25 @@ public class Game implements Observable{
     GamePanel gamePanel;
     GameUI gameUI;
 
+    public Game() throws IOException {
+        map.loadMap(1);
+        observateurs = new ArrayList<Observateur>();
+        GameConsole gameConsole = new GameConsole(this);
+//        this.gameUI = new GameUI(this);
+        this.gamePanel = new GamePanel(this);
+
+        for(Entity entity : map.getEntities())
+        {
+            map.getMap()[entity.getX()][entity.getY()] = entity.getIdentifier();
+        }
+
+        this.attacheObservateur(gamePanel);
+//        this.attacheObservateur(gameConsole);
+//       this.attacheObservateur(gameUI);
+
+        this.gamePanel.setKeyListener(keyListener);
+    }
+
     KeyAdapter keyListener = new KeyAdapter() {
         @Override
         public void keyPressed(KeyEvent e) {
@@ -40,6 +59,25 @@ public class Game implements Observable{
                 else if(e.getKeyCode() == KeyEvent.VK_DOWN)
                 {
                     map.getPlayer().itsDirection = Direction.DOWN;
+                }
+            }
+            if(e.getKeyCode() == KeyEvent.VK_SPACE)
+            {
+                if(map.getPlayer().getX() + 1 <= 9 && map.getMap()[map.getPlayer().getX() + 1][map.getPlayer().getY()] == 1)
+                {
+                    map.getMap()[map.getPlayer().getX() + 1][map.getPlayer().getY()] = 0;
+                }
+                if(map.getPlayer().getX() - 1 >= 0 && map.getMap()[map.getPlayer().getX() - 1][map.getPlayer().getY()] == 1)
+                {
+                    map.getMap()[map.getPlayer().getX() - 1][map.getPlayer().getY()] = 0;
+                }
+                if(map.getPlayer().getY() + 1 <= 19 && map.getMap()[map.getPlayer().getX()][map.getPlayer().getY() + 1] == 1)
+                {
+                    map.getMap()[map.getPlayer().getX()][map.getPlayer().getY() + 1] = 0;
+                }
+                if(map.getPlayer().getY() - 1 >= 0 && map.getMap()[map.getPlayer().getX()][map.getPlayer().getY() - 1] == 1)
+                {
+                    map.getMap()[map.getPlayer().getX()][map.getPlayer().getY() - 1] = 0;
                 }
             }
         }
@@ -72,28 +110,6 @@ public class Game implements Observable{
         }
     };
 
-
-
-    public Game() throws IOException {
-        map.loadMap(1);
-        observateurs = new ArrayList<Observateur>();
-        GameConsole gameConsole = new GameConsole(this);
-//        this.gameUI = new GameUI(this);
-        this.gamePanel = new GamePanel(this);
-
-        for(Entity entity : map.getEntities())
-        {
-            map.getMap()[entity.getX()][entity.getY()] = entity.getIdentifier();
-        }
-
-        this.attacheObservateur(gamePanel);
-//        this.attacheObservateur(gameConsole);
-//       this.attacheObservateur(gameUI);
-
-
-
-        this.gamePanel.setKeyListener(keyListener);
-    }
     public TimerTask timer = new TimerTask() {
         @Override
         public void run() {
