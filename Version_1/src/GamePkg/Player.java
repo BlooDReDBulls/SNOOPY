@@ -85,7 +85,7 @@ public class Player extends Entity{
         {
             if(itsDirection == Direction.UP)
             {
-                if((x - 1) >= 0 && map[x - 1][y] != 1 && map[x - 1][y] != 3 && map[x - 1][y] != 4)
+                if((x - 1) >= 0 && map[x - 1][y] != 1 && map[x - 1][y] != 4)
                 {
                     if(map[x - 1][y] == 2)
                     {
@@ -117,7 +117,7 @@ public class Player extends Entity{
             }
             else if(itsDirection == Direction.DOWN)
             {
-                if((x + 1) <= 9 && map[x + 1][y] != 1 && map[x + 1][y] != 3 && map[x + 1][y] != 4)
+                if((x + 1) <= 9 && map[x + 1][y] != 1 && map[x + 1][y] != 4)
                 {
                     if(map[x + 1][y] == 2)
                     {
@@ -149,7 +149,7 @@ public class Player extends Entity{
             }
             else if(itsDirection == Direction.RIGHT)
             {
-                if((y + 1) <= 19 && map[x][y + 1] != 1 && map[x][y + 1] != 3 && map[x][y + 1] != 4)
+                if((y + 1) <= 19 && map[x][y + 1] != 1 && map[x][y + 1] != 4)
                 {
                     if(map[x][y + 1] == 2)
                     {
@@ -181,7 +181,7 @@ public class Player extends Entity{
             }
             else if(itsDirection == Direction.LEFT)
             {
-                if((y - 1) >= 0 && map[x][y - 1] != 1 && map[x][y - 1] != 3 && map[x][y - 1] != 4)
+                if((y - 1) >= 0 && map[x][y - 1] != 1 && map[x][y - 1] != 4)
                 {
                     if(map[x][y - 1] == 2)
                     {
