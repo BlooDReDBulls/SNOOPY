@@ -35,17 +35,66 @@ public class Map {
             BufferedReader br = new BufferedReader(fr);
             String line;
             int x = 0;
+            int y;
             while((line = br.readLine()) != null)
             {
-                List list = Arrays.stream((line.split(" "))).toList();
-                for (int i = 0; i < list.size(); i++) {
-                    initMap(x,i,Integer.parseInt((String) list.get(i)));
+                String[] list = line.split(" ");
+                y = 0;
+                for(String identifier : list)
+                {
+                    initMap(x,y,Integer.parseInt((String) identifier.split(":")[0]));
+                    if(Integer.parseInt((String) identifier.split(":")[0]) == 1)
+                    {
+                        BreakableBlock breakableBlock = new BreakableBlock(x, y);
+                        entities.add(breakableBlock);
+                    }
+                    else if(Integer.parseInt((String) identifier.split(":")[0]) == 2)
+                    {
+                        PushBlock pushBlock = new PushBlock(x, y);
+                        entities.add(pushBlock);
+                    }
+                    else if(Integer.parseInt((String) identifier.split(":")[0]) == 3)
+                    {
+                        BoobyTrap boobyTrap = new BoobyTrap(x, y);
+                        entities.add(boobyTrap);
+                    }
+                    else if(Integer.parseInt((String) identifier.split(":")[0]) == 4)
+                    {
+                        Block block = new Block(x, y);
+                        entities.add(block);
+                    }
+                    else if(Integer.parseInt((String) identifier.split(":")[0]) == 5)
+                    {
+                        TeleportationBlock teleportationBlock = new TeleportationBlock(x, y, Integer.parseInt((String) identifier.split(":")[1]));
+                        entities.add(teleportationBlock);
+                    }
+                    else if(Integer.parseInt((String) identifier.split(":")[0]) == 6)
+                    {
+                        DriveBlock driveBlock = new DriveBlock(x, y, Direction.values()[Integer.parseInt((String) identifier.split(":")[1])]);
+                        entities.add(driveBlock);
+                    }
+                    else if(Integer.parseInt((String) identifier.split(":")[0]) == 8)
+                    {
+                        player = new Player(x, y);
+                        entities.add((player));
+                    }
+                    else if(Integer.parseInt((String) identifier.split(":")[0]) == 9)
+                    {
+                        Bird bird = new Bird(x, y, Direction.values()[Integer.parseInt((String) identifier.split(":")[1])]);
+                        entities.add(bird);
+                    }
+                    y++;
                 }
                 System.out.println(list);
                 x++;
             }
             fr.close();
-            initEntities();
+            Ball ball = new Ball();
+            entities.add(ball);
+            for(Entity entity : entities)
+            {
+                map[entity.getX()][entity.getY()] = entity.getIdentifier();
+            }
         }
         catch(IOException e)
         {
@@ -53,52 +102,7 @@ public class Map {
         }
 
     }
-    private void initEntities(){
-        entities.clear();
-        for (int i = 0; i < ligne ; i++) {
-            for (int j = 0; j < colonne; j++) {
-                //créé entite chaque objet
-                if(map[i][j] == 1){
-                    //bloc cassable
-                }
-                else if(map[i][j] == 2){
-                    PushBlock pushBlock = new PushBlock(i, j);
-                    entities.add(pushBlock);
-                }
-                else if(map[i][j] == 3){
-                    BoobyTrap boobyTrap = new BoobyTrap(i, j);
-                    entities.add(boobyTrap);
-                }
-                else if(map[i][j] == 4){
-                    Block block = new Block(i, j);
-                    entities.add(block);
-                }
-                else if(map[i][j] == 5){
-                    //bloc tp
-                    TeleportationBlock teleportationBlock = new TeleportationBlock(i, j, 1);
-                    entities.add(teleportationBlock);
-                }
-                else if(map[i][j] == 6){
-                    DriveBlock driveBlock = new DriveBlock(i, j, Direction.UP);
-                    entities.add(driveBlock);
-                }
-                else if(map[i][j] == 8){
-                    player = new Player(i, j);
-                    entities.add((player));
-                }
-                else if(map[i][j] == 9){
-                    Bird bird = new Bird(i, j);
-                    entities.add(bird);
-                }
-                Ball ball = new Ball();
-                entities.add(ball);
-            }
-        }
-        for(Entity entity : entities)
-        {
-            map[entity.getX()][entity.getY()] = entity.getIdentifier();
-        }
-    }
+
     public ArrayList<Entity> getEntities() {
         return entities;
     }

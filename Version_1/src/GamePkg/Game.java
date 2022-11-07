@@ -284,6 +284,7 @@ public class Game implements Observable{
         }
         Path filePath = Path.of("saveFile.txt");
         Files.writeString(filePath, mapString);
+
     }
 
     public Map getMap() {

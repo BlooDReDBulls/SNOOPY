@@ -3,10 +3,11 @@ package GamePkg;
 import java.util.ArrayList;
 
 public class Bird extends Entity {
-    public Bird(int x, int y) {
+    public Bird(int x, int y, Direction direction) {
         this.x = x;
         this.y = y;
         animation = true;
+        itsDirection = direction;
         collision = false;
         identifier = 9;
         visible = true;
