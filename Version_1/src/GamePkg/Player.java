@@ -167,7 +167,7 @@ public class Player extends Entity{
                 public void run() {
                     unableMovement = true;
                 }
-            }, 300);
+            }, 250);
         }
     }
     @Override
