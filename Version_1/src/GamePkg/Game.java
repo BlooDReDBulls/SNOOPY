@@ -15,22 +15,21 @@ public class Game implements Observable{
 
     Map map = new Map();
     Timer timerController = new Timer();
+    Timer refreshTimer = new Timer();
     List<Observateur> observateurs;
+    Timer dead = new Timer();
+    private int numberLife;
 
     GamePanel gamePanel;
     GameUI gameUI;
 
     public Game() throws IOException {
         map.loadMap(1);
+        numberLife = 3;
         observateurs = new ArrayList<Observateur>();
         GameConsole gameConsole = new GameConsole(this);
 //        this.gameUI = new GameUI(this);
         this.gamePanel = new GamePanel(this.getMap());
-
-        for(Entity entity : map.getEntities())
-        {
-            map.getMap()[entity.getX()][entity.getY()] = entity.getIdentifier();
-        }
 
         this.attacheObservateur(gamePanel);
         //this.attacheObservateur(gameConsole);
@@ -113,7 +112,7 @@ public class Game implements Observable{
     public TimerTask timer = new TimerTask() {
         @Override
         public void run() {
-            System.out.println("Fin");
+            System.out.println("Game over");
             while(true);
         }
     };
@@ -156,9 +155,20 @@ public class Game implements Observable{
                     {
                         if(entity.getIdentifier() == 3 || entity.getIdentifier() == 7)
                         {
-                            map.getPlayer().kill();
+                            kill();
+                            map.loadMap(map.getCurrentMap());
+                            timerController.cancel();
+                            timerController = new Timer();
+                            timerController.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    System.out.println("Game over");
+                                    while(true);
+                                }
+                            }, 6000);
+                            break;
                         }
-                        else if(entity.getIdentifier() == 9)
+                        else if(entity.getIdentifier() == 9 && entity.isVisible())
                         {
                             map.getPlayer().bird();
                             entity.setVisible(false);
@@ -166,6 +176,16 @@ public class Game implements Observable{
                             if(map.getPlayer().win()){
                                 map.setCurrentMap(1);
                                 map.loadMap(map.getCurrentMap());
+                                timerController.cancel();
+                                timerController = new Timer();
+                                timerController.schedule(new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        System.out.println("Game over");
+                                        while(true);
+                                    }
+                                }, 6000);
+                                break;
                             }
                         }
                         else if(entity.getIdentifier() == 6)
@@ -260,10 +280,25 @@ public class Game implements Observable{
             o.actualise();
         }
     }
+    public void kill() {
+        if (!map.getPlayer().invincible) {
+            map.getPlayer().invincible=true;
+            numberLife -= 1;
+            if(numberLife==0){
+                while (true);
+            }
+            dead.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    map.getPlayer().invincible = false;
+                }
+            }, 1500);
+        }
+    }
 
     public static void main(String[] args) throws IOException {
         Game game = new Game();
         game.timerController.schedule(game.timer, 60000);
-        game.timerController.schedule(game.refresh, 0, 50);
+        game.refreshTimer.schedule(game.refresh, 0, 50);
     }
 }

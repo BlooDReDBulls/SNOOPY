@@ -6,8 +6,7 @@ import java.util.TimerTask;
 public class Player extends Entity{
     private int numberBird;
     public boolean unBlockMovement;
-    private int numberLife;
-    private boolean invincible;
+    public boolean invincible;
     public Direction itsLastDirection;
     Timer playerMovementTimer = new Timer();
     boolean unableMovement;
@@ -22,18 +21,12 @@ public class Player extends Entity{
         this.x = x;
         this.y = y;
         unBlockMovement = true;
-        numberLife = 3;
         numberBird = 0;
         animation = true;
         collision = true;
         identifier = 8;
         move = true;
         unableMovement = true;
-    }
-
-
-    public int getNumberLife() {
-        return numberLife;
     }
 
     @Override
@@ -178,12 +171,10 @@ public class Player extends Entity{
             }, 300);
         }
     }
-
     @Override
     boolean isCollision() {
         return collision;
     }
-
 
     @Override
     boolean isPushable() {
@@ -206,22 +197,6 @@ public class Player extends Entity{
             return true;
         }
         return false;
-    }
-
-    public void kill() {
-        if (!invincible) {
-            invincible=true;
-            numberLife -= 1;
-            if(numberLife==0){
-                while (true);
-            }
-            dead.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    invincible = false;
-                }
-            }, 1500);
-        }
     }
 
     public void setLastX(int lastX) {

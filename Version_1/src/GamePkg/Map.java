@@ -54,6 +54,7 @@ public class Map {
 
     }
     private void initEntities(){
+        entities.clear();
         for (int i = 0; i < ligne ; i++) {
             for (int j = 0; j < colonne; j++) {
                 //créé entite chaque objet
@@ -78,7 +79,7 @@ public class Map {
                     entities.add(teleportationBlock);
                 }
                 else if(map[i][j] == 6){
-                    DriveBlock driveBlock = new DriveBlock(i, j, Direction.ANY);
+                    DriveBlock driveBlock = new DriveBlock(i, j, Direction.UP);
                     entities.add(driveBlock);
                 }
                 else if(map[i][j] == 8){
@@ -92,6 +93,10 @@ public class Map {
                 Ball ball = new Ball();
                 entities.add(ball);
             }
+        }
+        for(Entity entity : entities)
+        {
+            map[entity.getX()][entity.getY()] = entity.getIdentifier();
         }
     }
     public ArrayList<Entity> getEntities() {
