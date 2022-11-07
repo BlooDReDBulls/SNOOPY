@@ -102,6 +102,7 @@ public class Map {
         this.map[x][y]=valeur;
     }
     public int[][] getMap() {
+
         return map;
     }
 

@@ -14,18 +14,43 @@ public abstract class Entity {
     boolean visible;
     public Direction itsDirection;
     public boolean activated;
+
     abstract void updatePosition(int[][] map, ArrayList<Entity> entities);
-    abstract int getX();
-    abstract  int getY();
-    abstract int getLastX();
-    abstract int getLastY();
-    abstract boolean isMove();
-    abstract int getIdentifier();
-    abstract boolean isAnimated();
+    public int getX(){
+        return x;
+    }
+    public int getY(){
+        return y;
+    }
+
+    public int getLastX() {
+        return lastX;
+    }
+
+    public int getLastY(){
+        return lastY;
+    }
+    public boolean isMove(){
+        return move;
+    }
+    public int getIdentifier(){
+        return identifier;
+    }
+    public boolean isAnimated(){
+        return animation;
+    }
     abstract boolean isCollision();
-    abstract boolean isVisible();
-    abstract void setVisible(boolean visible);
-    abstract void push(Direction direction);
+
+    public boolean isVisible(){
+        return visible;
+    }
+    public void setVisible(boolean visible){
+        this.visible = visible;
+    }
+    public void push(Direction direction){
+        this.itsDirection = direction;
+    }
     abstract boolean isPushable();
     abstract int getTeleportationIdentifier();
+
 }

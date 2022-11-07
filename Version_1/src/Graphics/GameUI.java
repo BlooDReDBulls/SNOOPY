@@ -16,7 +16,7 @@ public class GameUI extends JLayeredPane implements Observateur {
 
     public GameUI(Game game){
         this.jFrame = new JFrame("Snoopy le jeu");
-        this.gamePanel = new GamePanel(game);
+//        this.gamePanel = new GamePanel(game);
 //        this.gamePanel.setVisible(true);
 
         setupJFrame();

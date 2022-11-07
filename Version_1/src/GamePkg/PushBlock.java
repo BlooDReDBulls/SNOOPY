@@ -70,30 +70,12 @@ public class PushBlock extends Entity{
         }
     }
 
-    @Override
-    int getIdentifier() {
-        return identifier;
-    }
-
-    @Override
-    boolean isAnimated() {
-        return animation;
-    }
 
     @Override
     boolean isCollision() {
         return collision;
     }
 
-    @Override
-    boolean isVisible() {
-        return false;
-    }
-
-    @Override
-    void setVisible(boolean visible) {
-
-    }
 
     @Override
     public int getX()
@@ -106,18 +88,4 @@ public class PushBlock extends Entity{
         return y;
     }
 
-    @Override
-    int getLastX() {
-        return 0;
-    }
-
-    @Override
-    int getLastY() {
-        return 0;
-    }
-
-    @Override
-    boolean isMove() {
-        return move;
-    }
 }

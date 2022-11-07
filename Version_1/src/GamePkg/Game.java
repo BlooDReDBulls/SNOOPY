@@ -25,7 +25,7 @@ public class Game implements Observable{
         observateurs = new ArrayList<Observateur>();
         GameConsole gameConsole = new GameConsole(this);
 //        this.gameUI = new GameUI(this);
-        this.gamePanel = new GamePanel(this);
+        this.gamePanel = new GamePanel(this.getMap());
 
         for(Entity entity : map.getEntities())
         {
@@ -33,7 +33,7 @@ public class Game implements Observable{
         }
 
         this.attacheObservateur(gamePanel);
-//        this.attacheObservateur(gameConsole);
+        //this.attacheObservateur(gameConsole);
 //       this.attacheObservateur(gameUI);
 
         this.gamePanel.setKeyListener(keyListener);
@@ -238,8 +238,9 @@ public class Game implements Observable{
         Files.writeString(filePath, mapString);
     }
 
-    public int[][] getMap() {
-        return map.getMap();
+    public Map getMap() {
+
+        return map;
     }
 
 

@@ -1,6 +1,7 @@
 package Graphics;
 
-import GamePkg.Game;
+import GamePkg.*;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Observateur{
 
-    private Game game;
+    private Map map;
     private final AnimationEngine animationEngine;
     private final TexturesImages texturesImages;
     private final Animations animationsSnoopy;
@@ -18,12 +19,15 @@ public class GamePanel extends JPanel implements Observateur{
     private final Animations animationsSlider;
 
     private final ArrayList<Animations> animationsArrayList = new ArrayList();
+    ArrayList<Entity> entities;
+
 
     private JFrame jFrame;
 
 
-    public GamePanel(Game game){
-        this.game = game;
+    public GamePanel(Map map){
+        this.map = map;
+        this.entities = map.getEntities();
         this.setPreferredSize(new Dimension(640,320));
 
         this.jFrame = new JFrame("Temporary Frame SNOOPY ");
@@ -65,19 +69,19 @@ public class GamePanel extends JPanel implements Observateur{
 
 //        g2.drawImage(texturesImages.getImageFromTAB(0), (32 * j), (32 * i), this);
 
-//        for (Entity entity : game.getMap().getEntities()) {
-//
+//        for (Entity entity: entities) {
+//            entity.
 //        }
 
 
         for (int i = 0; i < 10.; i++) {
             for (int j = 0; j < 20; j++) {
+                g2.drawImage(texturesImages.getImageFromTAB(0), (32 * j), (32 * i), this);
 
-
-                switch (game.getMap()[i][j]) {
+                switch (map.getMap()[i][j]) {
                     case 3 -> {
                         g2.drawImage(texturesImages.getImageFromTAB(0), (32 * j), (32 * i), this);
-                        g2.drawImage(texturesImages.getImageFromMap(game.getMap()[i][j]), (32 * j), (32 * i), this);
+                        g2.drawImage(texturesImages.getImageFromMap(map.getMap()[i][j]), (32 * j), (32 * i), this);
                     }
                     case 6 -> {
                         g2.drawImage(texturesImages.getImageFromTAB(0), (32 * j), (32 * i), this);
@@ -85,7 +89,7 @@ public class GamePanel extends JPanel implements Observateur{
                     }
                     case 7 -> {
                         g2.drawImage(texturesImages.getImageFromTAB(0), (32 * j), (32 * i), this);
-                        g2.drawImage(texturesImages.getImageFromMap(game.getMap()[i][j]), (32 * j), (32 * i), this);
+                        g2.drawImage(texturesImages.getImageFromMap(map.getMap()[i][j]), (32 * j), (32 * i), this);
                     }
                     case 8 -> {
                         g2.drawImage(texturesImages.getImageFromTAB(0), (32 * j), (32 * i), this);
@@ -97,7 +101,7 @@ public class GamePanel extends JPanel implements Observateur{
                         g2.drawImage(animationsBird.getAnimation(1, animationEngine.getCycleProgress()), (32 * j), (32 * i), this);
                     }
                     default ->
-                            g2.drawImage(texturesImages.getImageFromMap(game.getMap()[i][j]), (32 * j), (32 * i), this);
+                            g2.drawImage(texturesImages.getImageFromMap(map.getMap()[i][j]), (32 * j), (32 * i), this);
                 }
             }
         }

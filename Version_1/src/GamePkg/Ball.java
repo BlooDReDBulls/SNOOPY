@@ -23,36 +23,13 @@ public class Ball extends Entity{
         yspeed = 1;
         unableMovement = true;
     }
-    @Override
-    public int getIdentifier()
-    {
-        return identifier;
-    }
-    @Override
-    public boolean isAnimated()
-    {
-        return animation;
-    }
+
     @Override
     public boolean isCollision()
     {
         return collision;
     }
 
-    @Override
-    boolean isVisible() {
-        return false;
-    }
-
-    @Override
-    void setVisible(boolean visible) {
-
-    }
-
-    @Override
-    void push(Direction direction) {
-
-    }
 
     @Override
     boolean isPushable() {
@@ -62,15 +39,6 @@ public class Ball extends Entity{
     @Override
     int getTeleportationIdentifier() {
         return 0;
-    }
-
-    @Override
-    public int getLastX() {
-        return lastX;
-    }
-    @Override
-    public int getLastY() {
-        return lastY;
     }
 
     @Override
@@ -110,18 +78,4 @@ public class Ball extends Entity{
         }
     }
 
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    boolean isMove() {
-        return move;
-    }
 }

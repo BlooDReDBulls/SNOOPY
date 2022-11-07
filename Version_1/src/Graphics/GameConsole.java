@@ -18,7 +18,7 @@ public class GameConsole implements Observateur{
         {
             for(int j = 0 ; j < 20 ; j++)
             {
-                System.out.print(game.getMap()[i][j] + " ");
+                System.out.print(game.getMap().getMap()[i][j] + " ");
             }
             System.out.println(" ");
         }

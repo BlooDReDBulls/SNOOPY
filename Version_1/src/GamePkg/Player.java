@@ -12,6 +12,9 @@ public class Player extends Entity{
     Timer playerMovementTimer = new Timer();
     boolean unableMovement;
     Timer dead = new Timer();
+    private int x;
+    private int lastY;
+    private int y;
 
     public Player(int x, int y)
     {
@@ -28,55 +31,10 @@ public class Player extends Entity{
         unableMovement = true;
     }
 
-    @Override
-    public int getX()
-    {
-        return x;
-    }
-
-    public void setX(int x)
-    {
-        this.x = x;
-    }
-
-    public void setY(int y)
-    {
-        this.y = y;
-    }
-
-    public void setLastX(int x)
-    {
-        this.lastX = x;
-    }
-
-    public void setLastY(int y)
-    {
-        this.lastY = y;
-    }
-
-    @Override
-    public int getY()
-    {
-        return y;
-    }
-
-    @Override
-    boolean isMove() {
-        return move;
-    }
 
     public int getNumberLife() {
         return numberLife;
     }
-    @Override
-    public int getLastX() {
-        return lastX;
-    }
-    @Override
-    public int getLastY() {
-        return lastY;
-    }
-
 
     @Override
     public void updatePosition(int[][] map, ArrayList<Entity> entities)
@@ -222,34 +180,10 @@ public class Player extends Entity{
     }
 
     @Override
-    int getIdentifier() {
-        return identifier;
-    }
-
-    @Override
-    boolean isAnimated() {
-        return animation;
-    }
-
-    @Override
     boolean isCollision() {
         return collision;
     }
 
-    @Override
-    boolean isVisible() {
-        return false;
-    }
-
-    @Override
-    void setVisible(boolean visible) {
-
-    }
-
-    @Override
-    void push(Direction direction) {
-
-    }
 
     @Override
     boolean isPushable() {
@@ -288,5 +222,37 @@ public class Player extends Entity{
                 }
             }, 1500);
         }
+    }
+
+    public void setLastX(int lastX) {
+        this.lastX = lastX;
+    }
+
+    public int getLastX() {
+        return lastX;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setLastY(int lastY) {
+        this.lastY = lastY;
+    }
+
+    public int getLastY() {
+        return lastY;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getY() {
+        return y;
     }
 }

@@ -17,29 +17,7 @@ public class DriveBlock extends Entity{
         move = false;
         visible = true;
     }
-    @Override
-    public int getX() {
-        return x;
-    }
-    @Override
-    public int getY() {
-        return y;
-    }
 
-    @Override
-    int getLastX() {
-        return 0;
-    }
-
-    @Override
-    int getLastY() {
-        return 0;
-    }
-
-    @Override
-    boolean isMove() {
-        return move;
-    }
 
     @Override
     void updatePosition(int[][] map, ArrayList<Entity> entities) {
@@ -47,34 +25,10 @@ public class DriveBlock extends Entity{
     }
 
     @Override
-    int getIdentifier() {
-        return identifier;
-    }
-
-    @Override
-    boolean isAnimated() {
-        return animation;
-    }
-
-    @Override
     boolean isCollision() {
         return collision;
     }
 
-    @Override
-    boolean isVisible() {
-        return visible;
-    }
-
-    @Override
-    void setVisible(boolean visible) {
-
-    }
-
-    @Override
-    void push(Direction direction) {
-
-    }
 
     @Override
     boolean isPushable() {
