@@ -5,6 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 public class Player extends Entity{
     private int numberBird;
+    private int itsScore;
     public boolean unBlockMovement;
     public Direction itsLastDirection;
     Timer playerMovementTimer = new Timer();
@@ -195,6 +196,10 @@ public class Player extends Entity{
             return true;
         }
         return false;
+    }
+    public void addScore(int seconds){
+        itsScore += 100 * seconds;
+        System.out.println("Score totale : " + itsScore);
     }
 
     public void setLastX(int lastX) {

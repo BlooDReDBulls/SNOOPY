@@ -22,6 +22,8 @@ public class Game implements Observable{
     List<Observateur> observateurs;
     private int numberLife;
     private boolean pause;
+    int remaingSeconds = 60;
+    public Timer timerSeconds;
 
     GamePanel gamePanel;
     GameUI gameUI;
@@ -31,9 +33,12 @@ public class Game implements Observable{
         numberLife = 3;
         pause = false;
         timerController = new Timer(60000, timer);
+        timerSeconds = new Timer(1000, seconds);
         refreshTimer = new Timer(50, refresh);
         timerController.setRepeats(false);
+        timerSeconds.setRepeats(true);
         refreshTimer.setRepeats(true);
+        timerSeconds.start();
         timerController.start();
         refreshTimer.start();
         observateurs = new ArrayList<Observateur>();
@@ -95,10 +100,12 @@ public class Game implements Observable{
                 if(pause == true)
                 {
                     timerController.stop();
+                    timerSeconds.stop();
                 }
                 else
                 {
                     timerController.start();
+                    timerSeconds.start();
                 }
             }
         }
@@ -136,6 +143,13 @@ public class Game implements Observable{
         public void actionPerformed(ActionEvent e) {
             System.out.println("Game over");
             while(true);
+        }
+    };
+    public ActionListener seconds = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            remaingSeconds -= 1;
+            System.out.println(remaingSeconds);
         }
     };
     public ActionListener refresh = new ActionListener() {
@@ -183,6 +197,8 @@ public class Game implements Observable{
                             kill();
                             map.loadMap(map.getCurrentMap());
                             timerController.restart();
+                            timerSeconds.restart();
+                            remaingSeconds = 60;
                             break;
                         }
                         else if(entity.getIdentifier() == 9 && entity.isVisible())
@@ -191,9 +207,12 @@ public class Game implements Observable{
                             entity.setVisible(false);
                             map.getMap()[entity.getX()][entity.getY()] = 0;
                             if(map.getPlayer().win()){
+                                map.getPlayer().addScore(remaingSeconds);
                                 map.setCurrentMap(1);
                                 map.loadMap(map.getCurrentMap());
                                 timerController.restart();
+                                timerSeconds.restart();
+                                remaingSeconds = 60;
                                 break;
                             }
                         }
