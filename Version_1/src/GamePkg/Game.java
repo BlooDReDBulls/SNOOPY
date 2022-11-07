@@ -3,22 +3,25 @@ package GamePkg;
 import Graphics.*;
 import Graphics.Observable;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import javax.swing.Timer;
 
 
 public class Game implements Observable{
 
     Map map = new Map();
-    Timer timerController = new Timer();
-    Timer refreshTimer = new Timer();
+    public Timer timerController;
+    public Timer refreshTimer;
     List<Observateur> observateurs;
-    Timer dead = new Timer();
     private int numberLife;
+    private boolean pause;
 
     GamePanel gamePanel;
     GameUI gameUI;
@@ -26,6 +29,13 @@ public class Game implements Observable{
     public Game() throws IOException {
         map.loadMap(1);
         numberLife = 3;
+        pause = false;
+        timerController = new Timer(60000, timer);
+        refreshTimer = new Timer(50, refresh);
+        timerController.setRepeats(false);
+        refreshTimer.setRepeats(true);
+        timerController.start();
+        refreshTimer.start();
         observateurs = new ArrayList<Observateur>();
         GameConsole gameConsole = new GameConsole(this);
 //        this.gameUI = new GameUI(this);
@@ -79,6 +89,18 @@ public class Game implements Observable{
                     map.getMap()[map.getPlayer().getX()][map.getPlayer().getY() - 1] = 0;
                 }
             }
+            else if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+            {
+                pause = !pause;
+                if(pause == true)
+                {
+                    timerController.stop();
+                }
+                else
+                {
+                    timerController.start();
+                }
+            }
         }
         @Override
         public void keyReleased(KeyEvent e) {
@@ -109,38 +131,41 @@ public class Game implements Observable{
         }
     };
 
-    public TimerTask timer = new TimerTask() {
+    public ActionListener timer = new ActionListener() {
         @Override
-        public void run() {
+        public void actionPerformed(ActionEvent e) {
             System.out.println("Game over");
             while(true);
         }
     };
-    public TimerTask refresh = new TimerTask() {
+    public ActionListener refresh = new ActionListener() {
         @Override
-        public void run() {
-            for(Entity entity : map.getEntities())
+        public void actionPerformed(ActionEvent a) {
+            if(!pause)
             {
-                if(entity.isMove())
+                for(Entity entity : map.getEntities())
                 {
-                    entity.updatePosition(map.getMap(), map.getEntities());
-                    map.getMap()[entity.getLastX()][entity.getLastY()] = 0;
-                    map.getMap()[entity.getX()][entity.getY()] = entity.getIdentifier();
-                }
-                else
-                {
-                    if(entity.isVisible())
+                    if(entity.isMove())
                     {
+                        entity.updatePosition(map.getMap(), map.getEntities());
+                        map.getMap()[entity.getLastX()][entity.getLastY()] = 0;
                         map.getMap()[entity.getX()][entity.getY()] = entity.getIdentifier();
                     }
+                    else
+                    {
+                        if(entity.isVisible())
+                        {
+                            map.getMap()[entity.getX()][entity.getY()] = entity.getIdentifier();
+                        }
+                    }
                 }
+                try {
+                    checkIntersection();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                notifieObservateurs();
             }
-            try {
-                checkIntersection();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            notifieObservateurs();
         }
     };
 
@@ -157,15 +182,7 @@ public class Game implements Observable{
                         {
                             kill();
                             map.loadMap(map.getCurrentMap());
-                            timerController.cancel();
-                            timerController = new Timer();
-                            timerController.schedule(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    System.out.println("Game over");
-                                    while(true);
-                                }
-                            }, 6000);
+                            timerController.restart();
                             break;
                         }
                         else if(entity.getIdentifier() == 9 && entity.isVisible())
@@ -176,15 +193,7 @@ public class Game implements Observable{
                             if(map.getPlayer().win()){
                                 map.setCurrentMap(1);
                                 map.loadMap(map.getCurrentMap());
-                                timerController.cancel();
-                                timerController = new Timer();
-                                timerController.schedule(new TimerTask() {
-                                    @Override
-                                    public void run() {
-                                        System.out.println("Game over");
-                                        while(true);
-                                    }
-                                }, 6000);
+                                timerController.restart();
                                 break;
                             }
                         }
@@ -263,8 +272,7 @@ public class Game implements Observable{
         return map;
     }
 
-
-    @Override
+        @Override
     public void attacheObservateur(Observateur o) {
         observateurs.add(o);
     }
@@ -281,24 +289,13 @@ public class Game implements Observable{
         }
     }
     public void kill() {
-        if (!map.getPlayer().invincible) {
-            map.getPlayer().invincible=true;
-            numberLife -= 1;
-            if(numberLife==0){
-                while (true);
-            }
-            dead.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    map.getPlayer().invincible = false;
-                }
-            }, 1500);
+        numberLife -= 1;
+        if (numberLife == 0) {
+            while (true) ;
         }
     }
 
     public static void main(String[] args) throws IOException {
         Game game = new Game();
-        game.timerController.schedule(game.timer, 60000);
-        game.refreshTimer.schedule(game.refresh, 0, 50);
     }
 }

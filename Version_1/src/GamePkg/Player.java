@@ -6,11 +6,9 @@ import java.util.TimerTask;
 public class Player extends Entity{
     private int numberBird;
     public boolean unBlockMovement;
-    public boolean invincible;
     public Direction itsLastDirection;
     Timer playerMovementTimer = new Timer();
     boolean unableMovement;
-    Timer dead = new Timer();
     private int x;
     private int lastY;
     private int y;
