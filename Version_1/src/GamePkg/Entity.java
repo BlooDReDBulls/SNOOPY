@@ -11,8 +11,9 @@ public abstract class Entity {
     int identifier;
     boolean animation;
     boolean collision;
-    boolean visible;
-    public Direction itsDirection;
+    boolean visible = true;
+    public Direction itsDirection = Direction.ANY;
+    public Direction itsLastDirection = Direction.RIGHT;
     public boolean activated;
 
     abstract void updatePosition(int[][] map, ArrayList<Entity> entities);

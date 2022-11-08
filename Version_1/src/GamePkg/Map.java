@@ -76,7 +76,7 @@ public class Map {
                     else if(Integer.parseInt((String) identifier.split(":")[0]) == 8)
                     {
                         player = new Player(x, y);
-                        entities.add((player));
+
                     }
                     else if(Integer.parseInt((String) identifier.split(":")[0]) == 9)
                     {
@@ -89,12 +89,17 @@ public class Map {
                 x++;
             }
             fr.close();
+
+            entities.add((player));
             Ball ball = new Ball();
             entities.add(ball);
+
             for(Entity entity : entities)
             {
                 map[entity.getX()][entity.getY()] = entity.getIdentifier();
             }
+
+
         }
         catch(IOException e)
         {
@@ -111,10 +116,8 @@ public class Map {
         this.map[x][y]=valeur;
     }
     public int[][] getMap() {
-
         return map;
     }
-
     public Player getPlayer() {
         return player;
     }

@@ -11,7 +11,6 @@ public class Block extends Entity{
         collision = true;
         identifier = 4;
         move = false;
-        visible = true;
     }
     @Override
     void updatePosition(int[][] map, ArrayList<Entity> entities) {

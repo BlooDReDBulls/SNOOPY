@@ -10,9 +10,10 @@ public class Bird extends Entity {
         itsDirection = direction;
         collision = false;
         identifier = 9;
-        visible = true;
         move = false;
         animation = true;
+        itsLastDirection = Direction.RIGHT;
+        itsDirection = Direction.LEFT;
     }
 
     @Override

@@ -15,8 +15,9 @@ public class TeleportationBlock extends Entity{
         animation = true;
         collision = false;
         move = false;
-        visible = true;
         activated = true;
+        itsDirection = Direction.UP;
+        itsLastDirection = Direction.UP;
     }
     @Override
     void updatePosition(int[][] map, ArrayList<Entity> entities) {

@@ -7,7 +7,7 @@ public class Player extends Entity{
     private int numberBird;
     private int itsScore;
     public boolean unBlockMovement;
-    public Direction itsLastDirection;
+
     Timer playerMovementTimer = new Timer();
     boolean unableMovement;
     private int x;
@@ -16,7 +16,6 @@ public class Player extends Entity{
 
     public Player(int x, int y)
     {
-        itsDirection = Direction.ANY;
         this.x = x;
         this.y = y;
         unBlockMovement = true;

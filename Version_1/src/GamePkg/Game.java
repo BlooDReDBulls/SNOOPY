@@ -44,10 +44,10 @@ public class Game implements Observable{
         observateurs = new ArrayList<Observateur>();
         GameConsole gameConsole = new GameConsole(this);
 //        this.gameUI = new GameUI(this);
-        this.gamePanel = new GamePanel(this.getMap());
+        this.gamePanel = new GamePanel(this.map);
 
         this.attacheObservateur(gamePanel);
-        //this.attacheObservateur(gameConsole);
+//        this.attacheObservateur(gameConsole);
 //       this.attacheObservateur(gameUI);
 
         this.gamePanel.setKeyListener(keyListener);
@@ -77,21 +77,30 @@ public class Game implements Observable{
             }
             if(e.getKeyCode() == KeyEvent.VK_SPACE)
             {
-                if(map.getPlayer().getX() + 1 <= 9 && map.getMap()[map.getPlayer().getX() + 1][map.getPlayer().getY()] == 1)
-                {
-                    map.getMap()[map.getPlayer().getX() + 1][map.getPlayer().getY()] = 0;
-                }
-                if(map.getPlayer().getX() - 1 >= 0 && map.getMap()[map.getPlayer().getX() - 1][map.getPlayer().getY()] == 1)
-                {
-                    map.getMap()[map.getPlayer().getX() - 1][map.getPlayer().getY()] = 0;
-                }
-                if(map.getPlayer().getY() + 1 <= 19 && map.getMap()[map.getPlayer().getX()][map.getPlayer().getY() + 1] == 1)
-                {
-                    map.getMap()[map.getPlayer().getX()][map.getPlayer().getY() + 1] = 0;
-                }
-                if(map.getPlayer().getY() - 1 >= 0 && map.getMap()[map.getPlayer().getX()][map.getPlayer().getY() - 1] == 1)
-                {
-                    map.getMap()[map.getPlayer().getX()][map.getPlayer().getY() - 1] = 0;
+
+                for (Entity entity : getMap().getEntities()){
+                    if(entity.getIdentifier() == 1){
+                        if(map.getPlayer().getX() + 1 <= 9 && map.getPlayer().getX() + 1 == entity.getX() && map.getPlayer().getY() == entity.getY())
+                        {
+                            map.getMap()[map.getPlayer().getX() + 1][map.getPlayer().getY()] = 0;
+                            entity.setVisible(false);
+                        }
+                        if(map.getPlayer().getX() - 1 >= 0 && map.getPlayer().getX() - 1 == entity.getX() && map.getPlayer().getY() == entity.getY())
+                        {
+                            map.getMap()[map.getPlayer().getX() - 1][map.getPlayer().getY()] = 0;
+                            entity.setVisible(false);
+                        }
+                        if(map.getPlayer().getY() + 1 <= 19 && map.getPlayer().getX() == entity.getX() && map.getPlayer().getY() + 1 == entity.getY())
+                        {
+                            map.getMap()[map.getPlayer().getX()][map.getPlayer().getY() + 1] = 0;
+                            entity.setVisible(false);
+                        }
+                        if(map.getPlayer().getY() - 1 >= 0 && map.getPlayer().getX() == entity.getX() && map.getPlayer().getY() - 1 == entity.getY())
+                        {
+                            map.getMap()[map.getPlayer().getX()][map.getPlayer().getY() - 1] = 0;
+                            entity.setVisible(false);
+                        }
+                    }
                 }
             }
             else if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
@@ -142,7 +151,7 @@ public class Game implements Observable{
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("Game over");
-            while(true);
+            pause = true;
         }
     };
     public ActionListener seconds = new ActionListener() {

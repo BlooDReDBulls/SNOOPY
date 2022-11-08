@@ -53,6 +53,11 @@ public class AnimationEngine {
         return  cycleProgress;
     }
 
+    public double getStaticCycle(){
+        return 0.00;
+    }
+
+
 
 
 

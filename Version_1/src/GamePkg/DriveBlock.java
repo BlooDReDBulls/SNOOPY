@@ -15,7 +15,6 @@ public class DriveBlock extends Entity{
         animation = true;
         identifier = 6;
         move = false;
-        visible = true;
     }
 
 

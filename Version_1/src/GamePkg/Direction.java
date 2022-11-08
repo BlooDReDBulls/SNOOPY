@@ -1,6 +1,6 @@
 package GamePkg;
 
-enum Direction {
+public enum Direction {
     UP,
     RIGHT,
     DOWN,

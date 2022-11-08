@@ -8,7 +8,6 @@ public class BreakableBlock extends Entity{
         this.x = x;
         this.y = y;
         this.identifier = 1;
-        visible = false;
         collision = true;
         animation = false;
         move = false;
