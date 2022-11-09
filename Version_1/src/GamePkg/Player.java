@@ -30,36 +30,28 @@ public class Player extends Entity{
 
     public void testBruteForce(int[][] map)
     {
-        for(int i = 0 ; i < 10 ; i++)
-        {
-            for(int j = 0 ; j < 20 ; j++)
-            {
-                System.out.print(map[i][j] + " ");
-            }
-            System.out.println(" ");
-        }
         ArrayList<Direction> option = new ArrayList<Direction>();
         int xCopy = x;
         int yCopy = y;
         int birdCount = 0;
         if(testUneDirection(map, 0, option, xCopy, yCopy, birdCount))
         {
-            listDirection.add(option);
+            System.out.println("1 fini");
         }
         option = new ArrayList<Direction>();
         if(testUneDirection(map, 2, option, xCopy, yCopy, birdCount))
         {
-            listDirection.add(option);
+            System.out.println("2 fini");
         }
         option = new ArrayList<Direction>();
         if(testUneDirection(map, 3, option, xCopy, yCopy, birdCount))
         {
-            listDirection.add(option);
+            System.out.println("3 fini");
         }
         option = new ArrayList<Direction>();
         if(testUneDirection(map, 1, option, xCopy, yCopy, birdCount))
         {
-            listDirection.add(option);
+            System.out.println("4 fini");
         }
         System.out.println("Algo fini");
         for(ArrayList<Direction> chemin : listDirection)
@@ -189,6 +181,7 @@ public class Player extends Entity{
         }
         if(birdCount == 4)
         {
+            listDirection.add(option);
             return true;
         }
         if(testUneDirection(map, 0, option, xCopy, yCopy, birdCount))
