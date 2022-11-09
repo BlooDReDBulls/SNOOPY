@@ -29,7 +29,7 @@ public class Game implements Observable{
     GameUI gameUI;
 
     public Game() throws IOException {
-        map.loadMap(1);
+        map.loadMap(1, 0);
         numberLife = 3;
         pause = false;
         timerController = new Timer(60000, timer);
@@ -184,7 +184,7 @@ public class Game implements Observable{
                         if(entity.getIdentifier() == 3 || entity.getIdentifier() == 7)
                         {
                             kill();
-                            map.loadMap(map.getCurrentMap());
+                            map.loadMap(map.getCurrentMap(), map.getPlayer().itsScore);
                             timerController.restart();
                             timerSeconds.restart();
                             remaingSeconds = 60;
@@ -197,11 +197,18 @@ public class Game implements Observable{
                             map.getMap()[entity.getX()][entity.getY()] = 0;
                             if(map.getPlayer().win()){
                                 map.getPlayer().addScore(remaingSeconds);
-                                map.setCurrentMap(1);
-                                map.loadMap(map.getCurrentMap());
-                                timerController.restart();
-                                timerSeconds.restart();
-                                remaingSeconds = 60;
+                                if(map.getCurrentMap() == 3){
+                                    System.out.println("Win");
+                                    pause = true;
+                                }
+                                else
+                                {
+                                    map.setCurrentMap(1);
+                                    map.loadMap(map.getCurrentMap(), map.getPlayer().itsScore);
+                                    timerController.restart();
+                                    timerSeconds.restart();
+                                    remaingSeconds = 60;
+                                }
                                 break;
                             }
                         }
@@ -303,7 +310,6 @@ public class Game implements Observable{
     }
 
     public Map getMap() {
-
         return map;
     }
 

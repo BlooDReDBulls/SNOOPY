@@ -26,7 +26,7 @@ public class Map {
         currentMap += num;
     }
 
-    public void loadMap(int mapInt) {
+    public void loadMap(int mapInt, int score) {
         try
         {
             entities.clear();
@@ -90,6 +90,7 @@ public class Map {
             }
             fr.close();
 
+            player.itsScore = score;
             entities.add((player));
             Ball ball = new Ball();
             entities.add(ball);
