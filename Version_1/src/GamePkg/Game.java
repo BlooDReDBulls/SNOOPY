@@ -124,33 +124,6 @@ public class Game implements Observable{
                 }
             }
         }
-        @Override
-        public void keyReleased(KeyEvent e) {
-            super.keyPressed(e);
-            if(map.getPlayer().unBlockMovement)
-            {
-                if(e.getKeyCode() == KeyEvent.VK_LEFT)
-                {
-                    map.getPlayer().itsLastDirection = Direction.LEFT;
-                    map.getPlayer().itsDirection = Direction.ANY;
-                }
-                else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
-                {
-                    map.getPlayer().itsLastDirection = Direction.RIGHT;
-                    map.getPlayer().itsDirection = Direction.ANY;
-                }
-                else if(e.getKeyCode() == KeyEvent.VK_UP)
-                {
-                    map.getPlayer().itsLastDirection = Direction.UP;
-                    map.getPlayer().itsDirection = Direction.ANY;
-                }
-                else if(e.getKeyCode() == KeyEvent.VK_DOWN)
-                {
-                    map.getPlayer().itsLastDirection = Direction.DOWN;
-                    map.getPlayer().itsDirection = Direction.ANY;
-                }
-            }
-        }
     };
 
     public ActionListener timer = new ActionListener() {

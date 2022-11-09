@@ -7,7 +7,6 @@ public class Player extends Entity{
     private int numberBird;
     private int itsScore;
     public boolean unBlockMovement;
-
     Timer playerMovementTimer = new Timer();
     boolean unableMovement;
     private int x;
@@ -161,6 +160,11 @@ public class Player extends Entity{
                 }
             }
             unableMovement = false;
+            if(itsDirection != Direction.ANY)
+            {
+                itsLastDirection = itsDirection;
+                itsDirection = Direction.ANY;
+            }
             playerMovementTimer.schedule(new TimerTask(){
                 @Override
                 public void run() {
