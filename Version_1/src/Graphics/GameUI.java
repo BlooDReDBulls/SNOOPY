@@ -1,27 +1,56 @@
 package Graphics;
-import GamePkg.Game;
+import GamePkg.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
-public class GameUI extends JLayeredPane implements Observateur {
-
-
+public class GameUI extends JPanel implements Observateur {
 
     private final JFrame jFrame;
     private JPanel menuPanel;
 
-    private GamePanel gamePanel;
+    private Map map;
+    private final AnimationEngine animationEngine;
+    private final TexturesImages texturesImages;
+    private final Animations animationsSnoopy;
+    private final Animations animationsBird;
+    private final Animations animationsDriveBlock;
 
-    public GameUI(Game game){
+    private final Animations animationsTeleporter;
+
+    private final HashMap<Integer, Animations> animationsHashMap = new HashMap<>();
+    ArrayList<Entity> entities;
+
+
+
+    public GameUI(Map map){
+        this.map = map;
+        this.entities = map.getEntities();
+        this.texturesImages = new TexturesImages();
+        this.animationEngine = new AnimationEngine(20);
+        this.animationEngine.start();
+
+        this.setPreferredSize(new Dimension(640,320));
         this.jFrame = new JFrame("Snoopy le jeu");
-//        this.gamePanel = new GamePanel(game);
-//        this.gamePanel.setVisible(true);
+
+
+        this.animationsSnoopy = new Animations(4,4,"includes" + File.separator + "Snoopy" + File.separator);
+        this.animationsBird = new Animations(4,3,"includes" + File.separator + "Bird" + File.separator);
+        this.animationsDriveBlock = new Animations(4,4,"includes" + File.separator + "DriveBlock" + File.separator);
+        this.animationsTeleporter = new Animations(1,6,"includes" + File.separator + "Teleporter" + File.separator);
+        this.animationsHashMap.put(8, animationsSnoopy);
+        this.animationsHashMap.put(9, animationsBird);
+        this.animationsHashMap.put(6, animationsDriveBlock);
+        this.animationsHashMap.put(5, animationsTeleporter);
 
         setupJFrame();
         setupMenuPanel();
-        this.add(gamePanel, JLayeredPane.DEFAULT_LAYER);
+
     }
 
     private void setupJFrame(){
@@ -29,10 +58,9 @@ public class GameUI extends JLayeredPane implements Observateur {
         this.jFrame.setResizable(true);
         this.jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.jFrame.setLocationRelativeTo(null);
-        this.jFrame.setContentPane(gamePanel);
+        this.jFrame.setContentPane(this);
         this.jFrame.pack();
         this.jFrame.setVisible(true);
-        this.gamePanel.actualise();
     }
 
     private GridBagConstraints setGridBagConstriant(GridBagConstraints gbc, int gX, int gY, int gWidth, int gHeight, int weightX, int weightY){
@@ -88,13 +116,47 @@ public class GameUI extends JLayeredPane implements Observateur {
 
         c = setGridBagConstriant(c,0,5,1,1,0,0);
         menuPanel.add(leaveBtn, c);
-        this.add(menuPanel, 1);
     }
 
 
     @Override
     public void actualise() {
-        this.gamePanel.repaint();
+
+        repaint();
+    }
+
+    @Override
+    public void paint(Graphics g) {
+
+        Graphics2D g2 = (Graphics2D) g.create();
+        super.paint(g);
+
+        for (int i = 0; i < 10.; i++) {
+            for (int j = 0; j < 20; j++) {
+                g2.drawImage(texturesImages.getImageFromTAB(0), (32 * j), (32 * i), this);
+            }
+        }
+
+
+        for(Entity entity: entities) {
+            if (entity.isVisible()) {
+                if (entity.isAnimated()) {
+                    if (entity.itsDirection.ordinal() == 4 && (entity.itsLastDirection.ordinal() != 4)) {
+                        g2.drawImage(animationsHashMap.get(entity.getIdentifier()).getAnimation(entity.itsLastDirection.ordinal(), animationEngine.getStaticCycle()), entity.getY() * 32, entity.getX() * 32, this);
+                    }else if(entity.itsDirection.ordinal() == 4 && (entity.itsLastDirection.ordinal() == 4)) {
+                        g2.drawImage(texturesImages.getImageFromTAB(entity.getIdentifier()), entity.getX() * 32, entity.getY() * 32, this);
+                    }else{
+                        g2.drawImage(animationsHashMap.get(entity.getIdentifier()).getAnimation(entity.itsDirection.ordinal(), animationEngine.getCycleProgress()), entity.getY() * 32, entity.getX() * 32, this);
+                    }
+                }else{
+                    g2.drawImage(texturesImages.getImageFromTAB(entity.getIdentifier()), entity.getY() * 32, entity.getX() * 32, this);
+                }
+            }
+        }
+    }
+
+    public void setKeyListener(KeyListener kl){
+        this.jFrame.addKeyListener(kl);
     }
 
 }

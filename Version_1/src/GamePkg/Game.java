@@ -25,7 +25,6 @@ public class Game implements Observable{
     int remaingSeconds = 60;
     public Timer timerSeconds;
 
-    GamePanel gamePanel;
     GameUI gameUI;
 
     public Game() throws IOException {
@@ -43,14 +42,12 @@ public class Game implements Observable{
         refreshTimer.start();
         observateurs = new ArrayList<Observateur>();
         GameConsole gameConsole = new GameConsole(this);
-//        this.gameUI = new GameUI(this);
-        this.gamePanel = new GamePanel(this.map);
+        this.gameUI = new GameUI(this.map);
 
-        this.attacheObservateur(gamePanel);
 //        this.attacheObservateur(gameConsole);
-//       this.attacheObservateur(gameUI);
+       this.attacheObservateur(gameUI);
 
-        this.gamePanel.setKeyListener(keyListener);
+        this.gameUI.setKeyListener(keyListener);
     }
 
     KeyAdapter keyListener = new KeyAdapter() {
