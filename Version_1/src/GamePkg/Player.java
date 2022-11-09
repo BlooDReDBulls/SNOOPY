@@ -162,8 +162,11 @@ public class Player extends Entity{
             unableMovement = false;
             if(itsDirection != Direction.ANY)
             {
-                itsLastDirection = itsDirection;
-                itsDirection = Direction.ANY;
+                if(unBlockMovement)
+                {
+                    itsLastDirection = itsDirection;
+                    itsDirection = Direction.ANY;
+                }
             }
             playerMovementTimer.schedule(new TimerTask(){
                 @Override
