@@ -43,12 +43,12 @@ public class Game implements Observable{
         refreshTimer.start();
         observateurs = new ArrayList<Observateur>();
         GameConsole gameConsole = new GameConsole(this);
+
         this.gameUI = new GameUI(this);
 
 //        this.attacheObservateur(gameConsole);
        this.attacheObservateur(gameUI);
-
-        this.gameUI.setKeyListener(keyListener);
+       this.gameUI.setKeyListener(keyListener);
     }
 
     KeyAdapter keyListener = new KeyAdapter() {

@@ -5,4 +5,5 @@ public interface Observateur {
     void actualise();
 
     void actualiseTimer();
+
 }
