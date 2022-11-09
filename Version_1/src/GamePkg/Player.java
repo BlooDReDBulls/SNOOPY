@@ -30,29 +30,41 @@ public class Player extends Entity{
 
     public void testBruteForce(int[][] map)
     {
+        for(int i = 0 ; i < 10 ; i++)
+        {
+            for(int j = 0 ; j < 20 ; j++)
+            {
+                System.out.print(map[i][j] + " ");
+            }
+            System.out.println(" ");
+        }
         ArrayList<Direction> option = new ArrayList<Direction>();
         int xCopy = x;
         int yCopy = y;
         int birdCount = 0;
         if(testUneDirection(map, 0, option, xCopy, yCopy, birdCount))
         {
-            System.out.println("1 fini");
+
         }
+        System.out.println("1 fini");
         option = new ArrayList<Direction>();
         if(testUneDirection(map, 2, option, xCopy, yCopy, birdCount))
         {
-            System.out.println("2 fini");
+
         }
+        System.out.println("2 fini");
         option = new ArrayList<Direction>();
         if(testUneDirection(map, 3, option, xCopy, yCopy, birdCount))
         {
-            System.out.println("3 fini");
+
         }
+        System.out.println("3 fini");
         option = new ArrayList<Direction>();
         if(testUneDirection(map, 1, option, xCopy, yCopy, birdCount))
         {
-            System.out.println("4 fini");
+
         }
+        System.out.println("4 fini");
         System.out.println("Algo fini");
         for(ArrayList<Direction> chemin : listDirection)
         {
@@ -60,27 +72,35 @@ public class Player extends Entity{
         }
     }
 
-    public boolean testUneDirection(int[][] map, int direction, ArrayList<Direction> option, int xCopy, int yCopy, int birdCount)
-    {
+    public boolean testUneDirection(int[][] map, int direction, ArrayList<Direction> option, int xCopy, int yCopy, int birdCount){
         if(direction == 0)
         {
             if (xCopy - 1 < 0)
             {
+                System.out.println("Out of bounds");
+                System.out.println(xCopy);
+                System.out.println("---");
                 return false;
             }
             else if(map[xCopy - 1][yCopy] == 9)
             {
                 birdCount++;
+                System.out.println("Found bird");
                 System.out.println(birdCount);
                 option.add(Direction.UP);
             }
             else if(map[xCopy - 1][yCopy] != 0)
             {
+                System.out.println("Useless movement");
+                System.out.println(xCopy);
+                System.out.println("---");
                 return false;
             }
             else
             {
+                System.out.println("Move up");
                 xCopy--;
+                System.out.println(xCopy + " " + yCopy);
                 option.add(Direction.UP);
             }
         }
@@ -88,21 +108,30 @@ public class Player extends Entity{
         {
             if (yCopy + 1 > 19)
             {
+                System.out.println("Out of Bounds");
+                System.out.println(yCopy);
+                System.out.println("---");
                 return false;
             }
             else if(map[xCopy][yCopy + 1] == 9)
             {
                 birdCount++;
+                System.out.println("Found bird");
                 System.out.println(birdCount);
                 option.add(Direction.RIGHT);
             }
             else if(map[xCopy][yCopy + 1] != 0)
             {
+                System.out.println("Useless movement");
+                System.out.println(yCopy);
+                System.out.println("---");
                 return false;
             }
             else
             {
+                System.out.println("Move right");
                 yCopy++;
+                System.out.println(xCopy + " " + yCopy);
                 option.add(Direction.RIGHT);
             }
         }
@@ -110,21 +139,30 @@ public class Player extends Entity{
         {
             if (xCopy + 1 > 9)
             {
+                System.out.println("Out of Bounds");
+                System.out.println(xCopy);
+                System.out.println("---");
                 return false;
             }
             else if(map[xCopy + 1][yCopy] == 9)
             {
                 birdCount++;
+                System.out.println("Found bird");
                 System.out.println(birdCount);
                 option.add(Direction.DOWN);
             }
             else if(map[xCopy + 1][yCopy] != 0)
             {
+                System.out.println("Useless movement");
+                System.out.println(xCopy);
+                System.out.println("---");
                 return false;
             }
             else
             {
+                System.out.println("Move down");
                 xCopy++;
+                System.out.println(xCopy + " " + yCopy);
                 option.add(Direction.DOWN);
             }
         }
@@ -132,52 +170,37 @@ public class Player extends Entity{
         {
             if (yCopy - 1 < 0)
             {
+                System.out.println("Out of bounds");
+                System.out.println(yCopy);
+                System.out.println("---");
                 return false;
             }
             else if(map[xCopy][yCopy - 1] == 9)
             {
                 birdCount++;
+                System.out.println("Found Bird");
                 System.out.println(birdCount);
                 option.add(Direction.LEFT);
             }
             else if(map[xCopy][yCopy - 1] != 0)
             {
+                System.out.println("Useless movement");
+                System.out.println(yCopy);
+                System.out.println("---");
                 return false;
             }
             else
             {
+                System.out.println("Move left");
                 yCopy--;
+                System.out.println(xCopy + " " + yCopy);
                 option.add(Direction.LEFT);
             }
         }
-        Direction directionCopy = Direction.ANY;
-        boolean inverse = false;
-        for (Direction lastDirection : option)
+        if(option.size() > 2000)
         {
-            if(inverse)
-            {
-                if(directionCopy == lastDirection)
-                {
-                    return false;
-                }
-                else
-                {
-                    inverse = false;
-                    directionCopy = lastDirection;
-                }
-            }
-            if(directionCopy == Direction.ANY)
-            {
-                directionCopy = lastDirection;
-            }
-            else if((directionCopy == Direction.UP && lastDirection == Direction.DOWN) || (directionCopy == Direction.DOWN && lastDirection == Direction.UP) || (directionCopy == Direction.RIGHT && lastDirection == Direction.LEFT) || (directionCopy == Direction.LEFT && lastDirection == Direction.RIGHT))
-            {
-                inverse = true;
-            }
-            else
-            {
-                directionCopy = lastDirection;
-            }
+            //System.out.println("FIN");
+            return false;
         }
         if(birdCount == 4)
         {
