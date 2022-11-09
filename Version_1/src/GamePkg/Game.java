@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -114,6 +115,14 @@ public class Game implements Observable{
                     timerSeconds.start();
                 }
             }
+            else if (e.getKeyCode() == KeyEvent.VK_S)
+            {
+                try {
+                    save();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
         }
         @Override
         public void keyReleased(KeyEvent e) {
@@ -155,7 +164,7 @@ public class Game implements Observable{
         @Override
         public void actionPerformed(ActionEvent e) {
             remaingSeconds -= 1;
-            System.out.println(remaingSeconds);
+            //System.out.println(remaingSeconds);
         }
     };
     public ActionListener refresh = new ActionListener() {
@@ -283,12 +292,38 @@ public class Game implements Observable{
         {
             for(int j = 0 ; j < 20 ; j++)
             {
-                mapString += map.getMap()[i][j];
+                if(map.getMap()[i][j] == 5)
+                {
+                    for(Entity entity : map.getEntities())
+                    {
+                        if(entity.getX() == i && entity.getY() == j)
+                        {
+                            mapString += map.getMap()[i][j] + ":" + entity.getTeleportationIdentifier();
+                        }
+                    }
+                }
+                else if(map.getMap()[i][j] == 6 || map.getMap()[i][j] == 9)
+                {
+                    for(Entity entity : map.getEntities())
+                    {
+                        if(entity.getX() == i && entity.getY() == j)
+                        {
+                            mapString += map.getMap()[i][j] + ":" + entity.itsDirection.ordinal();
+                        }
+                    }
+                }
+                else
+                {
+                    mapString += map.getMap()[i][j];
+                }
                 mapString += " ";
             }
             mapString += '\n';
         }
-        Path filePath = Path.of("saveFile.txt");
+        System.out.println("Veuillez rentrer le nom de votre fichier");
+        Scanner in = new Scanner(System.in);
+        File file = new File("Save/" + in.next());
+        Path filePath = Path.of("Save/" + file.getName());
         Files.writeString(filePath, mapString);
 
     }
