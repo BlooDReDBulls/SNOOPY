@@ -23,4 +23,9 @@ public class GameConsole implements Observateur{
             System.out.println(" ");
         }
     }
+
+    @Override
+    public void actualiseTimer() {
+        System.out.println(Integer.toString(game.getRemaingSeconds()));
+    }
 }

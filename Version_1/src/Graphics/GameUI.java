@@ -3,6 +3,7 @@ import GamePkg.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.ArrayList;
@@ -10,57 +11,40 @@ import java.util.HashMap;
 
 
 public class GameUI extends JPanel implements Observateur {
-
     private final JFrame jFrame;
     private JPanel menuPanel;
-
+    private JPanel actionPanel;
+    private JLabel jlTemps;
+    private GamePanel gamePanel;
     private Map map;
-    private final AnimationEngine animationEngine;
-    private final TexturesImages texturesImages;
-    private final Animations animationsSnoopy;
-    private final Animations animationsBird;
-    private final Animations animationsDriveBlock;
-
-    private final Animations animationsTeleporter;
-
-    private final HashMap<Integer, Animations> animationsHashMap = new HashMap<>();
-    ArrayList<Entity> entities;
+    private Game game;
 
 
 
-    public GameUI(Map map){
-        this.map = map;
-        this.entities = map.getEntities();
-        this.texturesImages = new TexturesImages();
-        this.animationEngine = new AnimationEngine(20);
-        this.animationEngine.start();
-
-        this.setPreferredSize(new Dimension(640,320));
+    public GameUI(Game game){
+        this.game = game;
+        this.map = game.getMap();
         this.jFrame = new JFrame("Snoopy le jeu");
+        this.gamePanel = new GamePanel(this.map);
+        this.setPreferredSize(new Dimension(640,420));
 
-
-        this.animationsSnoopy = new Animations(4,4,"includes" + File.separator + "Snoopy" + File.separator);
-        this.animationsBird = new Animations(4,3,"includes" + File.separator + "Bird" + File.separator);
-        this.animationsDriveBlock = new Animations(4,4,"includes" + File.separator + "DriveBlock" + File.separator);
-        this.animationsTeleporter = new Animations(1,6,"includes" + File.separator + "Teleporter" + File.separator);
-        this.animationsHashMap.put(8, animationsSnoopy);
-        this.animationsHashMap.put(9, animationsBird);
-        this.animationsHashMap.put(6, animationsDriveBlock);
-        this.animationsHashMap.put(5, animationsTeleporter);
+        setupMenuPanel();
+        setupActionPanel();
+        setupPanels();
+        this.setVisible(true);
 
         setupJFrame();
-        setupMenuPanel();
 
     }
 
     private void setupJFrame(){
         this.jFrame.setMinimumSize(new Dimension(100,100));
-        this.jFrame.setResizable(true);
+        this.jFrame.setResizable(false);
         this.jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.jFrame.setLocationRelativeTo(null);
         this.jFrame.setContentPane(this);
-        this.jFrame.pack();
         this.jFrame.setVisible(true);
+        this.jFrame.pack();
     }
 
     private GridBagConstraints setGridBagConstriant(GridBagConstraints gbc, int gX, int gY, int gWidth, int gHeight, int weightX, int weightY){
@@ -118,41 +102,68 @@ public class GameUI extends JPanel implements Observateur {
         menuPanel.add(leaveBtn, c);
     }
 
+    private void setupActionPanel(){
+        this.actionPanel = new JPanel();
+        this.actionPanel.setPreferredSize(new Dimension(640,60));
+        this.actionPanel.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.ipady = 0;
+        gbc.ipadx = 0;
+
+
+
+
+        this.jlTemps = new JLabel();
+        this.jlTemps.setText("60");
+
+        gbc = setGridBagConstriant(gbc,1,0,1,1,1,1);
+        this.actionPanel.add(jlTemps,gbc);
+
+        JLabel jldir = new JLabel("Directions : flèches directionnelles");
+//        jldir.setBounds(0,0,70,70);
+        gbc = setGridBagConstriant(gbc,0,1,1,1,1,1);
+        this.actionPanel.add(jldir,gbc);
+
+
+        JLabel jlechap =new JLabel("Menu : ECHAP");
+        gbc = setGridBagConstriant(gbc,1,1,1,1,1,1);
+        this.actionPanel.add(jlechap,gbc);
+
+        JLabel jlSave =new JLabel("Save : S");
+        gbc = setGridBagConstriant(gbc,2,1,1,1,1,1);
+        this.actionPanel.add(jlSave,gbc);
+
+        JLabel jlBreak =new JLabel("Casser un block : ESPACE");
+        gbc = setGridBagConstriant(gbc,4,1,1,1,1,1);
+        this.actionPanel.add(jlBreak,gbc);
+
+
+
+    }
+
+    private void setupPanels(){
+
+        this.setLayout(new BorderLayout());
+        gamePanel.setLayout(new BorderLayout());
+        this.add(this.gamePanel, BorderLayout.CENTER);
+        this.add(actionPanel, BorderLayout.SOUTH);
+    }
+
+    private void setupKeyListeners(){
+//        jFrame.addKeyListener();
+    }
+
 
     @Override
     public void actualise() {
-
-        repaint();
+       gamePanel.repaint();
     }
 
     @Override
-    public void paint(Graphics g) {
-
-        Graphics2D g2 = (Graphics2D) g.create();
-        super.paint(g);
-
-        for (int i = 0; i < 10.; i++) {
-            for (int j = 0; j < 20; j++) {
-                g2.drawImage(texturesImages.getImageFromTAB(0), (32 * j), (32 * i), this);
-            }
-        }
-
-
-        for(Entity entity: entities) {
-            if (entity.isVisible()) {
-                if (entity.isAnimated()) {
-                    if (entity.itsDirection.ordinal() == 4 && (entity.itsLastDirection.ordinal() != 4)) {
-                        g2.drawImage(animationsHashMap.get(entity.getIdentifier()).getAnimation(entity.itsLastDirection.ordinal(), animationEngine.getStaticCycle()), entity.getY() * 32, entity.getX() * 32, this);
-                    }else if(entity.itsDirection.ordinal() == 4 && (entity.itsLastDirection.ordinal() == 4)) {
-                        g2.drawImage(texturesImages.getImageFromTAB(entity.getIdentifier()), entity.getX() * 32, entity.getY() * 32, this);
-                    }else{
-                        g2.drawImage(animationsHashMap.get(entity.getIdentifier()).getAnimation(entity.itsDirection.ordinal(), animationEngine.getCycleProgress()), entity.getY() * 32, entity.getX() * 32, this);
-                    }
-                }else{
-                    g2.drawImage(texturesImages.getImageFromTAB(entity.getIdentifier()), entity.getY() * 32, entity.getX() * 32, this);
-                }
-            }
-        }
+    public void actualiseTimer() {
+        this.jlTemps.setText(Integer.toString(game.getRemaingSeconds()));
     }
 
     public void setKeyListener(KeyListener kl){

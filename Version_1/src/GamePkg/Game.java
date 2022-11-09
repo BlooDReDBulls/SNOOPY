@@ -23,7 +23,7 @@ public class Game implements Observable{
     List<Observateur> observateurs;
     private int numberLife;
     private boolean pause;
-    int remaingSeconds = 60;
+    private int remaingSeconds = 60;
     public Timer timerSeconds;
 
     GameUI gameUI;
@@ -43,7 +43,7 @@ public class Game implements Observable{
         refreshTimer.start();
         observateurs = new ArrayList<Observateur>();
         GameConsole gameConsole = new GameConsole(this);
-        this.gameUI = new GameUI(this.map);
+        this.gameUI = new GameUI(this);
 
 //        this.attacheObservateur(gameConsole);
        this.attacheObservateur(gameUI);
@@ -165,6 +165,7 @@ public class Game implements Observable{
         public void actionPerformed(ActionEvent e) {
             remaingSeconds -= 1;
             //System.out.println(remaingSeconds);
+            notifieTimers();
         }
     };
     public ActionListener refresh = new ActionListener() {
@@ -349,6 +350,17 @@ public class Game implements Observable{
             o.actualise();
         }
     }
+    @Override
+    public void notifieTimers() {
+        for (Observateur o: observateurs) {
+            o.actualiseTimer();
+        }
+    }
+
+    public int getRemaingSeconds() {
+        return remaingSeconds;
+    }
+
     public void kill() {
         numberLife -= 1;
         if (numberLife == 0) {

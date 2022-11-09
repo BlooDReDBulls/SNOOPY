@@ -17,4 +17,7 @@ public interface Observable {
      * permet de nottifier tous les observateurs
      */
     void notifieObservateurs();
+
+    void notifieTimers();
+
 }
