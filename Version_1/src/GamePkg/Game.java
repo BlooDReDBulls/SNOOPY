@@ -32,7 +32,7 @@ public class Game implements Observable{
         map.loadMap(1, 0);
         numberLife = 3;
         pause = false;
-        timerController = new Timer(60000, timer);
+        /*timerController = new Timer(60000, timer);
         timerSeconds = new Timer(1000, seconds);
         refreshTimer = new Timer(50, refresh);
         timerController.setRepeats(false);
@@ -48,7 +48,8 @@ public class Game implements Observable{
 //        this.attacheObservateur(gameConsole);
        this.attacheObservateur(gameUI);
 
-        this.gameUI.setKeyListener(keyListener);
+        this.gameUI.setKeyListener(keyListener);*/
+        map.getPlayer().testBruteForce(map.getMap());
     }
 
     KeyAdapter keyListener = new KeyAdapter() {
