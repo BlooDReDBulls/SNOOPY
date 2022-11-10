@@ -130,7 +130,11 @@ public class Game implements Observable{
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("Game over");
-            pause = true;
+            kill();
+            map.loadMap(map.getCurrentMap(), map.getPlayer().itsScore);
+            timerController.restart();
+            timerSeconds.restart();
+            remaingSeconds = 60;
         }
     };
     public ActionListener seconds = new ActionListener() {
