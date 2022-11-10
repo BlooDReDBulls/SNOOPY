@@ -32,9 +32,6 @@ public class GamePanel extends JPanel {
         this.setPreferredSize(new Dimension(640,320));
         this.entities = map.getEntities();
 
-
-
-
         this.animationsSnoopy = new Animations(4,4,"includes" + File.separator + "Snoopy" + File.separator);
         this.animationsBird = new Animations(4,3,"includes" + File.separator + "Bird" + File.separator);
         this.animationsDriveBlock = new Animations(4,4,"includes" + File.separator + "DriveBlock" + File.separator);
@@ -48,6 +45,8 @@ public class GamePanel extends JPanel {
 
 
     }
+
+
 
     @Override
     public void paint(Graphics g) {
