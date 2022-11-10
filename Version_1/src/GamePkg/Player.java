@@ -42,25 +42,25 @@ public class Player extends Entity{
         int xCopy = x;
         int yCopy = y;
         int birdCount = 0;
-        if(testUneDirection(map, 0, option, xCopy, yCopy, birdCount))
+        if(testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
         {
 
         }
         System.out.println("1 fini");
         option = new ArrayList<Direction>();
-        if(testUneDirection(map, 2, option, xCopy, yCopy, birdCount))
+        if(testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
         {
 
         }
         System.out.println("2 fini");
         option = new ArrayList<Direction>();
-        if(testUneDirection(map, 3, option, xCopy, yCopy, birdCount))
+        if(testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
         {
 
         }
         System.out.println("3 fini");
         option = new ArrayList<Direction>();
-        if(testUneDirection(map, 1, option, xCopy, yCopy, birdCount))
+        if(testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
         {
 
         }
@@ -72,18 +72,12 @@ public class Player extends Entity{
         }
     }
 
-    public boolean testUneDirection(int[][] map, int direction, ArrayList<Direction> option, int xCopy, int yCopy, int birdCount){
+    public boolean testUneDirection(int[][] map, int direction, ArrayList<Direction> option, int xCopy, int yCopy, int birdCount, boolean demiTour){
         if(direction == 0)
         {
-            if (xCopy - 1 < 0)
+            if(map[xCopy - 1][yCopy] == 9)
             {
-                System.out.println("Out of bounds");
-                System.out.println(xCopy + " " + yCopy);
-                System.out.println("---");
-                return false;
-            }
-            else if(map[xCopy - 1][yCopy] == 9)
-            {
+                map[xCopy - 1][yCopy] = 0;
                 birdCount++;
                 System.out.println("Found bird");
                 System.out.println(birdCount);
@@ -106,15 +100,9 @@ public class Player extends Entity{
         }
         else if(direction == 1)
         {
-            if (yCopy + 1 > 19)
+            if(map[xCopy][yCopy + 1] == 9)
             {
-                System.out.println("Out of Bounds");
-                System.out.println(xCopy + " " + yCopy);
-                System.out.println("---");
-                return false;
-            }
-            else if(map[xCopy][yCopy + 1] == 9)
-            {
+                map[xCopy][yCopy + 1] = 0;
                 birdCount++;
                 System.out.println("Found bird");
                 System.out.println(birdCount);
@@ -137,15 +125,9 @@ public class Player extends Entity{
         }
         else if(direction == 2)
         {
-            if (xCopy + 1 > 9)
+            if(map[xCopy + 1][yCopy] == 9)
             {
-                System.out.println("Out of Bounds");
-                System.out.println(xCopy + " " + yCopy);
-                System.out.println("---");
-                return false;
-            }
-            else if(map[xCopy + 1][yCopy] == 9)
-            {
+                map[xCopy + 1][yCopy] = 0;
                 birdCount++;
                 System.out.println("Found bird");
                 System.out.println(birdCount);
@@ -168,15 +150,9 @@ public class Player extends Entity{
         }
         else if(direction == 3)
         {
-            if (yCopy - 1 < 0)
+            if(map[xCopy][yCopy - 1] == 9)
             {
-                System.out.println("Out of bounds");
-                System.out.println(xCopy + " " + yCopy);
-                System.out.println("---");
-                return false;
-            }
-            else if(map[xCopy][yCopy - 1] == 9)
-            {
+                map[xCopy][yCopy - 1] = 0;
                 birdCount++;
                 System.out.println("Found Bird");
                 System.out.println(birdCount);
@@ -204,57 +180,157 @@ public class Player extends Entity{
         }
         if(birdCount == 4)
         {
+            System.out.println("Chemin trouver");
             listDirection.add(option);
             return true;
         }
-        if(option.size() >= 2)
+        if(demiTour)
         {
-            if(!(direction == 2 && option.get(option.size() - 2) == Direction.UP))
+            if(direction == 0)
             {
-                if(testUneDirection(map, 0, option, xCopy, yCopy, birdCount))
+                if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, true))
                 {
-                    //return true;
+
+                }
+                if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
+                {
+
+                }
+                if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
+                {
+
                 }
             }
-            if(!(direction == 0 && option.get(option.size() - 2) == Direction.DOWN))
+            else if(direction == 1)
             {
-                if(testUneDirection(map, 2, option, xCopy, yCopy, birdCount))
+                if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, true))
                 {
-                    //return true;
+
+                }
+                if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
+                {
+
+                }
+                if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
+                {
+
                 }
             }
-            if(!(direction == 1 && option.get(option.size() - 2) == Direction.LEFT))
+            else if(direction == 2)
             {
-                if(testUneDirection(map, 3, option, xCopy, yCopy, birdCount))
+                if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, true))
                 {
-                    //return true;
+
+                }
+                if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
+                {
+
+                }
+                if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
+                {
+
                 }
             }
-            if(!(direction == 3 && option.get(option.size() - 2) == Direction.RIGHT))
+            else if(direction == 3)
             {
-                if(testUneDirection(map, 1, option, xCopy, yCopy, birdCount))
+                if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, true))
                 {
-                    //return true;
+
+                }
+                if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
+                {
+
+                }
+                if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
+                {
+
                 }
             }
         }
         else
         {
-            if(testUneDirection(map, 0, option, xCopy, yCopy, birdCount))
+            if(option.size() >= 2)
             {
-                //return true;
+                if((direction == 2 && option.get(option.size() - 2) == Direction.UP) || (direction == 0 && option.get(option.size() - 2) == Direction.DOWN) || (direction == 1 && option.get(option.size() - 2) == Direction.LEFT) || (direction == 3 && option.get(option.size() - 2) == Direction.RIGHT))
+                {
+                    demiTour = true;
+                }
             }
-            if(testUneDirection(map, 2, option, xCopy, yCopy, birdCount))
+            if(direction == 0)
             {
-                //return true;
+                if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, demiTour))
+                {
+
+                }
+                if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, demiTour))
+                {
+
+                }
+                if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, demiTour))
+                {
+
+                }
+                if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, demiTour))
+                {
+
+                }
             }
-            if(testUneDirection(map, 3, option, xCopy, yCopy, birdCount))
+            else if(direction == 1)
             {
-                //return true;
+                if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, demiTour))
+                {
+
+                }
+                if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, demiTour))
+                {
+
+                }
+                if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, demiTour))
+                {
+
+                }
+                if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, demiTour))
+                {
+
+                }
             }
-            if(testUneDirection(map, 1, option, xCopy, yCopy, birdCount))
+            else if(direction == 2)
             {
-                //return true;
+                if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, demiTour))
+                {
+
+                }
+                if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, demiTour))
+                {
+
+                }
+                if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, demiTour))
+                {
+
+                }
+                if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, demiTour))
+                {
+
+                }
+            }
+            else if(direction == 3)
+            {
+                if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, demiTour))
+                {
+
+                }
+                if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, demiTour))
+                {
+
+                }
+                if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, demiTour))
+                {
+
+                }
+                if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, demiTour))
+                {
+
+                }
             }
         }
         return false;
