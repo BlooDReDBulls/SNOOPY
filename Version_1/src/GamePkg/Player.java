@@ -172,12 +172,12 @@ public class Player extends Entity{
                 System.out.println(xCopy + " " + yCopy);
                 option.add(Direction.LEFT);
             }
-        }
+        }/*
         if(option.size() > 1000)
         {
             System.out.println("Too long");
             return false;
-        }
+        }*/
         if(birdCount == 4)
         {
             System.out.println("Chemin trouver");
@@ -188,62 +188,145 @@ public class Player extends Entity{
         {
             if(direction == 0)
             {
-                if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, true))
-                {
+                try{
+                    if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, true))
+                    {
 
+                    }
                 }
-                if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
+                catch(Exception e)
                 {
-
+                    return false;
                 }
-                if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
+                try
                 {
+                    if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
+                    {
 
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+                try
+                {
+                    if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
+                    {
+
+                    }
+                }
+                catch(Exception e)
+                {
+                    return false;
                 }
             }
             else if(direction == 1)
             {
-                if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, true))
+                try
                 {
+                    if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, true))
+                    {
 
+                    }
                 }
-                if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
+                catch(Exception e)
                 {
-
+                    return false;
                 }
-                if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
+                try
                 {
+                    if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
+                    {
 
+                    }
+                }
+                catch(Exception e)
+                {
+                    return false;
+                }
+                try
+                {
+                    if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
+                    {
+
+                    }
+                }
+                catch(Exception e)
+                {
+                    return false;
                 }
             }
             else if(direction == 2)
             {
-                if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, true))
+                try
                 {
+                    if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, true))
+                    {
 
+                    }
                 }
-                if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
+                catch(Exception e)
                 {
-
+                    return false;
                 }
-                if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
+                try
                 {
+                    if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
+                    {
 
+                    }
+                }
+                catch(Exception e)
+                {
+                    return false;
+                }
+                try
+                {
+                    if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
+                    {
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
                 }
             }
             else if(direction == 3)
             {
-                if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, true))
+                try
                 {
+                    if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, true))
+                    {
 
+                    }
                 }
-                if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
+                catch (Exception e)
                 {
-
+                    return false;
                 }
-                if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
+                try
                 {
+                    if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
+                    {
 
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+                try
+                {
+                    if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
+                    {
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
                 }
             }
         }
@@ -258,78 +341,190 @@ public class Player extends Entity{
             }
             if(direction == 0)
             {
-                if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, demiTour))
+                try
                 {
+                    if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, demiTour))
+                    {
 
+                    }
                 }
-                if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, demiTour))
+                catch (Exception e)
                 {
-
+                    return false;
                 }
-                if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, demiTour))
+                try
                 {
+                    if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, demiTour))
+                    {
 
+                    }
                 }
-                if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, demiTour))
+                catch (Exception e)
                 {
+                    return false;
+                }
+                try
+                {
+                    if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, demiTour))
+                    {
 
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+                try
+                {
+                    if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, demiTour))
+                    {
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
                 }
             }
             else if(direction == 1)
             {
-                if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, demiTour))
+                try
                 {
+                    if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, demiTour))
+                    {
 
+                    }
                 }
-                if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, demiTour))
+                catch (Exception e)
                 {
-
+                    return false;
                 }
-                if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, demiTour))
+                try
                 {
+                    if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, demiTour))
+                    {
 
+                    }
                 }
-                if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, demiTour))
+                catch (Exception e)
                 {
+                    return false;
+                }
+                try
+                {
+                    if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, demiTour))
+                    {
 
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+                try
+                {
+                    if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, demiTour))
+                    {
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
                 }
             }
             else if(direction == 2)
             {
-                if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, demiTour))
+                try
                 {
+                    if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, demiTour))
+                    {
 
+                    }
                 }
-                if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, demiTour))
+                catch (Exception e)
                 {
-
+                    return false;
                 }
-                if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, demiTour))
+                try
                 {
+                    if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, demiTour))
+                    {
 
+                    }
                 }
-                if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, demiTour))
+                catch (Exception e)
                 {
+                    return false;
+                }
+                try
+                {
+                    if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, demiTour))
+                    {
 
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+                try
+                {
+                    if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, demiTour))
+                    {
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
                 }
             }
             else if(direction == 3)
             {
-                if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, demiTour))
+                try
                 {
+                    if(yCopy > 0 && testUneDirection(map, 3, option, xCopy, yCopy, birdCount, demiTour))
+                    {
 
+                    }
                 }
-                if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, demiTour))
+                catch (Exception e)
                 {
-
+                    return false;
                 }
-                if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, demiTour))
+                try
                 {
+                    if(yCopy < 19 && testUneDirection(map, 1, option, xCopy, yCopy, birdCount, demiTour))
+                    {
 
+                    }
                 }
-                if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, demiTour))
+                catch (Exception e)
                 {
+                    return false;
+                }
+                try
+                {
+                    if(xCopy > 0 && testUneDirection(map, 0, option, xCopy, yCopy, birdCount, demiTour))
+                    {
 
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+                try
+                {
+                    if(xCopy < 9 && testUneDirection(map, 2, option, xCopy, yCopy, birdCount, demiTour))
+                    {
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    return false;
                 }
             }
         }
