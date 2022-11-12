@@ -49,7 +49,7 @@ public class Game implements Observable{
        this.attacheObservateur(gameUI);
 
         this.gameUI.setKeyListener(keyListener);*/
-        map.getPlayer().testBruteForce(map.getMap());
+        map.getPlayer().testBruteForce();
     }
 
     KeyAdapter keyListener = new KeyAdapter() {

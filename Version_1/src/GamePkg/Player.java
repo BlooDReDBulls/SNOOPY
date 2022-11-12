@@ -1,5 +1,6 @@
 package GamePkg;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -12,6 +13,7 @@ public class Player extends Entity{
     private int x;
     private int lastY;
     private int y;
+    ArrayList<int[]> positions;
     ArrayList<ArrayList<Direction>> listDirection;
 
     public Player(int x, int y)
@@ -26,40 +28,103 @@ public class Player extends Entity{
         move = true;
         unableMovement = true;
         listDirection = new ArrayList<>();
+        positions = new ArrayList<>();
     }
 
-    public void testBruteForce(int[][] map)
-    {
-        for(int i = 0 ; i < 10 ; i++)
+    public void testBruteForce() throws IOException {
+        int[][] map = new int[10][20];
+        int xFile = 0;
+        int yFile;
+        File file = new File("map/" + 1);
+        FileReader fr = new FileReader(file);
+        BufferedReader br = new BufferedReader(fr);
+        String line;
+        while((line = br.readLine()) != null)
         {
-            for(int j = 0 ; j < 20 ; j++)
+            String[] list = line.split(" ");
+            yFile = 0;
+            for(String identifier : list)
             {
-                System.out.print(map[i][j] + " ");
+                map[xFile][yFile]=Integer.parseInt((String) identifier.split(":")[0]);
+                yFile++;
             }
-            System.out.println(" ");
+            xFile++;
         }
+        fr.close();
         ArrayList<Direction> option = new ArrayList<Direction>();
-        int xCopy = x;
-        int yCopy = y;
+        int xCopy = this.x;
+        int yCopy = this.y;
         int birdCount = 0;
+        positions = new ArrayList<>();
         if(testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
         {
 
         }
         System.out.println("1 fini");
         option = new ArrayList<Direction>();
+        positions = new ArrayList<>();
+        file = new File("map/" + 1);
+        fr = new FileReader(file);
+        br = new BufferedReader(fr);
+        xFile = 0;
+        while((line = br.readLine()) != null)
+        {
+            String[] list = line.split(" ");
+            yFile = 0;
+            for(String identifier : list)
+            {
+                map[xFile][yFile]=Integer.parseInt((String) identifier.split(":")[0]);
+                yFile++;
+            }
+            xFile++;
+        }
+        fr.close();
         if(testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
         {
 
         }
         System.out.println("2 fini");
         option = new ArrayList<Direction>();
+        positions = new ArrayList<>();
+        file = new File("map/" + 1);
+        fr = new FileReader(file);
+        br = new BufferedReader(fr);
+        xFile = 0;
+        while((line = br.readLine()) != null)
+        {
+            String[] list = line.split(" ");
+            yFile = 0;
+            for(String identifier : list)
+            {
+                map[xFile][yFile]=Integer.parseInt((String) identifier.split(":")[0]);
+                yFile++;
+            }
+            xFile++;
+        }
+        fr.close();
         if(testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
         {
 
         }
         System.out.println("3 fini");
         option = new ArrayList<Direction>();
+        positions = new ArrayList<>();
+        file = new File("map/" + 1);
+        fr = new FileReader(file);
+        br = new BufferedReader(fr);
+        xFile = 0;
+        while((line = br.readLine()) != null)
+        {
+            String[] list = line.split(" ");
+            yFile = 0;
+            for(String identifier : list)
+            {
+                map[xFile][yFile]=Integer.parseInt((String) identifier.split(":")[0]);
+                yFile++;
+            }
+            xFile++;
+        }
+        fr.close();
         if(testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
         {
 
@@ -74,12 +139,26 @@ public class Player extends Entity{
 
     public boolean testUneDirection(int[][] map, int direction, ArrayList<Direction> option, int xCopy, int yCopy, int birdCount, boolean demiTour){
         System.out.println("------------------" + option.size());
+        if(option.size() >= 500)
+        {
+            System.out.println("Too long");
+            return false;
+        }
+        /*for(int[] position : positions)
+        {
+            if(position[0] == xCopy && position[1] == yCopy)
+            {
+                System.out.println("Position already tried");
+                return false;
+            }
+        }*/
         if(direction == 0)
         {
             if(map[xCopy - 1][yCopy] == 9)
             {
                 map[xCopy - 1][yCopy] = 0;
                 birdCount++;
+                positions = new ArrayList<>();
                 System.out.println("Found bird");
                 System.out.println(birdCount);
                 option.add(Direction.UP);
@@ -88,7 +167,6 @@ public class Player extends Entity{
             {
                 System.out.println("Useless movement");
                 System.out.println(xCopy + " " + yCopy);
-                System.out.println("---");
                 return false;
             }
             else
@@ -105,6 +183,7 @@ public class Player extends Entity{
             {
                 map[xCopy][yCopy + 1] = 0;
                 birdCount++;
+                positions = new ArrayList<>();
                 System.out.println("Found bird");
                 System.out.println(birdCount);
                 option.add(Direction.RIGHT);
@@ -113,7 +192,6 @@ public class Player extends Entity{
             {
                 System.out.println("Useless movement");
                 System.out.println(xCopy + " " + yCopy);
-                System.out.println("---");
                 return false;
             }
             else
@@ -130,6 +208,7 @@ public class Player extends Entity{
             {
                 map[xCopy + 1][yCopy] = 0;
                 birdCount++;
+                positions = new ArrayList<>();
                 System.out.println("Found bird");
                 System.out.println(birdCount);
                 option.add(Direction.DOWN);
@@ -138,7 +217,6 @@ public class Player extends Entity{
             {
                 System.out.println("Useless movement");
                 System.out.println(xCopy + " " + yCopy);
-                System.out.println("---");
                 return false;
             }
             else
@@ -155,6 +233,7 @@ public class Player extends Entity{
             {
                 map[xCopy][yCopy - 1] = 0;
                 birdCount++;
+                positions = new ArrayList<>();
                 System.out.println("Found Bird");
                 System.out.println(birdCount);
                 option.add(Direction.LEFT);
@@ -163,7 +242,6 @@ public class Player extends Entity{
             {
                 System.out.println("Useless movement");
                 System.out.println(xCopy + " " + yCopy);
-                System.out.println("---");
                 return false;
             }
             else
@@ -174,15 +252,11 @@ public class Player extends Entity{
                 option.add(Direction.LEFT);
             }
         }
-        if(option.size() > 500)
-        {
-            System.out.println("Too long");
-            return false;
-        }
         if(birdCount == 4)
         {
             System.out.println("Chemin trouver");
             listDirection.add(option);
+            option.remove(option.size()-1);
             return true;
         }
         if(demiTour)
@@ -191,60 +265,60 @@ public class Player extends Entity{
             {
                 if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, true))
                 {
-                    option.remove(option.size()-1);
-                }
-                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
-                {
-                    option.remove(option.size()-1);
+
                 }
                 if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
+                }
+                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
+                {
+
                 }
             }
             else if(direction == 1)
             {
                 if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, true))
                 {
-                    option.remove(option.size()-1);
-                }
-                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
-                {
-                    option.remove(option.size()-1);
+
                 }
                 if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
+                }
+                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
+                {
+
                 }
             }
             else if(direction == 2)
             {
                 if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, true))
                 {
-                    option.remove(option.size()-1);
+
                 }
                 if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
                 if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
             }
             else if(direction == 3)
             {
                 if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, true))
                 {
-                    option.remove(option.size()-1);
+
                 }
                 if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
                 if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
             }
         }
@@ -252,88 +326,228 @@ public class Player extends Entity{
         {
             if(option.size() >= 2)
             {
-                if((direction == 2 && option.get(option.size() - 2) == Direction.UP) || (direction == 0 && option.get(option.size() - 2) == Direction.DOWN) || (direction == 1 && option.get(option.size() - 2) == Direction.LEFT) || (direction == 3 && option.get(option.size() - 2) == Direction.RIGHT))
+                if(direction == 2 && option.get(option.size() - 2) == Direction.UP)
                 {
-                    demiTour = true;
+                    if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, true))
+                    {
+
+                    }
+                    if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
+                    {
+
+                    }
+                    if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
+                    {
+
+                    }
+                }
+                else if(direction == 0 && option.get(option.size() - 2) == Direction.DOWN)
+                {
+                    if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, true))
+                    {
+
+                    }
+                    if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
+                    {
+
+                    }
+                    if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
+                    {
+
+                    }
+                }
+                else if(direction == 1 && option.get(option.size() - 2) == Direction.LEFT)
+                {
+                    if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, true))
+                    {
+
+                    }
+                    if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
+                    {
+
+                    }
+                    if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
+                    {
+
+                    }
+                }
+                else if(direction == 3 && option.get(option.size() - 2) == Direction.RIGHT)
+                {
+                    if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, true))
+                    {
+
+                    }
+                    if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
+                    {
+
+                    }
+                    if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
+                    {
+
+                    }
+                }
+                else
+                {
+                    if(direction == 0)
+                    {
+                        if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
+                        {
+
+                        }
+                        if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
+                        {
+
+                        }
+                        if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
+                        {
+
+                        }
+                        if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
+                        {
+
+                        }
+                    }
+                    else if(direction == 1)
+                    {
+                        if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
+                        {
+
+                        }
+                        if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
+                        {
+
+                        }
+                        if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
+                        {
+
+                        }
+                        if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
+                        {
+
+                        }
+                    }
+                    else if(direction == 2)
+                    {
+                        if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
+                        {
+
+                        }
+                        if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
+                        {
+
+                        }
+                        if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
+                        {
+
+                        }
+                        if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
+                        {
+
+                        }
+                    }
+                    else if(direction == 3)
+                    {
+                        if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
+                        {
+
+                        }
+                        if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
+                        {
+
+                        }
+                        if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
+                        {
+
+                        }
+                        if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
+                        {
+
+                        }
+                    }
                 }
             }
-            if(direction == 0)
+            else if(direction == 0)
             {
-                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, demiTour))
+                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
-                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, demiTour))
+                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
-                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, demiTour))
+                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
-                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, demiTour))
+                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
             }
             else if(direction == 1)
             {
-                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, demiTour))
+                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
-                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, demiTour))
+                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
-                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, demiTour))
+                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
-                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, demiTour))
+                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
             }
             else if(direction == 2)
             {
-                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, demiTour))
+                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
-                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, demiTour))
+                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
-                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, demiTour))
+                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
-                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, demiTour))
+                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
             }
             else if(direction == 3)
             {
-                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, demiTour))
+                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
-                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, demiTour))
+                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
-                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, demiTour))
+                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
-                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, demiTour))
+                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false))
                 {
-                    option.remove(option.size()-1);
+
                 }
             }
         }
+        int[] position = new int[2];
+        position[0] = xCopy;
+        position[1] = yCopy;
+        positions.add(position);
+        option.remove(option.size()-1);
         return false;
     }
 
