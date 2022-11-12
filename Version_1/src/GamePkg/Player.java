@@ -144,14 +144,14 @@ public class Player extends Entity{
             System.out.println("Too long");
             return false;
         }
-        /*for(int[] position : positions)
+        for(int[] position : positions)
         {
             if(position[0] == xCopy && position[1] == yCopy)
             {
                 System.out.println("Position already tried");
                 return false;
             }
-        }*/
+        }
         if(direction == 0)
         {
             if(map[xCopy - 1][yCopy] == 9)
@@ -186,6 +186,7 @@ public class Player extends Entity{
                 positions = new ArrayList<>();
                 System.out.println("Found bird");
                 System.out.println(birdCount);
+                System.out.println(positions.size());
                 option.add(Direction.RIGHT);
             }
             else if(map[xCopy][yCopy + 1] != 0)
