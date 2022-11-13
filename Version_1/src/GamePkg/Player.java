@@ -186,7 +186,6 @@ public class Player extends Entity{
                 positions = new ArrayList<>();
                 System.out.println("Found bird");
                 System.out.println(birdCount);
-                System.out.println(positions.size());
                 option.add(Direction.RIGHT);
             }
             else if(map[xCopy][yCopy + 1] != 0)
