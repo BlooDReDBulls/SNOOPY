@@ -8,19 +8,22 @@ import java.awt.event.KeyListener;
 
 
 public class GameUI extends JPanel implements Observateur {
-    private GamePanel gamePanel;
-    private Map map;
-    private Game game;
+    private final GamePanel gamePanel;
+    private final Game game;
+
+    private final JFrame frame;
     private JPanel actionPanel;
     private JLabel jlTemps;
-    private JFrame frame;
+
+    private JLabel jlScore;
+
 
     public GameUI(Game game){
         this.game = game;
-        this.map = game.getMap();
+        Map map = game.getMap();
         this.frame = new JFrame("Snoopy le Jeu");
         this.setPreferredSize(new Dimension(640,420));
-        this.gamePanel = new GamePanel(this.map);
+        this.gamePanel = new GamePanel(map);
 
         setupActionPanel();
         setupPanels();
@@ -37,54 +40,74 @@ public class GameUI extends JPanel implements Observateur {
         this.frame.setLocationRelativeTo(null);
         this.frame.setContentPane(this);
         this.frame.setVisible(true);
+
         this.frame.pack();
 
     }
-
-    private GridBagConstraints setGridBagConstriant(GridBagConstraints gbc, int gX, int gY, int gWidth, int gHeight, int weightX, int weightY){
-        gbc.gridx = gX;
-        gbc.gridy = gY;
-        gbc.gridwidth = gWidth;
-        gbc.gridheight = gHeight;
-        gbc.weightx = weightX;
-        gbc.weighty = weightY;
-        return gbc;
-    }
-
 
     private void setupActionPanel(){
         this.actionPanel = new JPanel();
         this.actionPanel.setPreferredSize(new Dimension(640,60));
         this.actionPanel.setLayout(new GridBagLayout());
 
+
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.ipady = 0;
-        gbc.ipadx = 0;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.weightx = 0;
+        gbc.weighty = 0;
+        gbc.ipady = 5;
+        gbc.ipadx = 10;
 
+        JLabel jlTempStr = new JLabel("Temps restant : ");
+        JLabel jlScoreStr = new JLabel("Score : ");
 
         this.jlTemps = new JLabel();
         this.jlTemps.setText("60");
 
-        gbc = setGridBagConstriant(gbc,1,0,1,1,1,1);
+        // Changer la Police ?
+        this.jlTemps.setFont(new Font("Arial", Font.PLAIN, 18));
+
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        this.actionPanel.add(jlTempStr,gbc);
+
+        this.jlScore = new JLabel();
+        this.jlScore.setText("0");
+
+        gbc.ipadx = 0;
+        gbc.gridx = 1;
         this.actionPanel.add(jlTemps,gbc);
 
+        gbc.ipadx = 10;
+        gbc.gridx = 2;
+        this.actionPanel.add(jlScoreStr,gbc);
+
+        gbc.gridx = 3;
+        this.actionPanel.add(jlScore,gbc);
+
+
         JLabel jldir = new JLabel("Directions : flèches directionnelles");
-//        jldir.setBounds(0,0,70,70);
-        gbc = setGridBagConstriant(gbc,0,1,1,1,1,1);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
         this.actionPanel.add(jldir,gbc);
 
 
         JLabel jlechap =new JLabel("Menu : ECHAP");
-        gbc = setGridBagConstriant(gbc,1,1,1,1,1,1);
+        gbc.gridx = 1;
         this.actionPanel.add(jlechap,gbc);
 
         JLabel jlSave =new JLabel("Save : S");
-        gbc = setGridBagConstriant(gbc,2,1,1,1,1,1);
+
+        gbc.gridx = 2;
         this.actionPanel.add(jlSave,gbc);
 
         JLabel jlBreak =new JLabel("Casser un block : ESPACE");
-        gbc = setGridBagConstriant(gbc,4,1,1,1,1,1);
+
+        gbc.gridx = 3;
         this.actionPanel.add(jlBreak,gbc);
 
     }
@@ -98,13 +121,15 @@ public class GameUI extends JPanel implements Observateur {
 
     @Override
     public void actualise() {
-       gamePanel.repaint();
+        this.gamePanel.repaint();
     }
 
     @Override
     public void actualiseTimer() {
         this.jlTemps.setText(Integer.toString(game.getRemaingSeconds()));
+        this.jlScore.setText(Integer.toString(game.getScore()));
     }
+
 
     public void setKeyListener(KeyListener kl){
         this.frame.addKeyListener(kl);

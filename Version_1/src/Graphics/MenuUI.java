@@ -2,11 +2,13 @@ package Graphics;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyListener;
 
 public class MenuUI extends JFrame {
 
     private JPanel menuPanel;
+
+    private JPanel loadPanel;
+    public JPanel UIPanel;
     private JButton startBtn;
     private JButton iaBtn;
     private JButton loadBtn;
@@ -14,30 +16,71 @@ public class MenuUI extends JFrame {
     private JButton scoreBTN;
     private JButton leaveBtn;
 
+    private final JTextField loadText = new JTextField();
+
+    private final JButton jbOK = new JButton("Charger");
+    private final JButton jbAnnuler = new JButton("Annuler");
+
+
     public MenuUI() {
+        this.UIPanel = new JPanel(new CardLayout());
+        UIPanel.setPreferredSize(new Dimension(640, 320));
+
         setupMenuPanel();
+        setupLoadMenu();
+        System.out.println("LoadPanel is ok in ram");
         setupJFrame();
     }
 
     private void setupJFrame(){
         this.setTitle("Snoopy le Jeu");
         this.setMinimumSize(new Dimension(100, 100));
-        this.setResizable(true);
+        this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        this.setContentPane(menuPanel);
+        this.setContentPane(UIPanel);
+        this.setBackground(Color.WHITE);
         this.pack();
         this.setVisible(true);
+        this.setLocationRelativeTo(null);
     }
 
-    private GridBagConstraints setGridBagConstriant(GridBagConstraints gbc, int gX, int gY, int gWidth, int gHeight, int weightX, int weightY){
-        gbc.gridx = gX;
-        gbc.gridy = gY;
-        gbc.gridwidth = gWidth;
-        gbc.gridheight = gHeight;
-        gbc.weightx = weightX;
-        gbc.weighty = weightY;
-        return gbc;
+    public void setupLoadMenu(){
+
+        GridBagConstraints loadConstraints = new GridBagConstraints();
+
+        JLabel jLabel = new JLabel("Nom de la sauvegarde");
+
+        this.loadPanel = new JPanel(new GridBagLayout());
+        this.loadPanel.setPreferredSize(new Dimension(240,120));
+        this.loadPanel.setBackground(Color.WHITE);
+
+
+
+        loadConstraints.ipady = 100;
+        loadConstraints.ipadx = 20;
+        loadConstraints.weightx = 0;
+        loadConstraints.weighty = 0;
+        loadConstraints.gridwidth = 1;
+        loadConstraints.gridheight = 1;
+        loadConstraints.gridx = 0;
+        loadConstraints.gridy = 0;
+        this.loadPanel.add(jLabel, loadConstraints);
+
+        loadConstraints.fill = GridBagConstraints.HORIZONTAL;
+        loadConstraints.ipadx = 200;
+        loadConstraints.ipady = 10;
+        loadConstraints.gridx = 1;
+        this.loadPanel.add(loadText, loadConstraints);
+
+        loadConstraints.ipadx = 10;
+        loadConstraints.fill = GridBagConstraints.NONE;
+        loadConstraints.gridx = 0;
+        loadConstraints.gridy = 1;
+        this.loadPanel.add(this.jbAnnuler, loadConstraints);
+
+        loadConstraints.gridx = 1;
+        this.loadPanel.add(this.jbOK, loadConstraints);
+
     }
 
     private void setupMenuPanel(){
@@ -63,31 +106,51 @@ public class MenuUI extends JFrame {
         c.fill = GridBagConstraints.BOTH;
         c.ipady = 25;
         c.ipadx = 200;
+        c.weighty = 0;
+        c.weightx = 0;
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        c.gridx = 0;
 
 
-        c = setGridBagConstriant(c,0,0,1,1,0,0);
+        c.gridy = 0;
         menuPanel.add(startBtn, c);
 
-        c = setGridBagConstriant(c,0,1,1,1,0,0);
+        c.gridy = 1;
         menuPanel.add(iaBtn, c);
 
-        c = setGridBagConstriant(c,0,2,1,1,0,0);
+        c.gridy = 2;
         menuPanel.add(loadBtn, c);
 
-        c = setGridBagConstriant(c,0,3,1,1,0,0);
+        c.gridy = 3;
         menuPanel.add(passBtn, c);
 
-        c = setGridBagConstriant(c,0,4,1,1,0,0);
+        c.gridy = 4;
         menuPanel.add(scoreBTN, c);
 
-        c = setGridBagConstriant(c,0,5,1,1,0,0);
+        c.gridy = 5;
         menuPanel.add(leaveBtn, c);
+
+//        Changer apparence du fond et des BTN
+        this.menuPanel.setBackground(Color.WHITE);
+
+        this.UIPanel.add(menuPanel);
+
     }
 
-
-    public void setKeyListener(KeyListener kl){
-        this.addKeyListener(kl);
+    public void loadPanel(){
+        this.UIPanel.remove(menuPanel);
+        this.UIPanel.add(loadPanel);
+        this.pack();
     }
+
+    public void goMenu(){
+        this.loadText.setText("");
+        this.UIPanel.remove(loadPanel);
+        this.UIPanel.add(menuPanel);
+        this.pack();
+    }
+
 
     public JButton getStartBtn() {
         return startBtn;
@@ -99,6 +162,18 @@ public class MenuUI extends JFrame {
 
     public JButton getLoadBtn() {
         return loadBtn;
+    }
+
+    public JButton getJbOK(){
+        return jbOK;
+    }
+
+    public JButton getJbAnnuler(){
+        return jbAnnuler;
+    }
+
+    public JTextField getLoadText(){
+        return loadText;
     }
 
     public JButton getPassBtn() {

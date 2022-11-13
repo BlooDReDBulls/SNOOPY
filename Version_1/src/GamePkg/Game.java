@@ -20,7 +20,7 @@ public class Game implements Observable{
     Map map = new Map();
     public Timer timerController;
     public Timer refreshTimer;
-    List<Observateur> observateurs;
+    ArrayList<Observateur> observateurs;
     private int numberLife;
     private boolean pause;
     private int remaingSeconds = 60;
@@ -41,7 +41,7 @@ public class Game implements Observable{
         timerSeconds.start();
         timerController.start();
         refreshTimer.start();
-        observateurs = new ArrayList<Observateur>();
+        observateurs = new ArrayList<>();
         GameConsole gameConsole = new GameConsole(this);
 
         this.gameUI = new GameUI(this);
@@ -307,8 +307,8 @@ public class Game implements Observable{
         }
         System.out.println("Veuillez rentrer le nom de votre fichier");
         Scanner in = new Scanner(System.in);
-        File file = new File("Save/" + in.next());
-        Path filePath = Path.of("Save/" + file.getName());
+        File file = new File("save/" + in.next());
+        Path filePath = Path.of("save/" + file.getName());
         Files.writeString(filePath, mapString);
 
     }
@@ -342,6 +342,10 @@ public class Game implements Observable{
 
     public int getRemaingSeconds() {
         return remaingSeconds;
+    }
+
+    public int getScore(){
+        return getMap().getPlayer().itsScore;
     }
 
     public void kill() {
