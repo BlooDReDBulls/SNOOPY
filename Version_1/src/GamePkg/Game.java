@@ -29,7 +29,7 @@ public class Game implements Observable{
     GameUI gameUI;
 
     public Game() throws IOException {
-        map.loadMap(2, 0);
+        map.loadMap(3, 0);
         numberLife = 3;
         pause = false;
         /*timerController = new Timer(60000, timer);
