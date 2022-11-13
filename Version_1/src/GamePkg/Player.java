@@ -489,11 +489,19 @@ public class Player extends Entity{
         {
             if(direction == 0)
             {
-
+                map[xCopy - 1][yCopy] = 9;
             }
-            else if(direction == 0)
+            else if(direction == 1)
             {
-
+                map[xCopy][yCopy + 1] = 9;
+            }
+            else if(direction == 2)
+            {
+                map[xCopy + 1][yCopy] = 9;
+            }
+            else if(direction == 3)
+            {
+                map[xCopy][yCopy - 1] = 9;
             }
         }
         return false;
