@@ -14,6 +14,7 @@ public class Player extends Entity{
     private int lastY;
     private int y;
     ArrayList<ArrayList<Direction>> listDirection;
+    boolean chemin;
 
     public Player(int x, int y)
     {
@@ -27,9 +28,10 @@ public class Player extends Entity{
         move = true;
         unableMovement = true;
         listDirection = new ArrayList<>();
+        chemin = false;
     }
 
-    public void testBruteForce(int[][] map) throws IOException {
+    public void testBruteForce(int[][] map, ArrayList<Entity> entities) throws IOException {
         ArrayList<Direction> option = new ArrayList<Direction>();
         int xCopy = this.x;
         int yCopy = this.y;
@@ -43,50 +45,50 @@ public class Player extends Entity{
             }
             System.out.println(" ");
         }
-        if(testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions))
+        if(testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions, entities))
         {
 
         }
         if(listDirection.size() > 0)
         {
             System.out.println("Algo fini");
-            System.out.println(listDirection.size());
+            System.out.println(listDirection.get(0).size());
         }
         else
         {
             positions = new ArrayList<>();
-            if(testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions))
+            if(testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions, entities))
             {
 
             }
             if(listDirection.size() > 0)
             {
                 System.out.println("Algo fini");
-                System.out.println(listDirection.size());
+                System.out.println(listDirection.get(0).size());
             }
             else
             {
                 positions = new ArrayList<>();
-                if(testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions))
+                if(testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions, entities))
                 {
 
                 }
                 if(listDirection.size() > 0)
                 {
                     System.out.println("Algo fini");
-                    System.out.println(listDirection.size());
+                    System.out.println(listDirection.get(0).size());
                 }
                 else
                 {
                     positions = new ArrayList<>();
-                    if(testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions))
+                    if(testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions, entities))
                     {
 
                     }
                     if(listDirection.size() > 0)
                     {
                         System.out.println("Algo fini");
-                        System.out.println(listDirection.size());
+                        System.out.println(listDirection.get(0).size());
                     }
                     else
                     {
@@ -97,456 +99,759 @@ public class Player extends Entity{
         }
     }
 
-    public boolean testUneDirection(int[][] map, int direction, ArrayList<Direction> option, int xCopy, int yCopy, int birdCount, boolean demiTour, ArrayList<int[]>positions){
-        System.out.println("------------------" + option.size());
-        int nbTimes = 0;
-        for(int[] position : positions)
+    public boolean testUneDirection(int[][] map, int direction, ArrayList<Direction> option, int xCopy, int yCopy, int birdCount, boolean demiTour, ArrayList<int[]>positions, ArrayList<Entity> entities){
+        if(!chemin)
         {
-            if(position[0] == xCopy && position[1] == yCopy)
+            System.out.println("------------------" + option.size());
+            int nbTimes = 0;
+            for(int[] position : positions)
             {
-                nbTimes++;
+                if(position[0] == xCopy && position[1] == yCopy)
+                {
+                    nbTimes++;
+                }
+                if(nbTimes > 2)
+                {
+                    System.out.println("Position already tried");
+                    return false;
+                }
             }
-            if(nbTimes > 2)
+            boolean foundBird = false;
+            if(option.size() >= 500)
             {
-                System.out.println("Position already tried");
+                System.out.println("Too long");
                 return false;
             }
-        }
-        boolean foundBird = false;
-        if(option.size() >= 500)
-        {
-            System.out.println("Too long");
-            return false;
-        }
-        if(direction == 0)
-        {
-            if(map[xCopy - 1][yCopy] == 9)
-            {
-                map[xCopy - 1][yCopy] = 0;
-                foundBird = true;
-                birdCount++;
-                positions = new ArrayList<>();
-                System.out.println("Found bird");
-                System.out.println(birdCount);
-                option.add(Direction.UP);
-            }
-            else if(map[xCopy - 1][yCopy] != 0)
-            {
-                System.out.println("Useless movement");
-                System.out.println(xCopy + " " + yCopy);
-                return false;
-            }
-            else
-            {
-                System.out.println("Move up");
-                xCopy--;
-                System.out.println(xCopy + " " + yCopy);
-                option.add(Direction.UP);
-                int[] position = new int[2];
-                position[0] = xCopy;
-                position[1] = yCopy;
-                positions.add(position);
-            }
-        }
-        else if(direction == 1)
-        {
-            if(map[xCopy][yCopy + 1] == 9)
-            {
-                map[xCopy][yCopy + 1] = 0;
-                birdCount++;
-                foundBird = true;
-                positions = new ArrayList<>();
-                System.out.println("Found bird");
-                System.out.println(birdCount);
-                option.add(Direction.RIGHT);
-            }
-            else if(map[xCopy][yCopy + 1] != 0)
-            {
-                System.out.println("Useless movement");
-                System.out.println(xCopy + " " + yCopy);
-                return false;
-            }
-            else
-            {
-                System.out.println("Move right");
-                yCopy++;
-                System.out.println(xCopy + " " + yCopy);
-                option.add(Direction.RIGHT);
-            }
-        }
-        else if(direction == 2)
-        {
-            if(map[xCopy + 1][yCopy] == 9)
-            {
-                map[xCopy + 1][yCopy] = 0;
-                birdCount++;
-                foundBird = true;
-                positions = new ArrayList<>();
-                System.out.println("Found bird");
-                System.out.println(birdCount);
-                option.add(Direction.DOWN);
-            }
-            else if(map[xCopy + 1][yCopy] != 0)
-            {
-                System.out.println("Useless movement");
-                System.out.println(xCopy + " " + yCopy);
-                return false;
-            }
-            else
-            {
-                System.out.println("Move down");
-                xCopy++;
-                System.out.println(xCopy + " " + yCopy);
-                option.add(Direction.DOWN);
-                int[] position = new int[2];
-                position[0] = xCopy;
-                position[1] = yCopy;
-                positions.add(position);
-            }
-        }
-        else if(direction == 3)
-        {
-            if(map[xCopy][yCopy - 1] == 9)
-            {
-                map[xCopy][yCopy - 1] = 0;
-                birdCount++;
-                foundBird = true;
-                positions = new ArrayList<>();
-                System.out.println("Found Bird");
-                System.out.println(birdCount);
-                option.add(Direction.LEFT);
-            }
-            else if(map[xCopy][yCopy - 1] != 0)
-            {
-                System.out.println("Useless movement");
-                System.out.println(xCopy + " " + yCopy);
-                return false;
-            }
-            else
-            {
-                System.out.println("Move left");
-                yCopy--;
-                System.out.println(xCopy + " " + yCopy);
-                option.add(Direction.LEFT);
-                int[] position = new int[2];
-                position[0] = xCopy;
-                position[1] = yCopy;
-                positions.add(position);
-            }
-        }
-        if(birdCount == 4)
-        {
-            System.out.println("Chemin trouver");
-            listDirection.add(option);
-            option.remove(option.size()-1);
-            return true;
-        }
-        if(demiTour)
-        {
             if(direction == 0)
             {
-                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, true, positions))
+                if(map[xCopy - 1][yCopy] == 9)
                 {
-
+                    map[xCopy - 1][yCopy] = 0;
+                    foundBird = true;
+                    xCopy--;
+                    birdCount++;
+                    positions = new ArrayList<>();
+                    System.out.println("Found bird");
+                    System.out.println(birdCount);
+                    option.add(Direction.UP);
                 }
-                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions))
+                else if(map[xCopy - 1][yCopy] == 1)
                 {
-
+                    System.out.println("Break block");
+                    System.out.println(xCopy + " " + yCopy);
+                    map[xCopy - 1][yCopy] = 0;
+                    option.add(Direction.ANY);
                 }
-                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions))
+                else if(map[xCopy - 1][yCopy] == 2)
                 {
-
-                }
-            }
-            else if(direction == 1)
-            {
-                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, true, positions))
-                {
-
-                }
-                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions))
-                {
-
-                }
-                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions))
-                {
-
-                }
-            }
-            else if(direction == 2)
-            {
-                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, true, positions))
-                {
-
-                }
-                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions))
-                {
-
-                }
-                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions))
-                {
-
-                }
-            }
-            else if(direction == 3)
-            {
-                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, true, positions))
-                {
-
-                }
-                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions))
-                {
-
-                }
-                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions))
-                {
-
-                }
-            }
-        }
-        else
-        {
-            if(option.size() >= 2)
-            {
-                if(direction == 2 && option.get(option.size() - 2) == Direction.UP)
-                {
-                    if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, true, positions))
+                    for(Entity entity : entities)
                     {
-
-                    }
-                    if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions))
-                    {
-
-                    }
-                    if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions))
-                    {
-
+                        if (entity.getX() == xCopy - 1 && entity.getY() == yCopy)
+                        {
+                            if(entity.isPushable())
+                            {
+                                System.out.println("Move up and push");
+                                xCopy--;
+                                System.out.println(xCopy + " " + yCopy);
+                                option.add(Direction.UP);
+                                int[] position = new int[2];
+                                position[0] = xCopy;
+                                position[1] = yCopy;
+                                positions.add(position);
+                                map[xCopy - 1][yCopy] = 1;
+                            }
+                            else
+                            {
+                                System.out.println("Useless movement");
+                                System.out.println(xCopy + " " + yCopy);
+                                return false;
+                            }
+                        }
                     }
                 }
-                else if(direction == 0 && option.get(option.size() - 2) == Direction.DOWN)
+                else if(map[xCopy - 1][yCopy] == 3 || map[xCopy - 1][yCopy] == 4 || map[xCopy - 1][yCopy] == 7)
                 {
-                    if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, true, positions))
+                    System.out.println("Useless movement");
+                    System.out.println(xCopy + " " + yCopy);
+                    return false;
+                }
+                else if(map[xCopy - 1][yCopy] == 5)
+                {
+                    for(Entity entity : entities)
                     {
-
-                    }
-                    if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions))
-                    {
-
-                    }
-                    if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions))
-                    {
-
+                        if (entity.getX() == xCopy - 1 && entity.getY() == yCopy)
+                        {
+                            for(Entity endPoint : entities)
+                            {
+                                if(endPoint.getTeleportationIdentifier() == entity.getTeleportationIdentifier())
+                                {
+                                    System.out.println("Move up and teleport");
+                                    xCopy = endPoint.getX();
+                                    yCopy = endPoint.getY();
+                                    System.out.println(xCopy + " " + yCopy);
+                                    option.add(Direction.UP);
+                                    int[] position = new int[2];
+                                    position[0] = xCopy;
+                                    position[1] = yCopy;
+                                    positions.add(position);
+                                }
+                            }
+                        }
                     }
                 }
-                else if(direction == 1 && option.get(option.size() - 2) == Direction.LEFT)
+                else if(map[xCopy - 1][yCopy] == 6)
                 {
-                    if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, true, positions))
+                    for(Entity entity : entities)
                     {
-
-                    }
-                    if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions))
-                    {
-
-                    }
-                    if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions))
-                    {
-
-                    }
-                }
-                else if(direction == 3 && option.get(option.size() - 2) == Direction.RIGHT)
-                {
-                    if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, true, positions))
-                    {
-
-                    }
-                    if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions))
-                    {
-
-                    }
-                    if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions))
-                    {
-
+                        if (entity.getX() == xCopy - 1 && entity.getY() == yCopy)
+                        {
+                            System.out.println("Move up and drive");
+                            xCopy--;
+                            System.out.println(xCopy + " " + yCopy);
+                            option.add(Direction.UP);
+                            int[] position = new int[2];
+                            position[0] = xCopy;
+                            position[1] = yCopy;
+                            positions.add(position);
+                            if (entity.itsDirection == Direction.UP)
+                            {
+                                while(xCopy > 0 && map[xCopy - 1][yCopy] != 1 && map[xCopy - 1][yCopy] != 4 && map[xCopy - 1][yCopy] != 2)
+                                {
+                                    xCopy--;
+                                    if(map[xCopy][yCopy] == 3 || map[xCopy][yCopy] == 7)
+                                    {
+                                        System.out.println("Dead");
+                                        System.out.println(xCopy + " " + yCopy);
+                                        return false;
+                                    }
+                                }
+                            }
+                            else if (entity.itsDirection == Direction.DOWN)
+                            {
+                                while(xCopy < 9 && map[xCopy + 1][yCopy] != 1 && map[xCopy + 1][yCopy] != 4 && map[xCopy + 1][yCopy] != 2)
+                                {
+                                    xCopy++;
+                                    if(map[xCopy][yCopy] == 3 || map[xCopy][yCopy] == 7)
+                                    {
+                                        System.out.println("Dead");
+                                        System.out.println(xCopy + " " + yCopy);
+                                        return false;
+                                    }
+                                }
+                            }
+                            else if (entity.itsDirection == Direction.RIGHT)
+                            {
+                                while(yCopy < 19 && map[xCopy][yCopy + 1] != 1 && map[xCopy][yCopy + 1] != 4 && map[xCopy][yCopy + 1] != 2)
+                                {
+                                    yCopy++;
+                                    if(map[xCopy][yCopy] == 3 || map[xCopy][yCopy] == 7)
+                                    {
+                                        System.out.println("Dead");
+                                        System.out.println(xCopy + " " + yCopy);
+                                        return false;
+                                    }
+                                }
+                            }
+                            else if (entity.itsDirection == Direction.LEFT)
+                            {
+                                while(yCopy > 0 && map[xCopy][yCopy - 1] != 1 && map[xCopy][yCopy - 1] != 4 && map[xCopy][yCopy - 1] != 2)
+                                {
+                                    yCopy--;
+                                    if(map[xCopy][yCopy] == 3 || map[xCopy][yCopy] == 7)
+                                    {
+                                        System.out.println("Dead");
+                                        System.out.println(xCopy + " " + yCopy);
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 else
                 {
-                    if(direction == 0)
-                    {
-                        if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions))
-                        {
-
-                        }
-                        if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions))
-                        {
-
-                        }
-                        if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions))
-                        {
-
-                        }
-                        if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions))
-                        {
-
-                        }
-                    }
-                    else if(direction == 1)
-                    {
-                        if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions))
-                        {
-
-                        }
-                        if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions))
-                        {
-
-                        }
-                        if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions))
-                        {
-
-                        }
-                        if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions))
-                        {
-
-                        }
-                    }
-                    else if(direction == 2)
-                    {
-                        if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions))
-                        {
-
-                        }
-                        if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions))
-                        {
-
-                        }
-                        if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions))
-                        {
-
-                        }
-                        if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions))
-                        {
-
-                        }
-                    }
-                    else if(direction == 3)
-                    {
-                        if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions))
-                        {
-
-                        }
-                        if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions))
-                        {
-
-                        }
-                        if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions))
-                        {
-
-                        }
-                        if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions))
-                        {
-
-                        }
-                    }
-                }
-            }
-            else if(direction == 0)
-            {
-                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions))
-                {
-
-                }
-                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions))
-                {
-
-                }
-                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions))
-                {
-
-                }
-                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions))
-                {
-
+                    System.out.println("Move up");
+                    xCopy--;
+                    System.out.println(xCopy + " " + yCopy);
+                    option.add(Direction.UP);
+                    int[] position = new int[2];
+                    position[0] = xCopy;
+                    position[1] = yCopy;
+                    positions.add(position);
                 }
             }
             else if(direction == 1)
             {
-                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions))
+                if(map[xCopy][yCopy + 1] == 9)
                 {
-
+                    map[xCopy][yCopy + 1] = 0;
+                    foundBird = true;
+                    yCopy++;
+                    birdCount++;
+                    positions = new ArrayList<>();
+                    System.out.println("Found bird");
+                    System.out.println(birdCount);
+                    option.add(Direction.RIGHT);
                 }
-                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions))
+                else if(map[xCopy][yCopy + 1] == 1)
                 {
-
+                    System.out.println("Break block");
+                    System.out.println(xCopy + " " + yCopy);
+                    map[xCopy][yCopy + 1] = 0;
+                    option.add(Direction.ANY);
                 }
-                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions))
+                else if(map[xCopy][yCopy + 1] == 2)
                 {
-
+                    for(Entity entity : entities)
+                    {
+                        if (entity.getX() == xCopy && entity.getY() == yCopy + 1)
+                        {
+                            if(entity.isPushable())
+                            {
+                                System.out.println("Move right and push");
+                                yCopy++;
+                                System.out.println(xCopy + " " + yCopy);
+                                option.add(Direction.RIGHT);
+                                int[] position = new int[2];
+                                position[0] = xCopy;
+                                position[1] = yCopy;
+                                positions.add(position);
+                                map[xCopy][yCopy + 1] = 1;
+                            }
+                            else
+                            {
+                                System.out.println("Useless movement");
+                                System.out.println(xCopy + " " + yCopy);
+                                return false;
+                            }
+                        }
+                    }
                 }
-                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions))
+                else if(map[xCopy][yCopy + 1] == 3 || map[xCopy][yCopy + 1] == 4 || map[xCopy][yCopy + 1] == 7)
                 {
-
+                    System.out.println("Useless movement");
+                    System.out.println(xCopy + " " + yCopy);
+                    return false;
+                }
+                else if(map[xCopy][yCopy + 1] == 5)
+                {
+                    for(Entity entity : entities)
+                    {
+                        if (entity.getX() == xCopy && entity.getY() == yCopy + 1)
+                        {
+                            for(Entity endPoint : entities)
+                            {
+                                if(endPoint.getTeleportationIdentifier() == entity.getTeleportationIdentifier())
+                                {
+                                    System.out.println("Move right and teleport");
+                                    xCopy = endPoint.getX();
+                                    yCopy = endPoint.getY();
+                                    System.out.println(xCopy + " " + yCopy);
+                                    option.add(Direction.RIGHT);
+                                    int[] position = new int[2];
+                                    position[0] = xCopy;
+                                    position[1] = yCopy;
+                                    positions.add(position);
+                                }
+                            }
+                        }
+                    }
+                }
+                else if(map[xCopy][yCopy + 1] == 6)
+                {
+                    for(Entity entity : entities)
+                    {
+                        if (entity.getX() == xCopy && entity.getY() == yCopy + 1)
+                        {
+                            System.out.println("Move right and drive");
+                            yCopy++;
+                            System.out.println(xCopy + " " + yCopy);
+                            option.add(Direction.RIGHT);
+                            int[] position = new int[2];
+                            position[0] = xCopy;
+                            position[1] = yCopy;
+                            positions.add(position);
+                            if (entity.itsDirection == Direction.UP)
+                            {
+                                while(xCopy > 0 && map[xCopy - 1][yCopy] != 1 && map[xCopy - 1][yCopy] != 4 && map[xCopy - 1][yCopy] != 2)
+                                {
+                                    xCopy--;
+                                    if(map[xCopy][yCopy] == 3 || map[xCopy][yCopy] == 7)
+                                    {
+                                        System.out.println("Dead");
+                                        System.out.println(xCopy + " " + yCopy);
+                                        return false;
+                                    }
+                                }
+                            }
+                            else if (entity.itsDirection == Direction.DOWN)
+                            {
+                                while(xCopy < 9 && map[xCopy + 1][yCopy] != 1 && map[xCopy + 1][yCopy] != 4 && map[xCopy + 1][yCopy] != 2)
+                                {
+                                    xCopy++;
+                                    if(map[xCopy][yCopy] == 3 || map[xCopy][yCopy] == 7)
+                                    {
+                                        System.out.println("Dead");
+                                        System.out.println(xCopy + " " + yCopy);
+                                        return false;
+                                    }
+                                }
+                            }
+                            else if (entity.itsDirection == Direction.RIGHT)
+                            {
+                                while(yCopy < 19 && map[xCopy][yCopy + 1] != 1 && map[xCopy][yCopy + 1] != 4 && map[xCopy][yCopy + 1] != 2)
+                                {
+                                    yCopy++;
+                                    if(map[xCopy][yCopy] == 3 || map[xCopy][yCopy] == 7)
+                                    {
+                                        System.out.println("Dead");
+                                        System.out.println(xCopy + " " + yCopy);
+                                        return false;
+                                    }
+                                }
+                            }
+                            else if (entity.itsDirection == Direction.LEFT)
+                            {
+                                while(yCopy > 0 && map[xCopy][yCopy - 1] != 1 && map[xCopy][yCopy - 1] != 4 && map[xCopy][yCopy - 1] != 2)
+                                {
+                                    yCopy--;
+                                    if(map[xCopy][yCopy] == 3 || map[xCopy][yCopy] == 7)
+                                    {
+                                        System.out.println("Dead");
+                                        System.out.println(xCopy + " " + yCopy);
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    System.out.println("Move right");
+                    yCopy++;
+                    System.out.println(xCopy + " " + yCopy);
+                    option.add(Direction.RIGHT);
+                    int[] position = new int[2];
+                    position[0] = xCopy;
+                    position[1] = yCopy;
+                    positions.add(position);
                 }
             }
             else if(direction == 2)
             {
-                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions))
+                if(map[xCopy + 1][yCopy] == 9)
                 {
-
+                    map[xCopy + 1][yCopy] = 0;
+                    foundBird = true;
+                    xCopy++;
+                    birdCount++;
+                    positions = new ArrayList<>();
+                    System.out.println("Found bird");
+                    System.out.println(birdCount);
+                    option.add(Direction.DOWN);
                 }
-                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions))
+                else if(map[xCopy + 1][yCopy] == 1)
                 {
-
+                    System.out.println("Break block");
+                    System.out.println(xCopy + " " + yCopy);
+                    map[xCopy + 1][yCopy] = 0;
+                    option.add(Direction.ANY);
                 }
-                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions))
+                else if(map[xCopy + 1][yCopy] == 2)
                 {
-
+                    for(Entity entity : entities)
+                    {
+                        if (entity.getX() == xCopy + 1 && entity.getY() == yCopy)
+                        {
+                            if(entity.isPushable())
+                            {
+                                System.out.println("Move down and push");
+                                xCopy++;
+                                System.out.println(xCopy + " " + yCopy);
+                                option.add(Direction.DOWN);
+                                int[] position = new int[2];
+                                position[0] = xCopy;
+                                position[1] = yCopy;
+                                positions.add(position);
+                                map[xCopy + 1][yCopy] = 1;
+                            }
+                            else
+                            {
+                                System.out.println("Useless movement");
+                                System.out.println(xCopy + " " + yCopy);
+                                return false;
+                            }
+                        }
+                    }
                 }
-                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions))
+                else if(map[xCopy + 1][yCopy] == 3 || map[xCopy + 1][yCopy] == 4 || map[xCopy + 1][yCopy] == 7)
                 {
-
+                    System.out.println("Useless movement");
+                    System.out.println(xCopy + " " + yCopy);
+                    return false;
+                }
+                else if(map[xCopy + 1][yCopy] == 5)
+                {
+                    for(Entity entity : entities)
+                    {
+                        if (entity.getX() == xCopy + 1 && entity.getY() == yCopy)
+                        {
+                            for(Entity endPoint : entities)
+                            {
+                                if(endPoint.getTeleportationIdentifier() == entity.getTeleportationIdentifier())
+                                {
+                                    System.out.println("Move down and teleport");
+                                    xCopy = endPoint.getX();
+                                    yCopy = endPoint.getY();
+                                    System.out.println(xCopy + " " + yCopy);
+                                    option.add(Direction.DOWN);
+                                    int[] position = new int[2];
+                                    position[0] = xCopy;
+                                    position[1] = yCopy;
+                                    positions.add(position);
+                                }
+                            }
+                        }
+                    }
+                }
+                else if(map[xCopy + 1][yCopy] == 6)
+                {
+                    for(Entity entity : entities)
+                    {
+                        if (entity.getX() == xCopy + 1 && entity.getY() == yCopy)
+                        {
+                            System.out.println("Move down and drive");
+                            xCopy++;
+                            System.out.println(xCopy + " " + yCopy);
+                            option.add(Direction.DOWN);
+                            int[] position = new int[2];
+                            position[0] = xCopy;
+                            position[1] = yCopy;
+                            positions.add(position);
+                            if (entity.itsDirection == Direction.UP)
+                            {
+                                while(xCopy > 0 && map[xCopy - 1][yCopy] != 1 && map[xCopy - 1][yCopy] != 4 && map[xCopy - 1][yCopy] != 2)
+                                {
+                                    xCopy--;
+                                    if(map[xCopy][yCopy] == 3 || map[xCopy][yCopy] == 7)
+                                    {
+                                        System.out.println("Dead");
+                                        System.out.println(xCopy + " " + yCopy);
+                                        return false;
+                                    }
+                                }
+                            }
+                            else if (entity.itsDirection == Direction.DOWN)
+                            {
+                                while(xCopy < 9 && map[xCopy + 1][yCopy] != 1 && map[xCopy + 1][yCopy] != 4 && map[xCopy + 1][yCopy] != 2)
+                                {
+                                    xCopy++;
+                                    if(map[xCopy][yCopy] == 3 || map[xCopy][yCopy] == 7)
+                                    {
+                                        System.out.println("Dead");
+                                        System.out.println(xCopy + " " + yCopy);
+                                        return false;
+                                    }
+                                }
+                            }
+                            else if (entity.itsDirection == Direction.RIGHT)
+                            {
+                                while(yCopy < 19 && map[xCopy][yCopy + 1] != 1 && map[xCopy][yCopy + 1] != 4 && map[xCopy][yCopy + 1] != 2)
+                                {
+                                    yCopy++;
+                                    if(map[xCopy][yCopy] == 3 || map[xCopy][yCopy] == 7)
+                                    {
+                                        System.out.println("Dead");
+                                        System.out.println(xCopy + " " + yCopy);
+                                        return false;
+                                    }
+                                }
+                            }
+                            else if (entity.itsDirection == Direction.LEFT)
+                            {
+                                while(yCopy > 0 && map[xCopy][yCopy - 1] != 1 && map[xCopy][yCopy - 1] != 4 && map[xCopy][yCopy - 1] != 2)
+                                {
+                                    yCopy--;
+                                    if(map[xCopy][yCopy] == 3 || map[xCopy][yCopy] == 7)
+                                    {
+                                        System.out.println("Dead");
+                                        System.out.println(xCopy + " " + yCopy);
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    System.out.println("Move down");
+                    xCopy++;
+                    System.out.println(xCopy + " " + yCopy);
+                    option.add(Direction.DOWN);
+                    int[] position = new int[2];
+                    position[0] = xCopy;
+                    position[1] = yCopy;
+                    positions.add(position);
                 }
             }
             else if(direction == 3)
             {
-                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions))
+                if(map[xCopy][yCopy - 1] == 9)
                 {
-
+                    map[xCopy][yCopy - 1] = 0;
+                    foundBird = true;
+                    yCopy++;
+                    birdCount++;
+                    positions = new ArrayList<>();
+                    System.out.println("Found bird");
+                    System.out.println(birdCount);
+                    option.add(Direction.LEFT);
                 }
-                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions))
+                else if(map[xCopy][yCopy - 1] == 1)
                 {
-
+                    System.out.println("Break block");
+                    System.out.println(xCopy + " " + yCopy);
+                    map[xCopy][yCopy - 1] = 0;
+                    option.add(Direction.ANY);
                 }
-                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions))
+                else if(map[xCopy][yCopy - 1] == 2)
                 {
-
+                    for(Entity entity : entities)
+                    {
+                        if (entity.getX() == xCopy && entity.getY() == yCopy - 1)
+                        {
+                            if(entity.isPushable())
+                            {
+                                System.out.println("Move left and push");
+                                yCopy--;
+                                System.out.println(xCopy + " " + yCopy);
+                                option.add(Direction.LEFT);
+                                int[] position = new int[2];
+                                position[0] = xCopy;
+                                position[1] = yCopy;
+                                positions.add(position);
+                                map[xCopy][yCopy - 1] = 1;
+                            }
+                            else
+                            {
+                                System.out.println("Useless movement");
+                                System.out.println(xCopy + " " + yCopy);
+                                return false;
+                            }
+                        }
+                    }
                 }
-                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions))
+                else if(map[xCopy][yCopy - 1] == 3 || map[xCopy][yCopy - 1] == 4 || map[xCopy][yCopy - 1] == 7)
                 {
-
+                    System.out.println("Useless movement");
+                    System.out.println(xCopy + " " + yCopy);
+                    return false;
+                }
+                else if(map[xCopy][yCopy - 1] == 5)
+                {
+                    for(Entity entity : entities)
+                    {
+                        if (entity.getX() == xCopy && entity.getY() == yCopy - 1)
+                        {
+                            for(Entity endPoint : entities)
+                            {
+                                if(endPoint.getTeleportationIdentifier() == entity.getTeleportationIdentifier())
+                                {
+                                    System.out.println("Move left and teleport");
+                                    xCopy = endPoint.getX();
+                                    yCopy = endPoint.getY();
+                                    System.out.println(xCopy + " " + yCopy);
+                                    option.add(Direction.LEFT);
+                                    int[] position = new int[2];
+                                    position[0] = xCopy;
+                                    position[1] = yCopy;
+                                    positions.add(position);
+                                }
+                            }
+                        }
+                    }
+                }
+                else if(map[xCopy][yCopy - 1] == 6)
+                {
+                    for(Entity entity : entities)
+                    {
+                        if (entity.getX() == xCopy && entity.getY() == yCopy - 1)
+                        {
+                            System.out.println("Move left and drive");
+                            yCopy--;
+                            System.out.println(xCopy + " " + yCopy);
+                            option.add(Direction.LEFT);
+                            int[] position = new int[2];
+                            position[0] = xCopy;
+                            position[1] = yCopy;
+                            positions.add(position);
+                            if (entity.itsDirection == Direction.UP)
+                            {
+                                while(xCopy > 0 && map[xCopy - 1][yCopy] != 1 && map[xCopy - 1][yCopy] != 4 && map[xCopy - 1][yCopy] != 2)
+                                {
+                                    xCopy--;
+                                    if(map[xCopy][yCopy] == 3 || map[xCopy][yCopy] == 7)
+                                    {
+                                        System.out.println("Dead");
+                                        System.out.println(xCopy + " " + yCopy);
+                                        return false;
+                                    }
+                                }
+                            }
+                            else if (entity.itsDirection == Direction.DOWN)
+                            {
+                                while(xCopy < 9 && map[xCopy + 1][yCopy] != 1 && map[xCopy + 1][yCopy] != 4 && map[xCopy + 1][yCopy] != 2)
+                                {
+                                    xCopy++;
+                                    if(map[xCopy][yCopy] == 3 || map[xCopy][yCopy] == 7)
+                                    {
+                                        System.out.println("Dead");
+                                        System.out.println(xCopy + " " + yCopy);
+                                        return false;
+                                    }
+                                }
+                            }
+                            else if (entity.itsDirection == Direction.RIGHT)
+                            {
+                                while(yCopy < 19 && map[xCopy][yCopy + 1] != 1 && map[xCopy][yCopy + 1] != 4 && map[xCopy][yCopy + 1] != 2)
+                                {
+                                    yCopy++;
+                                    if(map[xCopy][yCopy] == 3 || map[xCopy][yCopy] == 7)
+                                    {
+                                        System.out.println("Dead");
+                                        System.out.println(xCopy + " " + yCopy);
+                                        return false;
+                                    }
+                                }
+                            }
+                            else if (entity.itsDirection == Direction.LEFT)
+                            {
+                                while(yCopy > 0 && map[xCopy][yCopy - 1] != 1 && map[xCopy][yCopy - 1] != 4 && map[xCopy][yCopy - 1] != 2)
+                                {
+                                    yCopy--;
+                                    if(map[xCopy][yCopy] == 3 || map[xCopy][yCopy] == 7)
+                                    {
+                                        System.out.println("Dead");
+                                        System.out.println(xCopy + " " + yCopy);
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    System.out.println("Move left");
+                    yCopy--;
+                    System.out.println(xCopy + " " + yCopy);
+                    option.add(Direction.LEFT);
+                    int[] position = new int[2];
+                    position[0] = xCopy;
+                    position[1] = yCopy;
+                    positions.add(position);
                 }
             }
-        }
-        option.remove(option.size()-1);
-        if(foundBird)
-        {
+            if(birdCount == 4)
+            {
+                System.out.println("Chemin trouver");
+                listDirection.add(option);
+                chemin=true;
+                return true;
+            }
             if(direction == 0)
             {
-                map[xCopy - 1][yCopy] = 9;
+                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions, entities))
+                {
+
+                }
+                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions, entities))
+                {
+
+                }
+                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions, entities))
+                {
+
+                }
+                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions, entities))
+                {
+
+                }
             }
             else if(direction == 1)
             {
-                map[xCopy][yCopy + 1] = 9;
+                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions, entities))
+                {
+
+                }
+                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions, entities))
+                {
+
+                }
+                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions, entities))
+                {
+
+                }
+                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions, entities))
+                {
+
+                }
             }
             else if(direction == 2)
             {
-                map[xCopy + 1][yCopy] = 9;
+                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions, entities))
+                {
+
+                }
+                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions, entities))
+                {
+
+                }
+                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions, entities))
+                {
+
+                }
+                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions, entities))
+                {
+
+                }
             }
             else if(direction == 3)
             {
-                map[xCopy][yCopy - 1] = 9;
+                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions, entities))
+                {
+
+                }
+                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions, entities))
+                {
+
+                }
+                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions, entities))
+                {
+
+                }
+                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions, entities))
+                {
+
+                }
             }
+            if(!chemin)
+            {
+                option.remove(option.size()-1);
+                if(foundBird)
+                {
+                    map[xCopy][yCopy] = 9;
+                }
+            }
+            positions = new ArrayList<>();
+            return false;
         }
-        positions = new ArrayList<>();
-        return false;
+        else
+        {
+            return true;
+        }
     }
 
     @Override
