@@ -17,6 +17,12 @@ public class GameUI extends JPanel implements Observateur {
 
     private JLabel jlScore;
 
+    private JPanel savePanel;
+    private JTextField saveText;
+
+    private JButton jbOK;
+    private JButton jbAnnuler;
+
 
     public GameUI(Game game){
         this.game = game;
@@ -28,6 +34,7 @@ public class GameUI extends JPanel implements Observateur {
         setupActionPanel();
         setupPanels();
         this.setVisible(true);
+        setupSaveMenu();
 
         setupFrame();
     }
@@ -117,6 +124,76 @@ public class GameUI extends JPanel implements Observateur {
         gamePanel.setLayout(new BorderLayout());
         this.add(this.gamePanel, BorderLayout.CENTER);
         this.add(actionPanel, BorderLayout.SOUTH);
+    }
+
+    private void setupSaveMenu(){
+
+        GridBagConstraints saveConstraints = new GridBagConstraints();
+
+        JLabel jLabel = new JLabel("Nom de la sauvegarde");
+        jLabel.setForeground(Color.WHITE);
+
+        this.savePanel = new JPanel(new GridBagLayout());
+
+        this.savePanel.setPreferredSize(new Dimension(240,120));
+        this.savePanel.setBackground(new Color(0,0,0,155));
+
+        this.saveText = new JTextField();
+        this.jbOK = new JButton("Sauvegarder");
+        this.jbAnnuler = new JButton("Annuler");
+
+
+
+        saveConstraints.ipady = 100;
+        saveConstraints.ipadx = 20;
+        saveConstraints.weightx = 0;
+        saveConstraints.weighty = 0;
+        saveConstraints.gridwidth = 1;
+        saveConstraints.gridheight = 1;
+        saveConstraints.gridx = 0;
+        saveConstraints.gridy = 0;
+        this.savePanel.add(jLabel, saveConstraints);
+
+        saveConstraints.fill = GridBagConstraints.HORIZONTAL;
+        saveConstraints.ipadx = 200;
+        saveConstraints.ipady = 10;
+        saveConstraints.gridx = 1;
+        this.savePanel.add(saveText, saveConstraints);
+
+        saveConstraints.ipadx = 10;
+        saveConstraints.fill = GridBagConstraints.NONE;
+        saveConstraints.gridy = 1;
+        saveConstraints.gridx = 1;
+        this.savePanel.add(this.jbOK, saveConstraints);
+
+    }
+
+    public void showSaveMenu(Boolean bool){
+        if(bool){
+            this.remove(gamePanel);
+            this.add(savePanel);
+            actualise();
+            this.repaint();
+            this.revalidate();
+            this.frame.pack();
+
+        }else{
+            this.remove(savePanel);
+            this.add(gamePanel);
+            actualise();
+            this.repaint();
+            this.revalidate();
+            this.frame.pack();
+        }
+    }
+
+    public JButton getJbOK() {
+        return jbOK;
+    }
+
+
+    public String getSaveName(){
+        return saveText.getText();
     }
 
     @Override

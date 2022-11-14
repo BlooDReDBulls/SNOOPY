@@ -21,7 +21,6 @@ public class Game implements Observable{
     public Timer timerController;
     public Timer refreshTimer;
     ArrayList<Observateur> observateurs;
-    private int numberLife;
     private boolean pause;
     private int remaingSeconds = 60;
     public Timer timerSeconds;
@@ -30,7 +29,6 @@ public class Game implements Observable{
 
     public Game() throws IOException {
         map.loadMap(1, 0);
-        numberLife = 3;
         pause = false;
         timerController = new Timer(60000, timer);
         timerSeconds = new Timer(1000, seconds);
@@ -42,7 +40,8 @@ public class Game implements Observable{
         timerController.start();
         refreshTimer.start();
         observateurs = new ArrayList<>();
-        GameConsole gameConsole = new GameConsole(this);
+
+//        GameConsole gameConsole = new GameConsole(this);
 
         this.gameUI = new GameUI(this);
 
@@ -104,24 +103,23 @@ public class Game implements Observable{
             else if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
             {
                 pause = !pause;
-                if(pause == true)
-                {
-                    timerController.stop();
-                    timerSeconds.stop();
-                }
-                else
-                {
-                    timerController.start();
-                    timerSeconds.start();
-                }
+                changePauseState(pause);
             }
             else if (e.getKeyCode() == KeyEvent.VK_S)
             {
-                try {
-                    save();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                pause = !pause;
+
+                gameUI.showSaveMenu(pause);
+                changePauseState(pause);
+                gameUI.getJbOK().addActionListener(t ->{
+
+                    try {
+                        save(gameUI.getSaveName());
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
+
             }
         }
     };
@@ -270,8 +268,18 @@ public class Game implements Observable{
         }
     }
 
+    private void changePauseState(Boolean bool){
+        if(bool){
+            timerController.stop();
+            timerSeconds.stop();
+        }else{
+            timerController.start();
+            timerSeconds.start();
+        }
+    }
 
-    public void save() throws IOException {
+
+    public void save(String name) throws IOException {
         String mapString = "";
         for(int i = 0 ; i < 10 ; i++)
         {
@@ -305,9 +313,8 @@ public class Game implements Observable{
             }
             mapString += '\n';
         }
-        System.out.println("Veuillez rentrer le nom de votre fichier");
-        Scanner in = new Scanner(System.in);
-        File file = new File("save/" + in.next());
+        mapString += "Score:" + getScore() + " Vie:" + map.getPlayer().numberOfLife + "\n";
+        File file = new File("save/" + name);
         Path filePath = Path.of("save/" + file.getName());
         Files.writeString(filePath, mapString);
 
@@ -349,8 +356,8 @@ public class Game implements Observable{
     }
 
     public void kill() {
-        numberLife -= 1;
-        if (numberLife == 0) {
+        map.getPlayer().numberOfLife -= 1;
+        if (map.getPlayer().numberOfLife == 0) {
             while (true) ;
         }
     }
