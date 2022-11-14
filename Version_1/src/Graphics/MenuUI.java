@@ -25,7 +25,6 @@ public class MenuUI extends JFrame {
     public MenuUI() {
         this.UIPanel = new JPanel(new CardLayout());
         UIPanel.setPreferredSize(new Dimension(640, 320));
-
         setupMenuPanel();
         setupLoadMenu();
         System.out.println("LoadPanel is ok in ram");

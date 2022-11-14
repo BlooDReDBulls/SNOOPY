@@ -6,6 +6,8 @@ import java.util.TimerTask;
 public class Player extends Entity{
     private int numberBird;
     public int itsScore;
+
+    public int numberOfLife;
     public boolean unBlockMovement;
     Timer playerMovementTimer = new Timer();
     boolean unableMovement;
@@ -24,6 +26,7 @@ public class Player extends Entity{
         identifier = 8;
         move = true;
         unableMovement = true;
+        numberOfLife = 3;
     }
 
     @Override

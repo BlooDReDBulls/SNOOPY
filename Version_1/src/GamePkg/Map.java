@@ -62,13 +62,10 @@ public class Map {
 //                    System.out.println(" id : " + identifier);
 
                     if(identifier.split(":")[0].compareTo("Score") == 0){
-//                        System.out.println("J'ai un score ! ");
-//                        System.out.println(identifier.split(":")[1]);
                         player.itsScore = Integer.parseInt((String) identifier.split(":")[1]);
 
                     }else if(identifier.split(":")[0].compareTo("Vie") == 0){
-//                        System.out.println("J'ai des vies !");
-//                        System.out.println(identifier.split(":")[1]);
+                        getPlayer().numberOfLife = Integer.parseInt((String) identifier.split(":")[1]);
 
                     }else{
                         initMap(x, y, Integer.parseInt((String) identifier.split(":")[0]));
