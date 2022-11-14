@@ -32,11 +32,10 @@ public class Animations {
             ArrayList<BufferedImage> animArray = new ArrayList<>();
             for (int j = 0; j < nFrame; j++) {
                 String name = path + i + File.separator + j + ".png";
-                System.out.println("path : " + name);
+//                System.out.println("path : " + name);
                 BufferedImage bi;
                 try {
                     bi = ImageIO.read(new File(name));
-//                    System.out.println(bi);
                     animArray.add(bi);
                 } catch (IOException e) {
                     throw new RuntimeException(e);

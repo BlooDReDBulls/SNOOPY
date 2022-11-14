@@ -20,5 +20,4 @@ public interface Observable {
 
     void notifieTimers();
 
-
 }

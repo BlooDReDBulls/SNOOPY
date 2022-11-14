@@ -1,27 +1,25 @@
 package Graphics;
 import GamePkg.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyListener;
 
 
-
 public class GameUI extends JPanel implements Observateur {
     private final GamePanel gamePanel;
     private final Game game;
-
     private final JFrame frame;
     private JPanel actionPanel;
     private JLabel jlTemps;
-
     private JLabel jlScore;
-
+    private JPanel pausePanel;
     private JPanel savePanel;
+    private JPanel endPanel;
     private JTextField saveText;
-
     private JButton jbOK;
-    private JButton jbAnnuler;
+    private JButton jbQuit;
+
+    private JButton jbEnd = new JButton("Retourner au Menu");
 
 
     public GameUI(Game game){
@@ -30,25 +28,23 @@ public class GameUI extends JPanel implements Observateur {
         this.frame = new JFrame("Snoopy le Jeu");
         this.setPreferredSize(new Dimension(640,420));
         this.gamePanel = new GamePanel(map);
+        this.setVisible(true);
 
         setupActionPanel();
-        setupPanels();
-        this.setVisible(true);
+        setupGamePanel();
+        setupPausePanel();
         setupSaveMenu();
-
         setupFrame();
     }
 
     private void setupFrame(){
-
         this.frame.setMinimumSize(new Dimension(100, 100));
         this.frame.setResizable(true);
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.frame.setLocationRelativeTo(null);
         this.frame.setContentPane(this);
         this.frame.setVisible(true);
-
         this.frame.pack();
+        this.frame.setLocationRelativeTo(null);
 
     }
 
@@ -119,7 +115,7 @@ public class GameUI extends JPanel implements Observateur {
 
     }
 
-    private void setupPanels(){
+    private void setupGamePanel(){
         this.setLayout(new BorderLayout());
         gamePanel.setLayout(new BorderLayout());
         this.add(this.gamePanel, BorderLayout.CENTER);
@@ -131,7 +127,9 @@ public class GameUI extends JPanel implements Observateur {
         GridBagConstraints saveConstraints = new GridBagConstraints();
 
         JLabel jLabel = new JLabel("Nom de la sauvegarde");
+        JLabel jLAnnuler = new JLabel("Annuler : S");
         jLabel.setForeground(Color.WHITE);
+        jLAnnuler.setForeground(Color.WHITE);
 
         this.savePanel = new JPanel(new GridBagLayout());
 
@@ -140,9 +138,6 @@ public class GameUI extends JPanel implements Observateur {
 
         this.saveText = new JTextField();
         this.jbOK = new JButton("Sauvegarder");
-        this.jbAnnuler = new JButton("Annuler");
-
-
 
         saveConstraints.ipady = 100;
         saveConstraints.ipadx = 20;
@@ -152,6 +147,7 @@ public class GameUI extends JPanel implements Observateur {
         saveConstraints.gridheight = 1;
         saveConstraints.gridx = 0;
         saveConstraints.gridy = 0;
+
         this.savePanel.add(jLabel, saveConstraints);
 
         saveConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -163,35 +159,111 @@ public class GameUI extends JPanel implements Observateur {
         saveConstraints.ipadx = 10;
         saveConstraints.fill = GridBagConstraints.NONE;
         saveConstraints.gridy = 1;
+        saveConstraints.gridx = 0;
+        this.savePanel.add(jLAnnuler, saveConstraints);
         saveConstraints.gridx = 1;
         this.savePanel.add(this.jbOK, saveConstraints);
+    }
 
+    private void setupPausePanel(){
+        GridBagConstraints pauseConstraints  = new GridBagConstraints();
+
+        JLabel pauseLabel = new JLabel("Pause");
+        pauseLabel.setForeground(Color.WHITE);
+
+        this.pausePanel = new JPanel(new GridBagLayout());
+
+
+        this.pausePanel.setPreferredSize(new Dimension(240,120));
+        this.pausePanel.setBackground(new Color(0,0,0,155));
+
+         this.jbQuit = new JButton("Menu Principal");
+
+
+        pauseConstraints.fill = GridBagConstraints.BOTH;
+        pauseConstraints.ipady = 50;
+        pauseConstraints.ipadx = 100;
+        pauseConstraints.weightx = 0;
+        pauseConstraints.weighty = 0;
+        pauseConstraints.gridwidth = 1;
+        pauseConstraints.gridheight = 1;
+
+        pauseConstraints.gridx = 0;
+        pauseConstraints.gridy = 0;
+        this.pausePanel.add(pauseLabel, pauseConstraints);
+
+        pauseConstraints.ipady = 10;
+        pauseConstraints.gridy = 1;
+        this.pausePanel.add(jbQuit, pauseConstraints);
+    }
+
+    private void setupEndPanel(boolean bool){
+        this.endPanel = new JPanel(new GridBagLayout());
+        JLabel endLabel = new JLabel();
+        endLabel.setFont(new Font("Arial", Font.PLAIN, 28));
+
+        this.savePanel.setPreferredSize(new Dimension(240,120));
+
+        if(bool){
+             endLabel.setText("Gagné !");
+            this.endPanel.setBackground(new Color(0,155,75,155));
+        }else {
+            this.endPanel.setBackground(new Color(155,0,75,155));
+            endLabel.setText("Perdu !");
+        }
+
+        GridBagConstraints endConstraints = new GridBagConstraints();
+        endConstraints.ipady = 15;
+        endConstraints.ipadx = 120;
+        endConstraints.weightx = 0;
+        endConstraints.weighty = 0;
+        endConstraints.gridwidth = 1;
+        endConstraints.gridheight = 1;
+        endConstraints.gridx = 0;
+        this.endPanel.add(endLabel);
+        endConstraints.gridy = 1;
+        this.endPanel.add(this.jbEnd, endConstraints);
+    }
+
+    public void showEndPanel(boolean bool){
+        setupEndPanel(bool);
+        showPanel(true, endPanel);
     }
 
     public void showSaveMenu(Boolean bool){
+        showPanel(bool, savePanel);
+    }
+
+    public void showPauseMenu(Boolean bool){
+        showPanel(bool, pausePanel);
+    }
+
+    private void showPanel(Boolean bool, JPanel savePanel) {
         if(bool){
             this.remove(gamePanel);
             this.add(savePanel);
-            actualise();
-            this.repaint();
-            this.revalidate();
-            this.frame.pack();
 
         }else{
             this.remove(savePanel);
             this.add(gamePanel);
-            actualise();
-            this.repaint();
-            this.revalidate();
-            this.frame.pack();
         }
+
+        this.repaint();
+        this.revalidate();
+        this.frame.pack();
     }
 
     public JButton getJbOK() {
         return jbOK;
     }
 
+    public JButton getJbQuit() {
+        return jbQuit;
+    }
 
+    public JButton getJbEnd() {
+        return jbEnd;
+    }
     public String getSaveName(){
         return saveText.getText();
     }
@@ -199,17 +271,21 @@ public class GameUI extends JPanel implements Observateur {
     @Override
     public void actualise() {
         this.gamePanel.repaint();
+        this.jlScore.setText(Integer.toString(this.game.getMap().getPlayer().itsScore));
     }
 
     @Override
     public void actualiseTimer() {
         this.jlTemps.setText(Integer.toString(game.getRemaingSeconds()));
-        this.jlScore.setText(Integer.toString(game.getScore()));
-    }
 
+    }
 
     public void setKeyListener(KeyListener kl){
         this.frame.addKeyListener(kl);
+    }
+
+    public void closeALl(){
+        this.frame.dispose();
     }
 
 }

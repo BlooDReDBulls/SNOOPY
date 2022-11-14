@@ -65,7 +65,7 @@ public class Map {
                         player.itsScore = Integer.parseInt((String) identifier.split(":")[1]);
 
                     }else if(identifier.split(":")[0].compareTo("Vie") == 0){
-                        getPlayer().numberOfLife = Integer.parseInt((String) identifier.split(":")[1]);
+//                        getPlayer().numberOfLife = Integer.parseInt((String) identifier.split(":")[1]);
 
                     }else{
                         initMap(x, y, Integer.parseInt((String) identifier.split(":")[0]));

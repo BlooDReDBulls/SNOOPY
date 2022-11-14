@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.KeyStore;
 import java.util.*;
 import javax.swing.Timer;
 
@@ -24,6 +25,10 @@ public class Game implements Observable{
     private boolean pause;
     private int remaingSeconds = 60;
     public Timer timerSeconds;
+
+    private int numberOfLife;
+
+    public boolean userEnd = false;
 
     GameUI gameUI;
 
@@ -40,14 +45,14 @@ public class Game implements Observable{
         timerController.start();
         refreshTimer.start();
         observateurs = new ArrayList<>();
-
-//        GameConsole gameConsole = new GameConsole(this);
+        numberOfLife = 3;
 
         this.gameUI = new GameUI(this);
-
+//        GameConsole gameConsole = new GameConsole(this);
 //        this.attacheObservateur(gameConsole);
-       this.attacheObservateur(gameUI);
-       this.gameUI.setKeyListener(keyListener);
+        this.attacheObservateur(gameUI);
+        this.gameUI.setKeyListener(keyListener);
+
     }
 
     KeyAdapter keyListener = new KeyAdapter() {
@@ -104,6 +109,10 @@ public class Game implements Observable{
             {
                 pause = !pause;
                 changePauseState(pause);
+                gameUI.showPauseMenu(pause);
+                gameUI.getJbQuit().addActionListener(q ->{
+                    userEnd = true;
+                });
             }
             else if (e.getKeyCode() == KeyEvent.VK_S)
             {
@@ -111,7 +120,7 @@ public class Game implements Observable{
 
                 gameUI.showSaveMenu(pause);
                 changePauseState(pause);
-                gameUI.getJbOK().addActionListener(t ->{
+                gameUI.getJbOK().addActionListener(t->{
 
                     try {
                         save(gameUI.getSaveName());
@@ -129,16 +138,20 @@ public class Game implements Observable{
         public void actionPerformed(ActionEvent e) {
             System.out.println("Game over");
             kill();
-            map.loadMap(map.getCurrentMap(), map.getPlayer().itsScore);
-            timerController.restart();
-            timerSeconds.restart();
-            remaingSeconds = 60;
+//            map.loadMap(map.getCurrentMap(), map.getPlayer().itsScore);
+//            timerController.restart();
+//            timerSeconds.restart();
+            remaingSeconds = 0;
         }
     };
     public ActionListener seconds = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             remaingSeconds -= 1;
+
+            if(remaingSeconds == 0){
+                remaingSeconds = 0;
+            }
             //System.out.println(remaingSeconds);
             notifieTimers();
         }
@@ -199,9 +212,12 @@ public class Game implements Observable{
                             map.getMap()[entity.getX()][entity.getY()] = 0;
                             if(map.getPlayer().win()){
                                 map.getPlayer().addScore(remaingSeconds);
+                                notifieTimers();
                                 if(map.getCurrentMap() == 3){
-                                    System.out.println("Win");
-                                    pause = true;
+                                    pause = !pause;
+                                    changePauseState(pause);
+                                    gameUI.showEndPanel(true);
+
                                 }
                                 else
                                 {
@@ -269,6 +285,7 @@ public class Game implements Observable{
     }
 
     private void changePauseState(Boolean bool){
+
         if(bool){
             timerController.stop();
             timerSeconds.stop();
@@ -313,7 +330,7 @@ public class Game implements Observable{
             }
             mapString += '\n';
         }
-        mapString += "Score:" + getScore() + " Vie:" + map.getPlayer().numberOfLife + "\n";
+        mapString += "Score:" + getScore() + " Vie:" + numberOfLife + "\n";
         File file = new File("save/" + name);
         Path filePath = Path.of("save/" + file.getName());
         Files.writeString(filePath, mapString);
@@ -356,9 +373,11 @@ public class Game implements Observable{
     }
 
     public void kill() {
-        map.getPlayer().numberOfLife -= 1;
-        if (map.getPlayer().numberOfLife == 0) {
-            while (true) ;
+        numberOfLife -= 1;
+        if (numberOfLife == 0) {
+            pause = true;
+            changePauseState(false);
+            gameUI.showEndPanel(false);
         }
     }
 

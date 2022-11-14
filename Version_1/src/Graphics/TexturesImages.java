@@ -12,7 +12,7 @@ public class TexturesImages {
 
     public TexturesImages() {
 
-        System.out.println("Chargement des images ...");
+//        System.out.println("Chargement des images ...");
         for (int i = 0; i < 6; i++) {
 
             String name = "includes/" + i + ".png";
@@ -31,7 +31,7 @@ public class TexturesImages {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+//        System.out.println("Images Chargées ...");
     }
 
 

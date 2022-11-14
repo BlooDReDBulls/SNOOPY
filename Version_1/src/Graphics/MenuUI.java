@@ -27,7 +27,6 @@ public class MenuUI extends JFrame {
         UIPanel.setPreferredSize(new Dimension(640, 320));
         setupMenuPanel();
         setupLoadMenu();
-        System.out.println("LoadPanel is ok in ram");
         setupJFrame();
     }
 
@@ -54,8 +53,7 @@ public class MenuUI extends JFrame {
         this.loadPanel.setBackground(Color.WHITE);
 
 
-
-        loadConstraints.ipady = 100;
+        loadConstraints.ipady = 10;
         loadConstraints.ipadx = 20;
         loadConstraints.weightx = 0;
         loadConstraints.weighty = 0;

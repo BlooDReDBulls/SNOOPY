@@ -22,6 +22,16 @@ public class main {
                 menuUI.dispose();
                 game = new Game();
 
+                game.gameUI.getJbQuit().addActionListener(v ->{
+                    menuUI.setVisible(true);
+                    game.gameUI.closeALl();
+                });
+
+                game.gameUI.getJbEnd().addActionListener(q ->{
+                    menuUI.setVisible(true);
+                    game.gameUI.closeALl();
+                });
+
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
