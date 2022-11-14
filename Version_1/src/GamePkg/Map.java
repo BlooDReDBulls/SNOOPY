@@ -14,6 +14,7 @@ public class Map {
     private int[][] map;
     private final int ligne = 10;
     private final int colonne = 20;
+    private Ball ball = new Ball();
 
     private ArrayList<Entity> entities = new ArrayList();
     public Map(){
@@ -92,7 +93,6 @@ public class Map {
 
             player.itsScore = score;
             entities.add((player));
-            Ball ball = new Ball();
             entities.add(ball);
 
             for(Entity entity : entities)
@@ -121,5 +121,9 @@ public class Map {
     }
     public Player getPlayer() {
         return player;
+    }
+
+    public Ball getBall() {
+        return ball;
     }
 }

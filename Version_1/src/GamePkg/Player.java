@@ -31,7 +31,7 @@ public class Player extends Entity{
         chemin = false;
     }
 
-    public void testBruteForce(int[][] map, ArrayList<Entity> entities) throws IOException {
+    public void testBruteForce(int[][] map, ArrayList<Entity> entities, Ball ball) throws IOException {
         ArrayList<Direction> option = new ArrayList<Direction>();
         int xCopy = this.x;
         int yCopy = this.y;
@@ -45,7 +45,7 @@ public class Player extends Entity{
             }
             System.out.println(" ");
         }
-        if(testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions, entities))
+        if(testUneDirection(map, 0, option, xCopy, yCopy, birdCount, positions, entities, ball))
         {
 
         }
@@ -57,7 +57,7 @@ public class Player extends Entity{
         else
         {
             positions = new ArrayList<>();
-            if(testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions, entities))
+            if(testUneDirection(map, 2, option, xCopy, yCopy, birdCount, positions, entities, ball))
             {
 
             }
@@ -69,7 +69,7 @@ public class Player extends Entity{
             else
             {
                 positions = new ArrayList<>();
-                if(testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions, entities))
+                if(testUneDirection(map, 3, option, xCopy, yCopy, birdCount, positions, entities, ball))
                 {
 
                 }
@@ -81,7 +81,7 @@ public class Player extends Entity{
                 else
                 {
                     positions = new ArrayList<>();
-                    if(testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions, entities))
+                    if(testUneDirection(map, 1, option, xCopy, yCopy, birdCount, positions, entities, ball))
                     {
 
                     }
@@ -99,10 +99,14 @@ public class Player extends Entity{
         }
     }
 
-    public boolean testUneDirection(int[][] map, int direction, ArrayList<Direction> option, int xCopy, int yCopy, int birdCount, boolean demiTour, ArrayList<int[]>positions, ArrayList<Entity> entities){
+    public boolean testUneDirection(int[][] map, int direction, ArrayList<Direction> option, int xCopy, int yCopy, int birdCount, ArrayList<int[]>positions, ArrayList<Entity> entities, Ball ball){
         if(!chemin)
         {
+            ball.updatePositionIA(map);
+            map[ball.getLastX()][ball.getLastY()] = 0;
+            map[ball.getX()][ball.getY()] = 7;
             System.out.println("------------------" + option.size());
+            ball.updatePosition(map, entities);
             int nbTimes = 0;
             for(int[] position : positions)
             {
@@ -763,76 +767,76 @@ public class Player extends Entity{
             }
             if(direction == 0)
             {
-                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions, entities))
+                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, positions, entities, ball))
                 {
 
                 }
-                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions, entities))
+                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, positions, entities, ball))
                 {
 
                 }
-                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions, entities))
+                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, positions, entities, ball))
                 {
 
                 }
-                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions, entities))
+                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, positions, entities, ball))
                 {
 
                 }
             }
             else if(direction == 1)
             {
-                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions, entities))
+                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, positions, entities, ball))
                 {
 
                 }
-                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions, entities))
+                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, positions, entities, ball))
                 {
 
                 }
-                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions, entities))
+                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, positions, entities, ball))
                 {
 
                 }
-                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions, entities))
+                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, positions, entities, ball))
                 {
 
                 }
             }
             else if(direction == 2)
             {
-                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions, entities))
+                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, positions, entities, ball))
                 {
 
                 }
-                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions, entities))
+                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, positions, entities, ball))
                 {
 
                 }
-                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions, entities))
+                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, positions, entities, ball))
                 {
 
                 }
-                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions, entities))
+                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, positions, entities, ball))
                 {
 
                 }
             }
             else if(direction == 3)
             {
-                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, false, positions, entities))
+                if(yCopy > 0 && !testUneDirection(map, 3, option, xCopy, yCopy, birdCount, positions, entities, ball))
                 {
 
                 }
-                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, false, positions, entities))
+                if(yCopy < 19 && !testUneDirection(map, 1, option, xCopy, yCopy, birdCount, positions, entities, ball))
                 {
 
                 }
-                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, false, positions, entities))
+                if(xCopy > 0 && !testUneDirection(map, 0, option, xCopy, yCopy, birdCount, positions, entities, ball))
                 {
 
                 }
-                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, false, positions, entities))
+                if(xCopy < 9 && !testUneDirection(map, 2, option, xCopy, yCopy, birdCount, positions, entities, ball))
                 {
 
                 }
