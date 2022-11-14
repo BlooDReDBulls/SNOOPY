@@ -29,7 +29,7 @@ public class Game implements Observable{
     GameUI gameUI;
 
     public Game() throws IOException {
-        map.loadMap(3, 0);
+        map.loadMap(2, 0);
         numberLife = 3;
         pause = false;
         /*timerController = new Timer(60000, timer);
@@ -49,7 +49,7 @@ public class Game implements Observable{
        this.attacheObservateur(gameUI);
 
         this.gameUI.setKeyListener(keyListener);*/
-        map.getPlayer().testBruteForce(map.getMap());
+        map.getPlayer().testBruteForce(map.getMap(), map.getEntities());
     }
 
     KeyAdapter keyListener = new KeyAdapter() {
