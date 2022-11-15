@@ -9,6 +9,7 @@ public class Ball extends Entity{
     int yspeed;
 
     boolean unableMovement;
+    boolean start;
 
     Timer speed = new Timer();
 
@@ -17,8 +18,9 @@ public class Ball extends Entity{
         collision = false;
         identifier = 7;
         move = true;
-        x = 0;
-        y = 0;
+        start = false;
+        this.x = 0;
+        this.y = 0;
         xspeed = 1;
         yspeed = 1;
         unableMovement = true;
@@ -43,7 +45,7 @@ public class Ball extends Entity{
 
     @Override
     void updatePosition(int[][] map, ArrayList<Entity> entities) {
-        if(unableMovement)
+        if(unableMovement && start)
         {
             lastX = x;
             lastY = y;
@@ -74,7 +76,7 @@ public class Ball extends Entity{
                 public void run() {
                     unableMovement = true;
                 }
-            }, 300);
+            }, 50);
         }
     }
     void updatePositionIA(int[][] map) {
@@ -103,4 +105,8 @@ public class Ball extends Entity{
         }
     }
 
+    public void start()
+    {
+        start = true;
+    }
 }

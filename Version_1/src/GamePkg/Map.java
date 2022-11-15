@@ -14,7 +14,7 @@ public class Map {
     private int[][] map;
     private final int ligne = 10;
     private final int colonne = 20;
-    private Ball ball = new Ball();
+    public Ball ball = new Ball();
 
     private ArrayList<Entity> entities = new ArrayList();
     public Map(){
@@ -77,7 +77,6 @@ public class Map {
                     else if(Integer.parseInt((String) identifier.split(":")[0]) == 8)
                     {
                         player = new Player(x, y);
-
                     }
                     else if(Integer.parseInt((String) identifier.split(":")[0]) == 9)
                     {
@@ -93,14 +92,13 @@ public class Map {
 
             player.itsScore = score;
             entities.add((player));
+            ball = new Ball();
             entities.add(ball);
 
             for(Entity entity : entities)
             {
                 map[entity.getX()][entity.getY()] = entity.getIdentifier();
             }
-
-
         }
         catch(IOException e)
         {
