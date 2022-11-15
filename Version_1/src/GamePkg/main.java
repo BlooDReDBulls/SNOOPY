@@ -54,6 +54,11 @@ public class main {
                     game.gameUI.closeALl();
                 });
 
+                game.gameUI.getJbOK().addActionListener(s->{
+                    menuUI.setVisible(true);
+                    game.gameUI.closeALl();
+                });
+
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -85,6 +90,21 @@ public class main {
 
             });
 
+        });
+
+        menuUI.getPassBtn().addActionListener(load->{
+            menuUI.initPassPanel();
+            menuUI.getJbOK().addActionListener(ok->{
+                try {
+                    game = new Game();
+                    menuUI.dispose();
+                    game.getMap().loadPassword(menuUI.getLoadText().getText());
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            });
         });
 
         menuUI.getLeaveBtn().addActionListener(q -> {

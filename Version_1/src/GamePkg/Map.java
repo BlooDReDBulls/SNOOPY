@@ -2,6 +2,7 @@ package GamePkg;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Map {
@@ -10,10 +11,15 @@ public class Map {
     private int[][] map;
     private final int ligne = 10;
     private final int colonne = 20;
-    public Ball ball = new Ball();
     private ArrayList<Entity> entities = new ArrayList();
+    private HashMap<String,Integer> mapPasswords = new HashMap<>();
+
     public Map(){
         map = new int[ligne][colonne];
+
+        mapPasswords.put("24B", 1);
+        mapPasswords.put("68H", 2);
+        mapPasswords.put("37V", 3);
     }
     public int getCurrentMap() {
         return currentMap;
@@ -30,21 +36,17 @@ public class Map {
 
     public void loadSave(String str){
         File file = new File("save/" + str);
-        int score = 0;
-
-        try {
-            FileReader fr = new FileReader(file);
-            BufferedReader br = new BufferedReader(fr);
-
-            loadFile(file);
-
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-
+        loadFile(file);
     }
+
+    public void loadPassword(String str){
+
+        if(mapPasswords.containsKey(str)){
+            loadMap(mapPasswords.get(str), 0);
+            currentMap = mapPasswords.get(str);
+        }
+    }
+
     private void loadFile(File f){
         try{
             entities.clear();
@@ -104,7 +106,7 @@ public class Map {
             fr.close();
 
             entities.add((player));
-            ball = new Ball();
+            Ball ball = new Ball();
             entities.add(ball);
 
             for(Entity entity : entities)
@@ -130,8 +132,5 @@ public class Map {
     }
     public Player getPlayer() {
         return player;
-    }
-    public Ball getBall() {
-        return ball;
     }
 }
