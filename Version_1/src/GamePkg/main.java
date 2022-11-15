@@ -7,9 +7,6 @@ import java.io.IOException;
 public class main {
 
     private static Game game;
-
-//     this.gameUI.setKeyListener(keyListener);
-
     public static void main(String[] args) {
 
         MenuUI menuUI = new MenuUI();
@@ -76,11 +73,9 @@ public class main {
                     menuUI.dispose();
                     game.getMap().loadSave(name);
 
-
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-
 
             });
 

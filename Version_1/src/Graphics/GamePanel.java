@@ -16,7 +16,6 @@ public class GamePanel extends JPanel {
     private final Animations animationsSnoopy;
     private final Animations animationsBird;
     private final Animations animationsDriveBlock;
-
     private final Animations animationsTeleporter;
 
 

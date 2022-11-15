@@ -12,11 +12,8 @@ public class TexturesImages {
 
     public TexturesImages() {
 
-//        System.out.println("Chargement des images ...");
-        for (int i = 0; i < 6; i++) {
-
+        for (int i = 0; i < 5; i++) {
             String name = "includes/" + i + ".png";
-            //System.out.println(name);
             try {
                 BufferedImage bi = ImageIO.read(new File(name));
                 bufferedImageHashMap.put(i, bi);

@@ -20,15 +20,15 @@ public class MenuUI extends JFrame {
 
     private final JTextField loadText = new JTextField();
 
-    private final JButton jbOK = new JButton("Charger");
-    private final JButton jbAnnuler = new JButton("Annuler");
+    private JButton jbOK;
+    private JButton jbAnnuler;
 
 
     public MenuUI() {
         this.UIPanel = new JPanel(new CardLayout());
         UIPanel.setPreferredSize(new Dimension(640, 320));
         setupMenuPanel();
-        setupLoadMenu();
+//        setupLoadMenu();
         setupJFrame();
     }
 
@@ -44,12 +44,18 @@ public class MenuUI extends JFrame {
         this.setLocationRelativeTo(null);
     }
 
-    public void setupLoadMenu(){
+    public void setupLoadMenu(Boolean mdpPanel){
 
         GridBagConstraints loadConstraints = new GridBagConstraints();
 
-        this.jLabel.setText("Nom de la sauvegarde ");
+        if(mdpPanel){
+            this.jLabel.setText("Mot de Passe ");
+        }else{
+            this.jLabel.setText("Nom de la sauvegarde ");
+        }
 
+        this.jbOK = new JButton("Charger");
+        this.jbAnnuler = new JButton("Annuler");
         this.loadPanel = new JPanel(new GridBagLayout());
         this.loadPanel.setPreferredSize(new Dimension(240,120));
         this.loadPanel.setBackground(Color.WHITE);
@@ -138,7 +144,6 @@ public class MenuUI extends JFrame {
     }
 
     public void initPassPanel(){
-        this.jLabel.setText("Mot de passe");
         this.UIPanel.remove(menuPanel);
         this.UIPanel.add(loadPanel);
         this.revalidate();
