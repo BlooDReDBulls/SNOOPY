@@ -96,17 +96,9 @@ public class AI {
     public boolean testUneDirection(int[][] map, int direction, ArrayList<Direction> option, int xCopy, int yCopy, int birdCount, ArrayList<int[]>positions, ArrayList<Entity> entities, Ball ball){
         if(!chemin)
         {
-            /*if((xCopy > 9 || xCopy < 0) || (yCopy > 19 || yCopy < 0) || (map[xCopy][yCopy] == 3 || map[xCopy][yCopy] == 7))
-            {
-                return false;
-            }*/
             ball.updatePositionIA(map);
             map[ball.getLastX()][ball.getLastY()] = 0;
             map[ball.getX()][ball.getY()] = 7;
-            if(xCopy == ball.x && yCopy == ball.y)
-            {
-                return false;
-            }
             for(Entity entity : entities)
             {
                 if(entity.getIdentifier() == 5 || entity.getIdentifier() == 6)

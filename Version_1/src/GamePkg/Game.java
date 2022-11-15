@@ -27,8 +27,8 @@ public class Game implements Observable{
     public Timer timerSeconds;
     GameUI gameUI;
 
-    public Game() throws IOException {
-        map.loadMap(3, 0);
+    public Game(int AIChoice) throws IOException {
+        map.loadMap(1, 0);
         numberLife = 3;
         pause = false;
         timerController = new Timer(60000, timer);
@@ -378,6 +378,6 @@ public class Game implements Observable{
     }
 
     public static void main(String[] args) throws IOException {
-        Game game = new Game();
+        Game game = new Game(0);
     }
 }
