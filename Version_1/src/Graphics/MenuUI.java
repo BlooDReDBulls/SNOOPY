@@ -2,6 +2,9 @@ package Graphics;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
+import java.util.HashMap;
+import java.util.TreeMap;
 
 /**
  * @author lucien
@@ -11,16 +14,16 @@ import java.awt.*;
 public class MenuUI extends JFrame {
 
     private JPanel menuPanel;
-
+    private JButton scoreBTN;
+    private JPanel jpScore;
+    private TreeMap<Integer, String> sorted = new TreeMap<>();
+    private JButton leaveBtn;
     private JPanel loadPanel;
     public JPanel UIPanel;
     private JButton startBtn;
     private JButton iaBtn;
     private JButton loadBtn;
     private JButton passBtn;
-    private JButton scoreBTN;
-    private JButton leaveBtn;
-
     private final JLabel jLabel = new JLabel();
 
     private final JTextField loadText = new JTextField();
@@ -254,4 +257,55 @@ public class MenuUI extends JFrame {
     public JButton getLeaveBtn() {
         return leaveBtn;
     }
+    public void setupScorePanel(){
+        this.jpScore = new JPanel(new BorderLayout());
+        sortScoreFile();
+        jpScore.setPreferredSize(new Dimension(640, 320));
+        JTextArea textArea = new JTextArea();
+        textArea.setPreferredSize(new Dimension(640, 220));
+        leaveBtn = new JButton("Quitter");
+
+
+        sorted.forEach((k,v) ->{
+            textArea.append("Score : "+k+" date : "+v + "\n");
+        });
+        jpScore.add(textArea, BorderLayout.CENTER);
+
+        jpScore.add(leaveBtn, BorderLayout.SOUTH);
+
+    }
+
+
+    private void sortScoreFile(){
+        HashMap<Integer, String> scoreMap = new HashMap<>();
+        File f = new File("scores/ScoreList");
+        FileReader fr = null;
+        try {
+            fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            while ((line = br.readLine()) != null){
+                String[] list = line.split(":");
+                scoreMap.put(Integer.parseInt((String)list[1]), list[0]);
+            }
+            sorted.putAll(scoreMap);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void showScoreMenu(Boolean bool){
+        if(bool){
+            this.UIPanel.remove(menuPanel);
+            this.UIPanel.add(jpScore);
+        }else{
+            this.UIPanel.remove(jpScore);
+            this.UIPanel.add(menuPanel);
+        }
+        this.revalidate();
+        this.pack();
+    }
+
+
 }

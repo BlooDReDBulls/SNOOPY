@@ -100,6 +100,13 @@ public class main {
 
             });
         });
+        menuUI.getScoreBTN().addActionListener(sc->{
+            menuUI.showScoreMenu(true);
+
+            menuUI.getLeaveBtn().addActionListener(q->{
+                menuUI.showScoreMenu(false);
+            });
+        });
 
         menuUI.getLeaveBtn().addActionListener(q -> {
             menuUI.dispose();
