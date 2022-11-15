@@ -16,6 +16,8 @@ public class MenuUI extends JFrame {
     private JButton scoreBTN;
     private JButton leaveBtn;
 
+    private JLabel jLabel = new JLabel();
+
     private final JTextField loadText = new JTextField();
 
     private final JButton jbOK = new JButton("Charger");
@@ -46,7 +48,7 @@ public class MenuUI extends JFrame {
 
         GridBagConstraints loadConstraints = new GridBagConstraints();
 
-        JLabel jLabel = new JLabel("Nom de la sauvegarde");
+        this.jLabel.setText("Nom de la sauvegarde ");
 
         this.loadPanel = new JPanel(new GridBagLayout());
         this.loadPanel.setPreferredSize(new Dimension(240,120));
@@ -135,9 +137,18 @@ public class MenuUI extends JFrame {
 
     }
 
+    public void initPassPanel(){
+        this.jLabel.setText("Mot de passe");
+        this.UIPanel.remove(menuPanel);
+        this.UIPanel.add(loadPanel);
+        this.revalidate();
+        this.pack();
+    }
+
     public void loadPanel(){
         this.UIPanel.remove(menuPanel);
         this.UIPanel.add(loadPanel);
+        this.revalidate();
         this.pack();
     }
 

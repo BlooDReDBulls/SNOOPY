@@ -11,6 +11,7 @@ public class GameUI extends JPanel implements Observateur {
     private final JFrame frame;
     private JPanel actionPanel;
     private JLabel jlTemps;
+    public JLabel jlPass;
     private JLabel jlScore;
     private JPanel pausePanel;
     private JPanel savePanel;
@@ -18,7 +19,6 @@ public class GameUI extends JPanel implements Observateur {
     private JTextField saveText;
     private JButton jbOK;
     private JButton jbQuit;
-
     private JButton jbEnd = new JButton("Retourner au Menu");
 
 
@@ -30,6 +30,10 @@ public class GameUI extends JPanel implements Observateur {
         this.gamePanel = new GamePanel(map);
         this.setVisible(true);
 
+//        this.gamePanel.setFocusable(true);
+//        this.gamePanel.setRequestFocusEnabled(true);
+        this.gamePanel.grabFocus();
+
         setupActionPanel();
         setupGamePanel();
         setupPausePanel();
@@ -39,7 +43,7 @@ public class GameUI extends JPanel implements Observateur {
 
     private void setupFrame(){
         this.frame.setMinimumSize(new Dimension(100, 100));
-        this.frame.setResizable(true);
+        this.frame.setResizable(false);
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.frame.setContentPane(this);
         this.frame.setVisible(true);
@@ -53,73 +57,68 @@ public class GameUI extends JPanel implements Observateur {
         this.actionPanel.setPreferredSize(new Dimension(640,60));
         this.actionPanel.setLayout(new GridBagLayout());
 
-
-
         GridBagConstraints gbc = new GridBagConstraints();
+
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
         gbc.weightx = 0;
         gbc.weighty = 0;
-        gbc.ipady = 5;
-        gbc.ipadx = 10;
+        gbc.ipady = 2;
+        gbc.ipadx = 40;
 
         JLabel jlTempStr = new JLabel("Temps restant : ");
         JLabel jlScoreStr = new JLabel("Score : ");
+        JLabel jldir = new JLabel("Directions : ");
+        JLabel jldirKey = new JLabel("flèches directionnelles");
 
+        JLabel jlpassword = new JLabel("Mot de passe :");
+        JLabel jlechap = new JLabel("Menu : ECHAP");
+        JLabel jlBreak = new JLabel("Casser un block : ");
+        JLabel jlBreakKey = new JLabel("ESPACE");
+
+
+        JLabel jlSave = new JLabel("Save : S");
+
+        this.jlPass = new JLabel("test");
         this.jlTemps = new JLabel();
+        this.jlScore = new JLabel("");
         this.jlTemps.setText("60");
-
-        // Changer la Police ?
-        this.jlTemps.setFont(new Font("Arial", Font.PLAIN, 18));
-
 
         gbc.gridx = 0;
         gbc.gridy = 0;
         this.actionPanel.add(jlTempStr,gbc);
-
-        this.jlScore = new JLabel();
-        this.jlScore.setText("0");
-
-        gbc.ipadx = 0;
         gbc.gridx = 1;
         this.actionPanel.add(jlTemps,gbc);
-
-        gbc.ipadx = 10;
         gbc.gridx = 2;
         this.actionPanel.add(jlScoreStr,gbc);
-
         gbc.gridx = 3;
         this.actionPanel.add(jlScore,gbc);
-
-
-        JLabel jldir = new JLabel("Directions : flèches directionnelles");
-        gbc.gridx = 0;
         gbc.gridy = 1;
-        this.actionPanel.add(jldir,gbc);
-
-
-        JLabel jlechap =new JLabel("Menu : ECHAP");
+        gbc.gridx = 0;
+        this.actionPanel.add(jlpassword, gbc);
         gbc.gridx = 1;
-        this.actionPanel.add(jlechap,gbc);
-
-        JLabel jlSave =new JLabel("Save : S");
-
+        this.actionPanel.add(jlPass, gbc);
         gbc.gridx = 2;
-        this.actionPanel.add(jlSave,gbc);
-
-        JLabel jlBreak =new JLabel("Casser un block : ESPACE");
-
+        this.actionPanel.add(jldir,gbc);
         gbc.gridx = 3;
+        this.actionPanel.add(jldirKey,gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        this.actionPanel.add(jlechap,gbc);
+        gbc.gridx = 1;
+        this.actionPanel.add(jlSave,gbc);
+        gbc.gridx = 2;
         this.actionPanel.add(jlBreak,gbc);
-
+        gbc.gridx = 3;
+        this.actionPanel.add(jlBreakKey,gbc);
     }
 
     private void setupGamePanel(){
         this.setLayout(new BorderLayout());
         gamePanel.setLayout(new BorderLayout());
         this.add(this.gamePanel, BorderLayout.CENTER);
-        this.add(actionPanel, BorderLayout.SOUTH);
+        this.add(this.actionPanel, BorderLayout.SOUTH);
     }
 
     private void setupSaveMenu(){
@@ -271,7 +270,8 @@ public class GameUI extends JPanel implements Observateur {
     @Override
     public void actualise() {
         this.gamePanel.repaint();
-        this.jlScore.setText(Integer.toString(this.game.getMap().getPlayer().itsScore));
+        this.jlScore.setText(Integer.toString(game.getMap().getPlayer().itsScore));
+
     }
 
     @Override
@@ -279,7 +279,6 @@ public class GameUI extends JPanel implements Observateur {
         this.jlTemps.setText(Integer.toString(game.getRemaingSeconds()));
 
     }
-
     public void setKeyListener(KeyListener kl){
         this.frame.addKeyListener(kl);
     }

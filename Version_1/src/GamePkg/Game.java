@@ -3,15 +3,19 @@ package GamePkg;
 import Graphics.*;
 import Graphics.Observable;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.security.KeyStore;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.swing.Timer;
 
@@ -22,14 +26,11 @@ public class Game implements Observable{
     public Timer timerController;
     public Timer refreshTimer;
     ArrayList<Observateur> observateurs;
-    private boolean pause;
+    public boolean pause;
     private int remaingSeconds = 60;
     public Timer timerSeconds;
-
     private int numberOfLife;
-
     public boolean userEnd = false;
-
     GameUI gameUI;
 
     public Game() throws IOException {
@@ -46,6 +47,7 @@ public class Game implements Observable{
         refreshTimer.start();
         observateurs = new ArrayList<>();
         numberOfLife = 3;
+
 
         this.gameUI = new GameUI(this);
 //        GameConsole gameConsole = new GameConsole(this);
@@ -124,6 +126,7 @@ public class Game implements Observable{
 
                     try {
                         save(gameUI.getSaveName());
+                        gameUI.closeALl();
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -138,7 +141,7 @@ public class Game implements Observable{
         public void actionPerformed(ActionEvent e) {
             System.out.println("Game over");
             kill();
-//            map.loadMap(map.getCurrentMap(), map.getPlayer().itsScore);
+            map.loadMap(map.getCurrentMap(), map.getPlayer().itsScore);
 //            timerController.restart();
 //            timerSeconds.restart();
             remaingSeconds = 0;
@@ -149,7 +152,7 @@ public class Game implements Observable{
         public void actionPerformed(ActionEvent e) {
             remaingSeconds -= 1;
 
-            if(remaingSeconds == 0){
+            if(remaingSeconds <= 0){
                 remaingSeconds = 0;
             }
             //System.out.println(remaingSeconds);
@@ -200,9 +203,6 @@ public class Game implements Observable{
                         {
                             kill();
                             map.loadMap(map.getCurrentMap(), map.getPlayer().itsScore);
-                            timerController.restart();
-                            timerSeconds.restart();
-                            remaingSeconds = 60;
                             break;
                         }
                         else if(entity.getIdentifier() == 9 && entity.isVisible())
@@ -217,7 +217,7 @@ public class Game implements Observable{
                                     pause = !pause;
                                     changePauseState(pause);
                                     gameUI.showEndPanel(true);
-
+                                    saveScore();
                                 }
                                 else
                                 {
@@ -284,7 +284,26 @@ public class Game implements Observable{
         }
     }
 
-    private void changePauseState(Boolean bool){
+    private void saveScore() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDateTime now = LocalDateTime.now();
+        String str = dtf.format(now) + ":" + getScore() +"\n";
+        try {
+            File f = new File("scores/ScoreList");
+            if(!f.exists()){
+                f.createNewFile();
+            }
+            FileWriter fw = new FileWriter(f.getPath(), true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(str);
+            bw.close();
+            System.out.println("Fin d'écriture");
+        }catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void changePauseState(Boolean bool){
 
         if(bool){
             timerController.stop();
@@ -374,10 +393,14 @@ public class Game implements Observable{
 
     public void kill() {
         numberOfLife -= 1;
-        if (numberOfLife == 0) {
+
+        if (numberOfLife <= 0) {
             pause = true;
-            changePauseState(false);
+            changePauseState(pause);
             gameUI.showEndPanel(false);
+        }else{
+            changePauseState(false);
+            remaingSeconds = 60;
         }
     }
 
