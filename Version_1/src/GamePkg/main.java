@@ -96,7 +96,7 @@ public class main {
             menuUI.initPassPanel();
             menuUI.getJbOK().addActionListener(ok->{
                 try {
-                    game = new Game();
+                    game = new Game(0);
                     menuUI.dispose();
                     game.getMap().loadPassword(menuUI.getLoadText().getText());
 

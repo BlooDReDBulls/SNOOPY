@@ -33,7 +33,7 @@ public class Game implements Observable{
     public boolean userEnd = false;
     GameUI gameUI;
 
-    public Game() throws IOException {
+    public Game(int AIChoice) throws IOException {
         map.loadMap(1, 0);
         pause = false;
         timerController = new Timer(60000, timer);
@@ -42,6 +42,10 @@ public class Game implements Observable{
         timerController.setRepeats(false);
         timerSeconds.setRepeats(true);
         refreshTimer.setRepeats(true);
+        if(AIChoice != 0)
+        {
+            map.getPlayer().initAI(AIChoice, map.getMap(), map.getEntities(), map.getBall());
+        }
         timerSeconds.start();
         timerController.start();
         refreshTimer.start();
@@ -61,53 +65,72 @@ public class Game implements Observable{
         @Override
         public void keyPressed(KeyEvent e) {
             super.keyPressed(e);
-            if(map.getPlayer().unBlockMovement){
-                if(e.getKeyCode() == KeyEvent.VK_LEFT)
-                {
-                    map.getPlayer().itsDirection = Direction.LEFT;
-                }
-                else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
-                {
-                    map.getPlayer().itsDirection = Direction.RIGHT;
-                }
-                else if(e.getKeyCode() == KeyEvent.VK_UP)
-                {
-                    map.getPlayer().itsDirection = Direction.UP;
-                }
-                else if(e.getKeyCode() == KeyEvent.VK_DOWN)
-                {
-                    map.getPlayer().itsDirection = Direction.DOWN;
-                }
-            }
-            if(e.getKeyCode() == KeyEvent.VK_SPACE)
+            if(!map.getPlayer().isAiMode())
             {
+                if(map.getPlayer().unBlockMovement){
+                    if(e.getKeyCode() == KeyEvent.VK_LEFT)
+                    {
+                        map.getPlayer().itsDirection = Direction.LEFT;
+                    }
+                    else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
+                    {
+                        map.getPlayer().itsDirection = Direction.RIGHT;
+                    }
+                    else if(e.getKeyCode() == KeyEvent.VK_UP)
+                    {
+                        map.getPlayer().itsDirection = Direction.UP;
+                    }
+                    else if(e.getKeyCode() == KeyEvent.VK_DOWN)
+                    {
+                        map.getPlayer().itsDirection = Direction.DOWN;
+                    }
+                }
+                if(e.getKeyCode() == KeyEvent.VK_SPACE)
+                {
 
-                for (Entity entity : getMap().getEntities()){
-                    if(entity.getIdentifier() == 1){
-                        if(map.getPlayer().getX() + 1 <= 9 && map.getPlayer().getX() + 1 == entity.getX() && map.getPlayer().getY() == entity.getY())
-                        {
-                            map.getMap()[map.getPlayer().getX() + 1][map.getPlayer().getY()] = 0;
-                            entity.setVisible(false);
-                        }
-                        if(map.getPlayer().getX() - 1 >= 0 && map.getPlayer().getX() - 1 == entity.getX() && map.getPlayer().getY() == entity.getY())
-                        {
-                            map.getMap()[map.getPlayer().getX() - 1][map.getPlayer().getY()] = 0;
-                            entity.setVisible(false);
-                        }
-                        if(map.getPlayer().getY() + 1 <= 19 && map.getPlayer().getX() == entity.getX() && map.getPlayer().getY() + 1 == entity.getY())
-                        {
-                            map.getMap()[map.getPlayer().getX()][map.getPlayer().getY() + 1] = 0;
-                            entity.setVisible(false);
-                        }
-                        if(map.getPlayer().getY() - 1 >= 0 && map.getPlayer().getX() == entity.getX() && map.getPlayer().getY() - 1 == entity.getY())
-                        {
-                            map.getMap()[map.getPlayer().getX()][map.getPlayer().getY() - 1] = 0;
-                            entity.setVisible(false);
+                    for (Entity entity : getMap().getEntities()){
+                        if(entity.getIdentifier() == 1){
+                            if(map.getPlayer().getX() + 1 <= 9 && map.getPlayer().getX() + 1 == entity.getX() && map.getPlayer().getY() == entity.getY())
+                            {
+                                map.getMap()[map.getPlayer().getX() + 1][map.getPlayer().getY()] = 0;
+                                entity.setVisible(false);
+                            }
+                            if(map.getPlayer().getX() - 1 >= 0 && map.getPlayer().getX() - 1 == entity.getX() && map.getPlayer().getY() == entity.getY())
+                            {
+                                map.getMap()[map.getPlayer().getX() - 1][map.getPlayer().getY()] = 0;
+                                entity.setVisible(false);
+                            }
+                            if(map.getPlayer().getY() + 1 <= 19 && map.getPlayer().getX() == entity.getX() && map.getPlayer().getY() + 1 == entity.getY())
+                            {
+                                map.getMap()[map.getPlayer().getX()][map.getPlayer().getY() + 1] = 0;
+                                entity.setVisible(false);
+                            }
+                            if(map.getPlayer().getY() - 1 >= 0 && map.getPlayer().getX() == entity.getX() && map.getPlayer().getY() - 1 == entity.getY())
+                            {
+                                map.getMap()[map.getPlayer().getX()][map.getPlayer().getY() - 1] = 0;
+                                entity.setVisible(false);
+                            }
                         }
                     }
                 }
+                else if (e.getKeyCode() == KeyEvent.VK_S)
+                {
+                    pause = !pause;
+
+                    gameUI.showSaveMenu(pause);
+                    changePauseState(pause);
+                    gameUI.getJbOK().addActionListener(t->{
+
+                        try {
+                            save(gameUI.getSaveName());
+                            gameUI.closeALl();
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    });
+                }
             }
-            else if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+            if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
             {
                 pause = !pause;
                 changePauseState(pause);
@@ -115,23 +138,6 @@ public class Game implements Observable{
                 gameUI.getJbQuit().addActionListener(q ->{
                     userEnd = true;
                 });
-            }
-            else if (e.getKeyCode() == KeyEvent.VK_S)
-            {
-                pause = !pause;
-
-                gameUI.showSaveMenu(pause);
-                changePauseState(pause);
-                gameUI.getJbOK().addActionListener(t->{
-
-                    try {
-                        save(gameUI.getSaveName());
-                        gameUI.closeALl();
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                });
-
             }
         }
     };
@@ -169,6 +175,33 @@ public class Game implements Observable{
                     if(entity.isMove())
                     {
                         entity.updatePosition(map.getMap(), map.getEntities());
+                        if(map.getPlayer().isAiMode() && map.getPlayer().itsDirection == Direction.ANY)
+                        {
+                            for (Entity block : getMap().getEntities()){
+                                if(block.getIdentifier() == 1){
+                                    if(map.getPlayer().getX() + 1 <= 9 && map.getPlayer().getX() + 1 == block.getX() && map.getPlayer().getY() == block.getY())
+                                    {
+                                        map.getMap()[map.getPlayer().getX() + 1][map.getPlayer().getY()] = 0;
+                                        block.setVisible(false);
+                                    }
+                                    if(map.getPlayer().getX() - 1 >= 0 && map.getPlayer().getX() - 1 == block.getX() && map.getPlayer().getY() == block.getY())
+                                    {
+                                        map.getMap()[map.getPlayer().getX() - 1][map.getPlayer().getY()] = 0;
+                                        block.setVisible(false);
+                                    }
+                                    if(map.getPlayer().getY() + 1 <= 19 && map.getPlayer().getX() == block.getX() && map.getPlayer().getY() + 1 == block.getY())
+                                    {
+                                        map.getMap()[map.getPlayer().getX()][map.getPlayer().getY() + 1] = 0;
+                                        block.setVisible(false);
+                                    }
+                                    if(map.getPlayer().getY() - 1 >= 0 && map.getPlayer().getX() == block.getX() && map.getPlayer().getY() - 1 == block.getY())
+                                    {
+                                        map.getMap()[map.getPlayer().getX()][map.getPlayer().getY() - 1] = 0;
+                                        block.setVisible(false);
+                                    }
+                                }
+                            }
+                        }
                         map.getMap()[entity.getLastX()][entity.getLastY()] = 0;
                         map.getMap()[entity.getX()][entity.getY()] = entity.getIdentifier();
                     }
@@ -223,6 +256,7 @@ public class Game implements Observable{
                                 {
                                     map.setCurrentMap(1);
                                     map.loadMap(map.getCurrentMap(), map.getPlayer().itsScore);
+                                    map.getPlayer().initAI(1, map.getMap(), map.getEntities(), map.getBall());
                                     timerController.restart();
                                     timerSeconds.restart();
                                     remaingSeconds = 60;
@@ -402,9 +436,5 @@ public class Game implements Observable{
             changePauseState(false);
             remaingSeconds = 60;
         }
-    }
-
-    public static void main(String[] args) throws IOException {
-        Game game = new Game();
     }
 }

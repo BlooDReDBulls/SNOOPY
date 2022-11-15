@@ -11,6 +11,7 @@ public class Map {
     private int[][] map;
     private final int ligne = 10;
     private final int colonne = 20;
+    public Ball ball = new Ball();
     private ArrayList<Entity> entities = new ArrayList();
     private HashMap<String,Integer> mapPasswords = new HashMap<>();
 
@@ -106,7 +107,7 @@ public class Map {
             fr.close();
 
             entities.add((player));
-            Ball ball = new Ball();
+            ball = new Ball();
             entities.add(ball);
 
             for(Entity entity : entities)
@@ -132,5 +133,8 @@ public class Map {
     }
     public Player getPlayer() {
         return player;
+    }
+    public Ball getBall() {
+        return ball;
     }
 }
