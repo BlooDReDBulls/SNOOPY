@@ -4,6 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyListener;
 
+/**
+ * @author lucien
+ * Classe permetant de generer une interface utilisateur pour le jeu
+ * @see Observateur
+ * @see JPanel
+ */
 
 public class GameUI extends JPanel implements Observateur {
     private final GamePanel gamePanel;
@@ -21,7 +27,11 @@ public class GameUI extends JPanel implements Observateur {
     private JButton jbQuit;
     private JButton jbEnd = new JButton("Retourner au Menu");
 
-
+    /**
+     * Constructeur de la classe GameUI
+     * @param game l'inctance du jeu
+     * @see Game
+     */
     public GameUI(Game game){
         this.game = game;
         Map map = game.getMap();
@@ -41,6 +51,10 @@ public class GameUI extends JPanel implements Observateur {
         setupFrame();
     }
 
+    /**
+     * Méthode permettant d'initialiser la fenêtre graphique
+     * @see JFrame
+     */
     private void setupFrame(){
         this.frame.setMinimumSize(new Dimension(100, 100));
         this.frame.setResizable(false);
@@ -52,6 +66,12 @@ public class GameUI extends JPanel implements Observateur {
 
     }
 
+    /**
+     * Méthode permettant d'initialiser un paneau JPanel
+     * @see JPanel
+     * @see GridBagConstraints
+     * @see GridBagLayout
+     */
     private void setupActionPanel(){
         this.actionPanel = new JPanel();
         this.actionPanel.setPreferredSize(new Dimension(640,60));
