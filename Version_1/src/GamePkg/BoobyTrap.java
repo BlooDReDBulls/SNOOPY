@@ -2,8 +2,19 @@ package GamePkg;
 
 import java.util.ArrayList;
 
+/**
+ * @author lucas
+ * @author thibaud
+ * Classe permettant de créer un block piège
+ * @see Entity
+ */
 public class BoobyTrap extends Entity{
 
+    /**
+     * Constructeur de la classe BoobyTrap
+     * @param x coordonnée x du piège
+     * @param y coordonnée y du piège
+     */
     public BoobyTrap(int x, int y)
     {
         this.x = x;

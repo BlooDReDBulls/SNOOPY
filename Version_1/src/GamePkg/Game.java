@@ -46,6 +46,10 @@ public class Game implements Observable{
         {
             map.getPlayer().initAI(AIChoice, map.getMap(), map.getEntities(), map.getBall());
         }
+        else
+        {
+            map.getBall().start();
+        }
         timerSeconds.start();
         timerController.start();
         refreshTimer.start();
@@ -256,7 +260,10 @@ public class Game implements Observable{
                                 {
                                     map.setCurrentMap(1);
                                     map.loadMap(map.getCurrentMap(), map.getPlayer().itsScore);
-                                    map.getPlayer().initAI(1, map.getMap(), map.getEntities(), map.getBall());
+                                    if(map.getPlayer().isAiMode())
+                                    {
+                                        map.getPlayer().initAI(1, map.getMap(), map.getEntities(), map.getBall());
+                                    }
                                     timerController.restart();
                                     timerSeconds.restart();
                                     remaingSeconds = 60;

@@ -2,6 +2,12 @@ package GamePkg;
 
 import java.util.ArrayList;
 
+/**
+ * @author lucas
+ * @author thibaud
+ * Classe permettant de créer un block cassable
+ * @see Entity
+ */
 public class BreakableBlock extends Entity{
     public BreakableBlock(int x, int y)
     {

@@ -3,12 +3,25 @@ package GamePkg;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * @author lucas
+ * Classe permettant de faire une intelligence artificielle
+ */
 public class AI {
     int x;
     int y;
     public ArrayList<ArrayList<Direction>> listDirection;
     boolean chemin;
 
+    /**
+     * Constructeur de la classe AI
+     * @param map la map
+     * @param ball la balle de la map
+     * @param entities la liste des entités du jeu
+     * @param x la coordonnées x du joueur
+     * @param y la coordonnées y du joueur
+     * @param algorithmChoice choix de l'algorithme d'IA
+     */
     public AI(int algorithmChoice, int x, int y, int[][] map, ArrayList<Entity> entities, Ball ball) throws IOException {
         this.x = x;
         this.y = y;
@@ -20,6 +33,12 @@ public class AI {
         }
     }
 
+    /**
+     * Méthode pour le calcul d'un chemin via la méthode bruteforce
+     * @param map la map
+     * @param ball la balle de la map
+     * @param entities la liste des entités du jeu
+     */
     public void testBruteForce(int[][] map, ArrayList<Entity> entities, Ball ball) throws IOException {
         ArrayList<Direction> option = new ArrayList<Direction>();
         int xCopy = this.x;
@@ -104,6 +123,18 @@ public class AI {
         }
     }
 
+    /**
+     * Méthode pour tester le déplacement du joueur dans une direction
+     * @param direction la direction à tester
+     * @param option le chemin qui est en train d'être fait
+     * @param birdCount le nombre d'oiseau que l'on a obtenu
+     * @param positions les positions que l'on a déjà tester dans la map
+     * @param xCopy la coordonnée x du joueur
+     * @param yCopy la coordonnée y du joueur
+     * @param map la map
+     * @param ball la balle de la map
+     * @param entities la liste des entités du jeu
+     */
     public boolean testUneDirection(int[][] map, int direction, ArrayList<Direction> option, int xCopy, int yCopy, int birdCount, ArrayList<int[]>positions, ArrayList<Entity> entities, Ball ball){
         if(!chemin)
         {

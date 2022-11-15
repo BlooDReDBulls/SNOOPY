@@ -2,7 +2,18 @@ package GamePkg;
 
 import java.util.ArrayList;
 
+/**
+ * @author lucas
+ * @author thibaud
+ * Classe permettant de créer un block incassable
+ * @see Entity
+ */
 public class Block extends Entity{
+    /**
+     * Constructeur de la classe Block
+     * @param y coordonnée y du block
+     * @param x coordonnée x du block
+     */
     public Block(int x, int y)
     {
         this.x = x;

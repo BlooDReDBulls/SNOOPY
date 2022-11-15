@@ -3,7 +3,12 @@ package GamePkg;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-
+/**
+ * @author lucas
+ * @author thibaud
+ * Classe permettant de créer une balle
+ * @see Entity
+ */
 public class Ball extends Entity{
     int xspeed;
     int yspeed;
@@ -12,6 +17,9 @@ public class Ball extends Entity{
     boolean start;
     Timer speed = new Timer();
 
+    /**
+     * Constructeur de la classe Ball
+     */
     public Ball(){
         animation = false;
         collision = false;
@@ -25,28 +33,43 @@ public class Ball extends Entity{
         start = false;
     }
 
+    /**
+     * Getter sur collision
+     */
     @Override
     public boolean isCollision()
     {
         return collision;
     }
-
+    /**
+     * Setter sur pushable
+     */
     @Override
     void setPushable(boolean pushable) {
 
     }
 
-
+    /**
+     * Getter sur pushable
+     */
     @Override
     boolean isPushable() {
         return false;
     }
 
+    /**
+     * Getter sur TeleportationIdentifier
+     */
     @Override
     int getTeleportationIdentifier() {
         return 0;
     }
 
+    /**
+     * Méthode permettant de faire faire un déplacement à la balle
+     * @param entities la liste des entités du jeu
+     * @param map la map
+     */
     @Override
     void updatePosition(int[][] map, ArrayList<Entity> entities) {
         if(unableMovement && start)
@@ -80,10 +103,13 @@ public class Ball extends Entity{
                 public void run() {
                     unableMovement = true;
                 }
-            }, 50);
+            }, 250);
         }
     }
-
+    /**
+     * Méthode permettant de faire faire un déplacement à la balle pour l'algorithme d'IA
+     * @param map la map
+     */
     void updatePositionIA(int[][] map) {
         lastX = x;
         lastY = y;
@@ -110,6 +136,9 @@ public class Ball extends Entity{
         }
     }
 
+    /**
+     * Méthode permettant de faire démarrer le déplacement de la balle
+     */
     public void start()
     {
         start = true;
