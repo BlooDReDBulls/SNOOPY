@@ -1,10 +1,16 @@
 package Graphics;
 
 
+import GamePkg.Game;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * @author lucien
+ * Classe permetant de gerer les animations
+ */
 public class AnimationEngine {
 
     private Timer timer;
@@ -14,17 +20,28 @@ public class AnimationEngine {
 
     private final TimerHandler timerHandler;
 
+    /**
+     * Constructeur de la classe AnimationEngine
+     * @param fps l'inctance du jeu
+     * @see Game
+     */
     public AnimationEngine(int fps){
         this.fps = fps;
         timerHandler = new TimerHandler();
 
     }
 
+    /**
+     * Méthode pour reset le cycle d'animation
+     */
     protected void clean() {
         cycleProgress = 0;
         cycleStartTime = 0;
     }
 
+    /**
+     * Méthode pour arreter le timer d'animation
+     */
     public void stop() {
         if (timer != null) {
             timer.stop();
@@ -32,12 +49,19 @@ public class AnimationEngine {
         clean();
     }
 
+    /**
+     * Méthode pour lancer le timer d'animation
+     */
     public void start() {
         stop();
         timer = new Timer(1000 / fps, timerHandler);
         timer.start();
     }
 
+    /**
+     * Timer permettant de faire l'animation
+     * @see java.util.EventListener
+     */
     protected class TimerHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -49,10 +73,16 @@ public class AnimationEngine {
         }
     }
 
+    /**
+     * Getter sur le progrès du cycle
+     */
     public double getCycleProgress() {
         return  cycleProgress;
     }
 
+    /**
+     * Getter sur le cycle statique
+     */
     public double getStaticCycle(){
         return 0.00;
     }

@@ -3,6 +3,11 @@ package Graphics;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @author lucien
+ * Classe permetant de generer des menus
+ * @see JFrame
+ */
 public class MenuUI extends JFrame {
 
     private JPanel menuPanel;
@@ -23,7 +28,9 @@ public class MenuUI extends JFrame {
     private JButton jbOK;
     private JButton jbAnnuler;
 
-
+    /**
+     * Constructeur de la classe MenuUI
+     */
     public MenuUI() {
         this.UIPanel = new JPanel(new CardLayout());
         UIPanel.setPreferredSize(new Dimension(640, 320));
@@ -32,6 +39,9 @@ public class MenuUI extends JFrame {
         setupJFrame();
     }
 
+    /**
+     * Méthode permettant de créer la fenêtre du jeu
+     */
     private void setupJFrame(){
         this.setTitle("Snoopy le Jeu");
         this.setMinimumSize(new Dimension(100, 100));
@@ -44,6 +54,10 @@ public class MenuUI extends JFrame {
         this.setLocationRelativeTo(null);
     }
 
+    /**
+     * Méthode permettant de créer la fenêtre de menu de chargement d'une map
+     * @param mdpPanel définit si le joueur peut insérer un mot de passe pour accèder à une map
+     */
     public void setupLoadMenu(Boolean mdpPanel){
 
         GridBagConstraints loadConstraints = new GridBagConstraints();
@@ -88,6 +102,9 @@ public class MenuUI extends JFrame {
 
     }
 
+    /**
+     * Méthode permettant de créer la fenêtre de menu du jeu
+     */
     private void setupMenuPanel(){
         GridBagLayout gbl = new GridBagLayout();
 
@@ -143,6 +160,9 @@ public class MenuUI extends JFrame {
 
     }
 
+    /**
+     * Méthode permettant de passer du menu du jeu au menu de chargement d'une map avec le mot de passe
+     */
     public void initPassPanel(){
         setupLoadMenu(true);
         this.UIPanel.remove(menuPanel);
@@ -151,6 +171,9 @@ public class MenuUI extends JFrame {
         this.pack();
     }
 
+    /**
+     * Méthode permettant de passer du menu du jeu au menu de chargement d'une map sans le mot de passe
+     */
     public void loadPanel(){
         setupLoadMenu(false);
         this.UIPanel.remove(menuPanel);
@@ -159,6 +182,9 @@ public class MenuUI extends JFrame {
         this.pack();
     }
 
+    /**
+     * Méthode permettant de passer du menu de chargement d'une map au menu du jeu
+     */
     public void goMenu(){
         this.loadText.setText("");
         this.UIPanel.remove(loadPanel);
@@ -166,39 +192,65 @@ public class MenuUI extends JFrame {
         this.pack();
     }
 
-
+    /**
+     * Getter sur startBtn
+     */
     public JButton getStartBtn() {
         return startBtn;
     }
 
+    /**
+     * Getter sur iaBtn
+     */
     public JButton getIaBtn() {
         return iaBtn;
     }
 
+    /**
+     * Getter sur laodBtn
+     */
     public JButton getLoadBtn() {
         return loadBtn;
     }
 
+    /**
+     * Getter sur jbOK
+     */
     public JButton getJbOK(){
         return jbOK;
     }
 
+    /**
+     * Getter sur jbAnnuler
+     */
     public JButton getJbAnnuler(){
         return jbAnnuler;
     }
 
+    /**
+     * Getter sur loadText
+     */
     public JTextField getLoadText(){
         return loadText;
     }
 
+    /**
+     * Getter sur passBtn
+     */
     public JButton getPassBtn() {
         return passBtn;
     }
 
+    /**
+     * Getter sur scoreBTN
+     */
     public JButton getScoreBTN() {
         return scoreBTN;
     }
 
+    /**
+     * Getter sur leaveBtn
+     */
     public JButton getLeaveBtn() {
         return leaveBtn;
     }

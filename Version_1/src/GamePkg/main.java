@@ -5,7 +5,6 @@ import javax.swing.*;
 import java.io.IOException;
 
 public class main {
-
     private static Game game;
     public static void main(String[] args) {
 

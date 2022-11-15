@@ -2,7 +2,7 @@ package Graphics;
 
 public interface Observable {
     /**
-     * Permet d'attahcer un observateur
+     * Permet d'attacher un observateur
      * @param o l'observateur
      */
     void attacheObservateur(Observateur o);

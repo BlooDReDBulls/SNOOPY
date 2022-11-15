@@ -9,6 +9,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * @author lucien
+ * Classe permetant de generer un panneau d'affichage pour le jeu
+ * @see JPanel
+ */
 public class GamePanel extends JPanel {
 
     private final AnimationEngine animationEngine;
@@ -22,7 +27,10 @@ public class GamePanel extends JPanel {
     private final HashMap<Integer, Animations> animationsHashMap = new HashMap<>();
     ArrayList<Entity> entities;
 
-
+    /**
+     * Constructeur de la classe GamePanel
+     * @param map la map du jeu
+     */
     public GamePanel(Map map){
         this.texturesImages = new TexturesImages();
         this.animationEngine = new AnimationEngine(20);
@@ -46,7 +54,10 @@ public class GamePanel extends JPanel {
     }
 
 
-
+    /**
+     * Méthode permettant de faire l'affichage sur le panneau
+     * @param g permet l'affichage
+     */
     @Override
     public void paint(Graphics g) {
 

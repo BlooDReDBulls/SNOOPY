@@ -1,6 +1,7 @@
 package Graphics;
 
 import GamePkg.Direction;
+import GamePkg.Game;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -9,6 +10,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * @author lucien
+ * Classe permetant de créer les animations
+ */
 public class Animations {
 
     private final int nDirection;
@@ -18,6 +23,12 @@ public class Animations {
 
     private HashMap<Integer, ArrayList<BufferedImage>> animHashMap;
 
+    /**
+     * Constructeur de la classe Animations
+     * @param nDirection indique la direction de l'animation
+     * @param nFrame indique le nombre de sprite
+     * @param path le chemin vers les différents sprite
+     */
     public Animations(int nDirection, int nFrame, String path){
         this.nDirection = nDirection;
         this.nFrame = nFrame;
@@ -26,6 +37,9 @@ public class Animations {
         loadAnim();
     }
 
+    /**
+     * Méthode pour charger les animations
+     */
     private void loadAnim(){
 
         for (int i = 0; i < nDirection; i++) {
@@ -45,6 +59,11 @@ public class Animations {
         }
     }
 
+    /**
+     * Getter sur une animation
+     * @param direction indique la direction de l'animation
+     * @param cycleProgress indique le progrès du cycle d'animation
+     */
     public BufferedImage getAnimation(int direction, double cycleProgress){
         int index = (int) (cycleProgress * nFrame);
         return animHashMap.get(direction).get(index);

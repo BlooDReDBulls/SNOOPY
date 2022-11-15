@@ -134,6 +134,11 @@ public class GameUI extends JPanel implements Observateur {
         this.actionPanel.add(jlBreakKey,gbc);
     }
 
+    /**
+     * Méthode permettant d'initialiser un le panneau du jeu
+     * @see JPanel
+     * @see BorderLayout
+     */
     private void setupGamePanel(){
         this.setLayout(new BorderLayout());
         gamePanel.setLayout(new BorderLayout());
@@ -141,6 +146,12 @@ public class GameUI extends JPanel implements Observateur {
         this.add(this.actionPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Méthode permettant d'initialiser un paneau de sauvegarde
+     * @see JPanel
+     * @see GridBagConstraints
+     * @see GridBagLayout
+     */
     private void setupSaveMenu(){
 
         GridBagConstraints saveConstraints = new GridBagConstraints();
@@ -184,6 +195,12 @@ public class GameUI extends JPanel implements Observateur {
         this.savePanel.add(this.jbOK, saveConstraints);
     }
 
+    /**
+     * Méthode permettant d'initialiser un paneau de pause
+     * @see JPanel
+     * @see GridBagConstraints
+     * @see GridBagLayout
+     */
     private void setupPausePanel(){
         GridBagConstraints pauseConstraints  = new GridBagConstraints();
 
@@ -216,6 +233,13 @@ public class GameUI extends JPanel implements Observateur {
         this.pausePanel.add(jbQuit, pauseConstraints);
     }
 
+    /**
+     * Méthode permettant d'initialiser un paneau de fin
+     * @param bool permet de savoir si on doit afficher le panneau "gagné" ou "perdu"
+     * @see JPanel
+     * @see GridBagConstraints
+     * @see GridBagLayout
+     */
     private void setupEndPanel(boolean bool){
         this.endPanel = new JPanel(new GridBagLayout());
         JLabel endLabel = new JLabel();
@@ -244,19 +268,40 @@ public class GameUI extends JPanel implements Observateur {
         this.endPanel.add(this.jbEnd, endConstraints);
     }
 
+    /**
+     * Méthode permettant d'afficher un panneau de fin
+     * @param bool permet de savoir si on doit afficher ou non
+     * @see JPanel
+     */
     public void showEndPanel(boolean bool){
         setupEndPanel(bool);
         showPanel(true, endPanel);
     }
 
+    /**
+     * Méthode permettant d'afficher un panneau de sauvegarde
+     * @param bool permet de savoir si on doit afficher ou non
+     * @see JPanel
+     */
     public void showSaveMenu(Boolean bool){
         showPanel(bool, savePanel);
     }
 
+    /**
+     * Méthode permettant d'afficher un panneau de pause
+     * @param bool permet de savoir si on doit afficher ou non
+     * @see JPanel
+     */
     public void showPauseMenu(Boolean bool){
         showPanel(bool, pausePanel);
     }
 
+    /**
+     * Méthode permettant d'afficher un panneau le panneau de jeu
+     * @param bool permet de savoir si on doit afficher ou non
+     * @param savePanel JPanel permettant de sauvegarder l'état de gamePanel
+     * @see JPanel
+     */
     private void showPanel(Boolean bool, JPanel savePanel) {
         if(bool){
             this.remove(gamePanel);
@@ -272,21 +317,40 @@ public class GameUI extends JPanel implements Observateur {
         this.frame.pack();
     }
 
+    /**
+     * Getter de jbOK
+     * @see JButton
+     */
     public JButton getJbOK() {
         return jbOK;
     }
 
+    /**
+     * Getter de jbQuit
+     * @see JButton
+     */
     public JButton getJbQuit() {
         return jbQuit;
     }
 
+    /**
+     * Getter de jbEnd
+     * @see JButton
+     */
     public JButton getJbEnd() {
         return jbEnd;
     }
+    /**
+     * Getter du nom du fichier de sauvegarde
+     */
     public String getSaveName(){
         return saveText.getText();
     }
 
+    /**
+     * Actualise l'affichage du panneau de jeu
+     * @see JPanel
+     */
     @Override
     public void actualise() {
         this.gamePanel.repaint();
@@ -294,15 +358,26 @@ public class GameUI extends JPanel implements Observateur {
 
     }
 
+    /**
+     * Actualise l'affichage du chrono de jeu
+     */
     @Override
     public void actualiseTimer() {
         this.jlTemps.setText(Integer.toString(game.getRemaingSeconds()));
 
     }
+    /**
+     * Setter des KeyListener de la frame
+     * @param kl un KeyListener
+     * @see KeyListener
+     */
     public void setKeyListener(KeyListener kl){
         this.frame.addKeyListener(kl);
     }
 
+    /**
+     * Ferme tout les panneaux
+     */
     public void closeALl(){
         this.frame.dispose();
     }

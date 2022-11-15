@@ -1,15 +1,23 @@
 package Graphics;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+/**
+ * @author lucien
+ * Classe permetant de charger les images pour les animations
+ */
 public class TexturesImages {
 
     HashMap<Integer, BufferedImage> bufferedImageHashMap = new HashMap<>();
 
+    /**
+     * Constructeur de la classe TexturesImages
+     */
     public TexturesImages() {
 
         for (int i = 0; i < 5; i++) {
@@ -32,12 +40,19 @@ public class TexturesImages {
     }
 
 
-
+    /**
+     * Getter sur une image
+     * @param num index de l'image dans la hashmap
+     */
     public BufferedImage getImageFromMap(int num){
 
         return this.bufferedImageHashMap.get(num);
     }
 
+    /**
+     * Getter sur une image
+     * @param num index de l'image dans la hashmap
+     */
     public BufferedImage getImageFromTAB(int num){
 
         return this.bufferedImageHashMap.get(num);
