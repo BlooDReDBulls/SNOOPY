@@ -1,5 +1,6 @@
 package GamePkg;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -13,6 +14,8 @@ public class Player extends Entity{
     private int x;
     private int lastY;
     private int y;
+    boolean aiMode;
+    AI searchEngine = null;
 
     public Player(int x, int y)
     {
@@ -25,6 +28,16 @@ public class Player extends Entity{
         identifier = 8;
         move = true;
         unableMovement = true;
+        aiMode = false;
+    }
+
+    public void initAI(int algorithmChoice, int[][] map, ArrayList<Entity> entities, Ball ball) throws IOException {
+        searchEngine = new AI(algorithmChoice, this.x, this.y, map, entities, ball);
+        aiMode = true;
+    }
+
+    public boolean isAiMode() {
+        return aiMode;
     }
 
     @Override
@@ -32,6 +45,11 @@ public class Player extends Entity{
     {
         if(unableMovement)
         {
+            if(aiMode && unBlockMovement)
+            {
+                itsDirection = searchEngine.listDirection.get(0).get(0);
+                searchEngine.listDirection.get(0).remove(0);
+            }
             if(itsDirection == Direction.UP)
             {
                 if((x - 1) >= 0 && map[x - 1][y] != 1 && map[x - 1][y] != 4)
@@ -166,7 +184,10 @@ public class Player extends Entity{
                 if(unBlockMovement)
                 {
                     itsLastDirection = itsDirection;
-                    itsDirection = Direction.ANY;
+                    if(unableMovement)
+                    {
+                        itsDirection = Direction.ANY;
+                    }
                 }
             }
             playerMovementTimer.schedule(new TimerTask(){

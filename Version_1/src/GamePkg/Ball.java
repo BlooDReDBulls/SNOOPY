@@ -9,7 +9,7 @@ public class Ball extends Entity{
     int yspeed;
 
     boolean unableMovement;
-
+    boolean start;
     Timer speed = new Timer();
 
     public Ball(){
@@ -22,6 +22,7 @@ public class Ball extends Entity{
         xspeed = 1;
         yspeed = 1;
         unableMovement = true;
+        start = false;
     }
 
     @Override
@@ -43,7 +44,7 @@ public class Ball extends Entity{
 
     @Override
     void updatePosition(int[][] map, ArrayList<Entity> entities) {
-        if(unableMovement)
+        if(unableMovement && start)
         {
             lastX = x;
             lastY = y;
@@ -78,4 +79,34 @@ public class Ball extends Entity{
         }
     }
 
+    void updatePositionIA(int[][] map) {
+        lastX = x;
+        lastY = y;
+        x+=xspeed;
+        y+=yspeed;
+        if (x + xspeed > 9 || x + xspeed < 0){
+            xspeed=-xspeed;
+        }
+        if(y + yspeed > 19 || y + yspeed < 0){
+            yspeed=-yspeed;
+        }
+        if(map[x + xspeed][y] == 1 || map[x + xspeed][y] == 2 || map[x + xspeed][y] == 3 || map[x + xspeed][y] == 4)
+        {
+            xspeed=-xspeed;
+        }
+        if(map[x][y + yspeed] == 1 || map[x][y + yspeed] == 2 || map[x][y + yspeed] == 3 || map[x][y + yspeed] == 4)
+        {
+            yspeed=-yspeed;
+        }
+        if(map[x + xspeed][y + yspeed] == 1 || map[x + xspeed][y + yspeed] == 2 || map[x + xspeed][y + yspeed] == 3 || map[x + xspeed][y + yspeed] == 4)
+        {
+            xspeed=-xspeed;
+            yspeed=-yspeed;
+        }
+    }
+
+    public void start()
+    {
+        start = true;
+    }
 }

@@ -20,7 +20,29 @@ public class main {
 
             try {
                 menuUI.dispose();
-                game = new Game();
+                game = new Game(0);
+
+                game.gameUI.getJbQuit().addActionListener(v ->{
+                    menuUI.setVisible(true);
+                    game.gameUI.closeALl();
+                });
+
+                game.gameUI.getJbEnd().addActionListener(q ->{
+                    menuUI.setVisible(true);
+                    game.gameUI.closeALl();
+                });
+
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
+        });
+
+        menuUI.getIaBtn().addActionListener(e->{
+
+            try {
+                menuUI.dispose();
+                game = new Game(1);
 
                 game.gameUI.getJbQuit().addActionListener(v ->{
                     menuUI.setVisible(true);
@@ -44,7 +66,7 @@ public class main {
             menuUI.getJbOK().addActionListener(l->{
 
                 try {
-                    game = new Game();
+                    game = new Game(0);
                     String name  = menuUI.getLoadText().getText();
                     menuUI.dispose();
                     game.getMap().loadSave(name);
