@@ -30,6 +30,11 @@ public class TeleportationBlock extends Entity{
     }
 
     @Override
+    void setPushable(boolean pushable) {
+
+    }
+
+    @Override
     boolean isPushable() {
         return false;
     }

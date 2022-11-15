@@ -76,6 +76,11 @@ public class PushBlock extends Entity{
         return collision;
     }
 
+    @Override
+    void setPushable(boolean pushable) {
+        this.pushable = pushable;
+    }
+
 
     @Override
     public int getX()

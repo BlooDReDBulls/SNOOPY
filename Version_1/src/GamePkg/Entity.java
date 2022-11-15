@@ -41,6 +41,7 @@ public abstract class Entity {
         return animation;
     }
     abstract boolean isCollision();
+    abstract void setPushable(boolean pushable);
 
     public boolean isVisible(){
         return visible;
