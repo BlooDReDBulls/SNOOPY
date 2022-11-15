@@ -192,12 +192,17 @@ public class Player extends Entity{
                 public void run() {
                     unableMovement = true;
                 }
-            }, 250);
+            }, 50);
         }
     }
     @Override
     boolean isCollision() {
         return collision;
+    }
+
+    @Override
+    void setPushable(boolean pushable) {
+
     }
 
     @Override

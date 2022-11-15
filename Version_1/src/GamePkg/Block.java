@@ -23,6 +23,11 @@ public class Block extends Entity{
         return collision;
     }
 
+    @Override
+    void setPushable(boolean pushable) {
+
+    }
+
 
     @Override
     boolean isPushable() {

@@ -91,6 +91,17 @@ public class AI {
         ball.xspeed = 1;
         ball.yspeed = 1;
         ball.start();
+        for(Entity entity : entities)
+        {
+            if(entity.getIdentifier() == 9)
+            {
+                entity.visible = true;
+            }
+            else if(entity.getIdentifier() == 2)
+            {
+                entity.setPushable(true);
+            }
+        }
     }
 
     public boolean testUneDirection(int[][] map, int direction, ArrayList<Direction> option, int xCopy, int yCopy, int birdCount, ArrayList<int[]>positions, ArrayList<Entity> entities, Ball ball){
@@ -102,6 +113,10 @@ public class AI {
             for(Entity entity : entities)
             {
                 if(entity.getIdentifier() == 5 || entity.getIdentifier() == 6)
+                {
+                    map[entity.getX()][entity.getY()] = entity.getIdentifier();
+                }
+                else if(entity.getIdentifier() == 9 && entity.isVisible())
                 {
                     map[entity.getX()][entity.getY()] = entity.getIdentifier();
                 }
@@ -122,6 +137,7 @@ public class AI {
                 }
             }
             boolean foundBird = false;
+            boolean push = false;
             if(option.size() >= 500)
             {
                 System.out.println("Too long");
@@ -135,6 +151,13 @@ public class AI {
                     foundBird = true;
                     xCopy--;
                     birdCount++;
+                    for(Entity bird : entities)
+                    {
+                        if(bird.getIdentifier() == 9 && bird.getX() == xCopy && bird.getY() == yCopy)
+                        {
+                            bird.visible = false;
+                        }
+                    }
                     positions = new ArrayList<>();
                     System.out.println("Found bird");
                     System.out.println(birdCount);
@@ -153,8 +176,10 @@ public class AI {
                     {
                         if (entity.getX() == xCopy - 1 && entity.getY() == yCopy)
                         {
-                            if(entity.isPushable())
+                            if(!entity.isPushable())
                             {
+                                entity.setPushable(false);
+                                push = true;
                                 System.out.println("Move up and push");
                                 xCopy--;
                                 System.out.println(xCopy + " " + yCopy);
@@ -297,6 +322,13 @@ public class AI {
                     foundBird = true;
                     yCopy++;
                     birdCount++;
+                    for(Entity bird : entities)
+                    {
+                        if(bird.getIdentifier() == 9 && bird.getX() == xCopy && bird.getY() == yCopy)
+                        {
+                            bird.visible = false;
+                        }
+                    }
                     positions = new ArrayList<>();
                     System.out.println("Found bird");
                     System.out.println(birdCount);
@@ -315,8 +347,10 @@ public class AI {
                     {
                         if (entity.getX() == xCopy && entity.getY() == yCopy + 1)
                         {
-                            if(entity.isPushable())
+                            if(!entity.isPushable())
                             {
+                                entity.setPushable(false);
+                                push = true;
                                 System.out.println("Move right and push");
                                 yCopy++;
                                 System.out.println(xCopy + " " + yCopy);
@@ -459,6 +493,13 @@ public class AI {
                     foundBird = true;
                     xCopy++;
                     birdCount++;
+                    for(Entity bird : entities)
+                    {
+                        if(bird.getIdentifier() == 9 && bird.getX() == xCopy && bird.getY() == yCopy)
+                        {
+                            bird.visible = false;
+                        }
+                    }
                     positions = new ArrayList<>();
                     System.out.println("Found bird");
                     System.out.println(birdCount);
@@ -477,8 +518,10 @@ public class AI {
                     {
                         if (entity.getX() == xCopy + 1 && entity.getY() == yCopy)
                         {
-                            if(entity.isPushable())
+                            if(!entity.isPushable())
                             {
+                                entity.setPushable(false);
+                                push = true;
                                 System.out.println("Move down and push");
                                 xCopy++;
                                 System.out.println(xCopy + " " + yCopy);
@@ -621,6 +664,13 @@ public class AI {
                     foundBird = true;
                     yCopy--;
                     birdCount++;
+                    for(Entity bird : entities)
+                    {
+                        if(bird.getIdentifier() == 9 && bird.getX() == xCopy && bird.getY() == yCopy)
+                        {
+                            bird.visible = false;
+                        }
+                    }
                     positions = new ArrayList<>();
                     System.out.println("Found bird");
                     System.out.println(birdCount);
@@ -639,8 +689,10 @@ public class AI {
                     {
                         if (entity.getX() == xCopy && entity.getY() == yCopy - 1)
                         {
-                            if(entity.isPushable())
+                            if(!entity.isPushable())
                             {
+                                entity.setPushable(false);
+                                push = true;
                                 System.out.println("Move left and push");
                                 yCopy--;
                                 System.out.println(xCopy + " " + yCopy);
@@ -863,7 +915,24 @@ public class AI {
                 option.remove(option.size()-1);
                 if(foundBird)
                 {
-                    map[xCopy][yCopy] = 9;
+                    for(Entity bird : entities)
+                    {
+                        if(bird.getIdentifier() == 9 && bird.getX() == xCopy && bird.getY() == yCopy)
+                        {
+                            bird.visible = true;
+                        }
+                    }
+                }
+                if(push)
+                {
+                    for(Entity entity : entities)
+                    {
+                        if(entity.getIdentifier() == 2 && entity.getX() == xCopy && entity.getY() == yCopy)
+                        {
+                            entity.setPushable(true);
+                            map[xCopy][yCopy] = 2;
+                        }
+                    }
                 }
             }
             positions = new ArrayList<>();

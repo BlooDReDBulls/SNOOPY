@@ -28,6 +28,11 @@ public class DriveBlock extends Entity{
         return collision;
     }
 
+    @Override
+    void setPushable(boolean pushable) {
+
+    }
+
 
     @Override
     boolean isPushable() {

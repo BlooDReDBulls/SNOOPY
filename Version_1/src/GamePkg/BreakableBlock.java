@@ -23,6 +23,11 @@ public class BreakableBlock extends Entity{
     }
 
     @Override
+    void setPushable(boolean pushable) {
+
+    }
+
+    @Override
     boolean isPushable() {
         return false;
     }

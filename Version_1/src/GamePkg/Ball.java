@@ -31,6 +31,11 @@ public class Ball extends Entity{
         return collision;
     }
 
+    @Override
+    void setPushable(boolean pushable) {
+
+    }
+
 
     @Override
     boolean isPushable() {
@@ -75,7 +80,7 @@ public class Ball extends Entity{
                 public void run() {
                     unableMovement = true;
                 }
-            }, 300);
+            }, 50);
         }
     }
 
