@@ -16,7 +16,7 @@ public class MenuUI extends JFrame {
     private JButton scoreBTN;
     private JButton leaveBtn;
 
-    private JLabel jLabel = new JLabel();
+    private final JLabel jLabel = new JLabel();
 
     private final JTextField loadText = new JTextField();
 
@@ -144,6 +144,7 @@ public class MenuUI extends JFrame {
     }
 
     public void initPassPanel(){
+        setupLoadMenu(true);
         this.UIPanel.remove(menuPanel);
         this.UIPanel.add(loadPanel);
         this.revalidate();
@@ -151,6 +152,7 @@ public class MenuUI extends JFrame {
     }
 
     public void loadPanel(){
+        setupLoadMenu(false);
         this.UIPanel.remove(menuPanel);
         this.UIPanel.add(loadPanel);
         this.revalidate();
