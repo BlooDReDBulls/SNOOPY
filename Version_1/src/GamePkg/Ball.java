@@ -103,7 +103,7 @@ public class Ball extends Entity{
                 public void run() {
                     unableMovement = true;
                 }
-            }, 250);
+            }, 50);
         }
     }
     /**

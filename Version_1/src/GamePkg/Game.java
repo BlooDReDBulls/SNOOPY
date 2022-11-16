@@ -23,6 +23,7 @@ import javax.swing.Timer;
 public class Game implements Observable{
 
     Map map = new Map();
+    boolean ai = false;
     public Timer timerController;
     public Timer refreshTimer;
     ArrayList<Observateur> observateurs;
@@ -45,6 +46,7 @@ public class Game implements Observable{
         if(AIChoice != 0)
         {
             map.getPlayer().initAI(AIChoice, map.getMap(), map.getEntities(), map.getBall());
+            ai=true;
         }
         else
         {
@@ -260,7 +262,7 @@ public class Game implements Observable{
                                 {
                                     map.setCurrentMap(1);
                                     map.loadMap(map.getCurrentMap(), map.getPlayer().itsScore);
-                                    if(map.getPlayer().isAiMode())
+                                    if(ai)
                                     {
                                         map.getPlayer().initAI(1, map.getMap(), map.getEntities(), map.getBall());
                                     }
